@@ -1,0 +1,22 @@
+= simple_form_for [@organization, @inventory_item] do |f|
+  = f.error_notification
+  = f.error_messages
+  = f.input :name
+  = f.input :is_active, :label => "Active"
+  = f.input :expires_on, :label => "Expiration Date", :hint => "(leave blank if not applicable)", :include_blank => true, :input_html => { :value => nil }
+  %label
+    * Description
+  .non_input
+    = f.input :description, :as => :text, :input_html => { :id => "orgtext"}, :label => false, :error => false, :required => true,  :input_html => { :size => 100 }
+  = f.error :description
+  = f.input :url,  :input_html => { :size => 100 }, :label => "Product specific website", :hint => "For best results, only enter a URL that is specific to this product/service."
+  = f.simple_fields_for :price do |c|
+    = render('/generic/price_fields', :f => c)
+  .new_line
+  = f.label "Available at"
+  .non_input
+    = f.association :locations, :collection => @organization.locations.order(:name), :as => :check_boxes, :label => false if !@organization.locations.empty?
+  = f.hint "select all that apply"
+  
+  
+  = render "/generic/action", :f => f

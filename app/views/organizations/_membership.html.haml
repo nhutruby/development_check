@@ -1,0 +1,37 @@
+.smaller
+  - associations = []
+  - dmos = []
+
+  - @organization.association_memberships.approved.each do |am|
+    - if am.organization.categories.any? {|c| c.tipe == "association"}
+      - element = !am.organization.acronym.blank? ? am.organization.acronym : am.organization.name
+      - associations << element
+    - elsif am.organization.categories.any? {|c| c.tipe == "dmo"}
+      - element = !am.organization.acronym.blank? ? am.organization.acronym : am.organization.name
+      - dmos << element
+  
+  - if !associations.blank?
+    = "Association Membership: "
+    .bold.inline
+      = associations.to_sentence
+  - else
+    = "Association Membership: Unknown"   
+  %hr
+  
+
+  - if !dmos.blank?
+    = "DMO Membership: "
+    .bold.inline
+      = dmos.to_sentence
+    %hr
+  
+- association_ids = @organization.association_memberships.approved.map(&:organization_id)
+- current_user.organizations.each do |association|
+  - if association.member_count and association.member_count > 0
+    - if association_ids.include?(association.id)
+      .newline
+      = link_to "Remove #{association.name} membership", mark_membership_path(@organization, :association_id => association.id, :task => "remove"), :method => :post, :remote => true
+    - else
+      .newline
+      = link_to "Mark as #{association.name} member", mark_membership_path(@organization, :association_id => association.id, :task => "add"), :method => :post, :remote => true      
+    %hr

@@ -1,0 +1,22 @@
+- f.object.build_price(:retail_low => number_with_precision(@inventory_item.price.retail_low, :precision => 2), :retail_high => number_with_precision(@inventory_item.price.retail_high, :precision => 2), :price_low => number_with_precision(@inventory_item.price.price_low, :precision => 2), :price_high => number_with_precision(@inventory_item.price.price_high, :precision => 2)) unless f.object.price
+
+= organization = f.object.organization
+  
+%tr.fields
+  %td
+    = f.select(:location_id, Location.all.collect {|p| [ p.name, p.id ] }, { :include_blank => true })
+  = f.fields_for :price do |p|
+    %td.input_low
+      = p.text_field :retail_low
+    %td.no_border
+      = "to"
+    %td.input_high
+      = p.text_field :retail_high
+    %td.input_low
+      = p.text_field :price_low
+    %td.no_border
+      = "to"
+    %td.input_high
+      = p.text_field :price_high
+    %td
+      = remove_child_link "remove", f

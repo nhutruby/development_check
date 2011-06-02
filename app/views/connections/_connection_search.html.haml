@@ -1,0 +1,18 @@
+#main_col.shadow.dark_text
+  .col_head
+    %h2.float_left
+      Connections
+    .right
+      = link_to "Dashboard", dashboard_path
+      .clear
+    .clear
+  .block_quote.left
+    %h4 Find Your Connections Wherever They Are!
+    .new_line
+    Choose a service:
+  .clear
+  = render :partial => 'connections/partials/google_search', :locals => {:mail_type => "gmail"}
+  = render :partial => 'connections/partials/yahoo_search', :locals => {:mail_type => "yahoo"}
+  = render :partial => 'connections/partials/hotmail_search', :locals => {:mail_type => "hotmail"}
+  = render :partial => 'connections/partials/aol_search', :locals => {:mail_type => "aol"}
+  = render :partial => 'connections/partials/other_upload', :locals => {:mail_type => "other"}

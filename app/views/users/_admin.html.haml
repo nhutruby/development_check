@@ -1,0 +1,26 @@
+- if @user.its_admin == true
+  .shadow.pad_10
+    .col_head
+      %h2.float_left
+        Administrative
+      .right.even_smaller
+        = link_to_function "+/-", "$('#admin').toggle()"
+        .clear
+      .clear
+    #admin
+      .block_quote.left.smaller
+        = link_to "Manage Account Types", account_types_url
+        .clear
+        = link_to "Manage Announcements", announcements_url
+        .clear
+        = link_to "Manage Categories", categories_url
+        .clear
+        = link_to "Manage Static Pages", pages_url
+        .clear
+        = link_to "Manage Featured Organizations", featured_organizations_path
+        .clear
+        = link_to "Manage Inaccurate Locations", list_by_accuracy_locations_path
+        .clear
+        = link_to "Manage Trial Organizations", list_by_trial_organizations_path
+        
+        <script src="http://www.gmodules.com/ig/ifr?url=http://widgets.getclicky.com/igdash/clicky.xml&amp;up_siteName=www.itoursmart.com&amp;up_siteID=244988&amp;up_siteKey=29ca4ead0ef29caa&amp;up_resultLimit=10&amp;up_showKeywords=1&amp;up_showEngines=1&amp;up_initalSelection=0-summary&amp;up_showPercent=1&amp;synd=open&amp;w=204&amp;h=250&amp;title=Clicky&amp;border=%23ffffff%7C3px%2C1px+solid+%23999999&amp;output=js"></script>

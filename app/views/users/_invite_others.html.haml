@@ -1,0 +1,14 @@
+.shadow.pad_10
+  .col_head
+    %h2.float_left
+      = "invite"
+    -#.right.even_smaller
+      -#= link_to_function "+/-", "$('#invite').toggle()"
+    .clear
+  #invite
+    .block_quote.left.smaller
+      = "The real value of iTourSmart is the community.  The more brands and people involved - the better the resource."
+      .pad_10
+      = link_to "So, please invite a tour and travel professional to join iTourSmart.", new_user_invitation_path
+      .pad_10
+      = "We have some fun things planned for those that help us spread the word!"

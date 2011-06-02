@@ -1,0 +1,12 @@
+- title "Edit Account Type"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit Account Type"
+      .right
+        = link_to "View All", account_types_path
+      .clear
+    .block_quote.left
+      = @product.name if @product
+      = render 'form'

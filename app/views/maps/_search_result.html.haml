@@ -1,0 +1,22 @@
+- if @locations.present?
+  :javascript
+    jQuery(function($) {
+      show_markers_on_page(#{generate_markers_json(@locations)}, true);
+    });
+- else
+  :javascript
+    jQuery(function($) {
+      show_google_maps();
+    });
+
+- if @locations.present?
+  = render 'generic/pagination_info', :entries => @locations
+
+.block_quote.left
+  %div
+    = render 'users/supplier_list'
+.clear
+
+- if @locations.present?
+  = render 'generic/pagination_full', :entries => @locations
+

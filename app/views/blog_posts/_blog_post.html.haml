@@ -1,0 +1,45 @@
+.blogPost.shadow
+  .col_head
+    %h2.blogPostTitle.float_left
+      = link_to(h(blog_post.title), blog_post)
+      - if !blog_post.published?
+        [Draft]
+    .col_head_link
+      - if blog_post.show_user?
+        by
+        %span.blogPoster= blog_post.user_name
+        on
+        %span.blogPostDate= blog_post.formatted_updated_at
+    .clear
+  .clear
+
+  .block_quote
+    .blogUserImage.avatar_mini
+      = (blog_post.user.avatar.exists? ? image_tag(blog_post.user.avatar.url(:mini)) : image_tag("/images/avatar_mini.gif"))
+
+  .blogPostBody.block_quote.left
+    -#FIXME: to show blog post excerpts  (rails truncate is not save for html text)
+    = blog_post.parsed_body
+  .clear
+
+  %hr.blogPostBreak/
+  - unless blog_post.tags.blank?
+    %p.blogPostTags
+      %b Tags:
+      = blog_post.tags_with_links
+
+  %p.blogFooter
+    %ul.blogList
+      %li.blogListFirst= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount')
+      - if params[:action] == 'show'
+        %li= link_to('Back', blog_posts_path)
+      - if current_user && current_user.admin?
+        %li= link_to('Edit Post', edit_blog_post_path(blog_post))
+        %li= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}")
+  - if defined?(show_comments)
+    .block_quote.left
+      = render :partial => 'blog_comments/new_blog_comment', :locals => {:blog_comment => @blog_comment}
+      .pad_10
+      = render :partial => 'blog_posts/comments'
+  %br{:style => "clear: both;"}/
+.pad_10

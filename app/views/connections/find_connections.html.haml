@@ -1,0 +1,10 @@
+- title "#{possessivize(@user.name_first)} Dashboard"
+#content_wrapper
+  = render "connection_search"
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  = render "users/connections"
+  = render "users/brands"
+  = render "users/admin"
+.clear

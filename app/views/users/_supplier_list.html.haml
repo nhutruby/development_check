@@ -1,0 +1,74 @@
+- if @locations.blank?
+  %p
+    Whoops! Your search
+    - if @misspelled_query.present?
+      for &ldquo;<code>#{@misspelled_query}</code>&rdquo;
+    did not return any results.
+
+  %p Other suggestions:
+  %ul
+    %li Make sure all words are spelled correctly.
+    %li Try different keywords
+
+- else
+  - number = 1
+  %table.left
+    - for location in @locations
+      - organization = location.organization
+      - address = location.address
+      %tr.location
+        %td(width = "30px")
+          %img{:src => marker_icon_url(:letter => number, :bg_color => getOrganizationType(organization))}
+          - number+=1
+        %td(width = "40px")
+          - if organization.account_type && organization.account_type.allow_enhance_listing?
+            - if !organization.logo_url.blank?
+              = link_to(image_tag(organization.logo.url(:mini), :alt => nil), organization_path(organization), :class => "logo")
+            - else
+              = link_to(image_tag("/images/logo_mini.gif"), organization_path(organization), :class => "logo")
+
+        %td
+          - style = organization.account_type && organization.account_type.allow_enhance_listing? ? "bold" : "normal"
+          = link_to(organization.name, organization_path(organization), :class => style)
+          .pipe.inline
+            = "|"
+          = link_to(location.name, organization_location_path(organization,location), :class => style)
+          = "- #{location.address.city}" if location.address.city && (!location.name or location.address.city != location.name)
+          .info
+            - if organization.account_type && organization.account_type.allow_enhance_listing?
+              - if organization.description.present?
+                .listing_description.even_smaller
+                  = organization.description
+            .even_smaller
+              = render :partial => '/addresses/line', :locals => {:address => location.address}
+            .even_smaller
+              - if organization.categories.all.count > 0
+                = organization.categories.all.count == 1 ? "Category: " : "Categories: "
+                = organization.categories.all.map { |r| r.name }.to_sentence
+            - if organization.account_type && organization.account_type.allow_enhance_listing?
+              .even_smaller
+                - if location.primary_contact && organization.account_type && organization.account_type.allow_location_primary_contact?
+                  = "Contact: "
+                  = link_to location.primary_contact.name, user_path(location.primary_contact)
+                  = location.primary_contact.contact_methods.phone.map { |r| "#{r.lokation} #{r.address}" }.to_sentence(:two_words_connector => " or ", :last_word_connector => " or ")
+                - elsif organization.primary_contact
+                  = "Contact: "
+                  = link_to organization.primary_contact.name, user_path(organization.primary_contact)
+                  = organization.primary_contact.contact_methods.phone.map { |r| "#{r.lokation} #{r.address}" }.to_sentence(:two_words_connector => " or ", :last_word_connector => " or ")
+                - if organization.account_type && organization.account_type.allow_location_website?
+                  .even_smaller
+                  - unless location.url.blank?
+                    - website = location.url
+                    - website = "http://" + website unless website.start_with?("http://")
+                    = "Location Website: "
+                    = link_to location.url, website, :target => "_blank", :escape => false
+                  .new_line
+                  - unless organization.url.blank?
+                    - website = organization.url
+                    - website = "http://" + website unless website.start_with?("http://")
+                    = "Website: "
+                    = link_to organization.url, website, :target => "_blank", :escape => false
+            .even_smaller.bold
+              - if can? :update, organization && current_user.admin?
+                = render :partial => 'supplier_view', :locals => {:organization => organization}
+            .pad_10

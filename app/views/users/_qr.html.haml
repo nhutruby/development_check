@@ -1,0 +1,3 @@
+- phone = "TEL:+#{@user.contact_methods.phone.last.address};" if @user.contact_methods.phone.last
+- email = "EMAIL:#{@user.contact_methods.email.last.address};" if @user.contact_methods.email.last
+= image_tag(raw "http://chart.apis.google.com/chart?chs=100x100&amp;chld=|0&amp;cht=qr&amp;chl=MECARD:N:#{@user.name_last},#{@user.name_first};#{phone};#{email};;&choe=UTF-8")

@@ -1,0 +1,9 @@
+- title "Edit Inventory Item"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit " + @inventory_item.name
+      .clear
+    .block_quote.left
+      = render 'form'

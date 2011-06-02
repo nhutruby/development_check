@@ -1,0 +1,64 @@
+- title "Send an Invitation"
+- content_for :on_ready do
+  :plain
+    $('#input_first').keyup(function() {
+      $('#email_to').html($(this).val()+',');
+    });
+
+
+
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2 Send an invitation
+    .block_quote.left
+      = simple_form_for :user, :url => invitation_path(:user), :html => { :method => :post } do |f|
+        = devise_error_messages!
+        = f.error_notification
+        = f.error_messages
+        = f.input :name_first, :label => "First Name", :input_html => {:id => "input_first"}
+        = f.input :name_last, :label => "Last Name"
+        = f.input :title unless params[:temp_org_id].blank?
+        = f.input :email, :input_html => { :size => "65" }
+        - if params[:temp_org_id].blank?
+          = f.input :is_travel_planner, :collection => ([["He/she is a professional Travel Planner", true], ["He/she provides a product or service for professional Travel Planners", false]]), :as => :radio, :label => "Please select one", :input_html => {:value => false}, :error => "please select one"
+        - elsif params[:temp_org_id]
+          = f.input :temp_org_id, :input_html => {:value => params[:temp_org_id]}, :as => :hidden
+          = f.input :is_travel_planner, :as => :string, :input_html => {:value => current_user.is_travel_planner}, :as => :hidden
+          = f.input :is_coworker, :as => :string, :input_html => {:value => true}, :as => :hidden
+        .pad_5
+        %hr
+        .bold
+          The email body will read:
+        %hr
+        .non_input.inline
+          = "Hi"
+          #email_to.inline
+            = "[first name]"
+        .non_input
+          - if !params[:temp_org_id].blank?
+            - organization = Organization.find_by_id(params[:temp_org_id]).name
+            = "I would like to invite you to be a part of the #{organization} team in iTourSmart!"
+          -else
+            = "I would like to invite you to be a part of the future of tour and travel!"
+          
+        = f.label :message, "Optional Personal Message"
+        .non_input
+          = f.input :message, :as => :text, :error => false, :label => false, :required => false
+          = f.error :message
+        #submit
+          - submit_text ||= nil
+          - unless submit_text.blank?
+            = f.button :submit, submit_text
+          -else
+            = f.button :submit, "Send Invitation"
+          = "or "
+          = link_to("cancel", :back)
+        .clear
+        .non_input
+          #post_back_msg
+            #indicator.inline
+              = image_tag "indicator.gif"
+            .inline
+              = "Please wait..."
+            .non_input

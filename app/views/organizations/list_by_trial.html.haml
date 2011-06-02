@@ -1,0 +1,43 @@
+- title "Manage Trial Brands"
+- stylesheet 'jquery-ui-1.8.6.custom'
+
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Manage Trial Brands"
+      .clear
+    
+    .block_quote
+      .search_wrapper
+        = form_tag list_by_trial_organizations_path, :method => :get do |f|
+          %fieldset.search.float_left
+            = text_field_tag :query, params[:query], :placeholder => 'Search by Brand, City, or Category', :size => 70
+            = submit_tag "Search", :name => nil
+      .clear
+      = render 'generic/pagination_info', :entries => @organizations
+      .pad_10
+      .pad_10
+      
+      %table
+        %tr
+          %th Name
+          %th Trial Started At
+          %th Trial Ends At
+          %th
+        - for organization in @organizations
+          %tr
+            %td= link_to organization.name, organization
+            %td= timeago(organization.trial_started_at)
+            %td= timeago(organization.trial_ends_at)
+            %td
+              %a.ui-modal-link{:rel => "#form_organization_#{ organization.id }", :href => "#", :title => organization.name} Edit
+              .dialog.even_smaller.hidden{:id => "form_organization_#{ organization.id }"}
+                = simple_form_for organization do |f|
+                  = f.input :trial_started_at, :hint => timeago(f.object.trial_started_at)
+                  = f.input :trial_ends_at, :hint => timeago(f.object.trial_ends_at)
+                  = f.submit "Update trial period"
+                .clear
+      .pad_10
+      .pad_10
+      = render 'generic/pagination_full', :entries => @organizations

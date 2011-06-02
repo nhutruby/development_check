@@ -1,0 +1,21 @@
+%hr
+  %div#hotmail-header.block_quote
+    %h4.float_left
+      Windows Live / Hotmail
+    .right.pad_5
+      = link_to "Find Connections", "#", :class => 'find_friend'
+    .clear
+  %div#hotmail-form.hide.block_quote
+    %h4.float_left
+      Windows Live / Hotmail
+    .clear
+    = render :partial => 'connection_search_form', :locals => {:mail_type => "hotmail"}
+  .clear      
+%script{:type => "text/javascript"}
+  $('#hotmail-header').click(function(){
+  $('div#main_col').find(".header-hide").removeClass('header-hide');
+  $('div#main_col').find(".show").removeClass('show').addClass('hide');
+  $('#hotmail-form').removeClass('hide');
+  $('#hotmail-form').addClass('show');
+  $('#hotmail-header').addClass('header-hide');
+  })

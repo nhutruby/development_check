@@ -1,0 +1,11 @@
+.shadow
+  .col_head
+    %h2.float_left
+      = "Notes"
+    .clear
+    .link_to_new
+      = link_to "(new note)", #
+  .block_quote.left
+    - for recipient in current_user.recipients
+      = recipient.note.subject
+.ten_pixels

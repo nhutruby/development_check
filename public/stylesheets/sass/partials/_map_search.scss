@@ -1,0 +1,57 @@
+#map_search_result p {
+  font-size: 14px;
+  list-style-type: none;
+  text-decoration: none;
+  border-bottom: 1px dashed #999999;
+  padding: 2px;
+  cursor: pointer; }
+
+.paginator {
+  position: absolute;
+  background: white;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  padding: 5px;
+  width: 170px;
+  height: 16px;
+  z-index: 1000;
+  left: 65px;
+  bottom: 80px;
+  color: #333333;
+  text-align: left;
+  font-size: 13px;
+}
+
+.map_popup{
+color: #000000;
+font-size: 13px;
+}
+
+div#showing {float:left; width:50%; font-family:Tahoma, Geneva, sans-serif; font-size:16px; color:#666; font-weight:bold; margin-top:10px;}
+.line { border-bottom:2px solid #CCCCCC;
+clear:both;
+margin-top:10px;
+padding:10px 0;}
+.line_b { width:200px;border-bottom:2px solid #CCC;padding:0px 10px 12px 52px; *padding:0px 10px 0px 52px;}
+div#button {float:right; width:100%; background:url(/images/button.jpg) repeat-x; width:258px; height:31px; margin-top:10px;}
+.list { float:left; width:185px;padding:7px 12px 18px 58px; font:Tahoma, Geneva, sans-serif;}
+.list a{font:Tahoma, Geneva, sans-serif; color:#333;}
+#large { float:right;font:Tahoma, Geneva, sans-serif; *padding:0px 5px 0px 30px; *margin-top:-18px;}
+#large a{font:Tahoma, Geneva, sans-serif; color:#333;}
+div#planet {float:none; width:44%; font-family:Tahoma, Geneva, sans-serif; font-size:16px; color:#296CB2; font-weight:bold; margin-top:16px; clear:both;line-height:30px;}
+.broadway {float:right; width:178px; padding:6px 112px; line-height:20px; margin-top:-80px;}
+/* common */
+
+.rightmaps #map_canvas {float:right; border:3px solid #CCC; margin-top: 40px; width: 477px; height: 511px;}
+.fullmaps #map_canvas {height: 511px; width: 100%;}
+
+div#wrapper1{
+margin:0 auto;
+width:800px;
+}
+.mapsearch_result{
+ min-height: 570px;
+ margin-top: -25px;
+
+}
+

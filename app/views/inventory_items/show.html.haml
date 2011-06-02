@@ -1,0 +1,119 @@
+- content_for :on_ready do
+  :plain
+    $("a.cl_change").click(function() {
+      $('#changelog1, #changelog2').toggle();
+
+    });
+      
+- title "#{@inventory_item.name}"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = @organization.name
+        .new_line
+        = @inventory_item.name
+      .right
+        - if can? :update, @inventory_item
+          = link_to "Edit this Inventory Item", edit_organization_inventory_item_path(@organization.id, @inventory_item) 
+          |
+          = link_to "Back to " + @organization.name, organization_path(@organization.id)
+      .clear
+    .block_quote.left
+      %table.smaller
+        %tr
+          %td
+            = @inventory_item.description
+        %tr
+          %td
+            %hr        
+        - if !@inventory_item.url.empty?
+          %tr
+            %td
+              = link_to(@inventory_item.url, @inventory_item.url, :target => '_blank')
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.expires_on
+          %tr
+            %td
+              = "Good Until:"
+              = @inventory_item.expires_on.strftime('%b %d, %Y')
+          %tr
+            %td
+              %hr        
+        - unless @inventory_item.locations.empty?
+          %tr
+            %td
+              .bold
+                = "Available At:"
+              - for location in @inventory_item.locations do
+                .new_line.left
+                  = location.name
+                  = "(" + location.address.city + ", " + location.address.region + ")"
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.price.pricing_type == "free" && @inventory_item.price.try(:retail_low) == 0  && @inventory_item.price.try(:price_low) == 0
+          %tr
+            %td
+              = "Price:"
+              = "This item is free"
+        - elsif @inventory_item.price.pricing_type == "contact"
+          %tr
+            %td
+              = "Price:"
+              = "Contact us for pricing"
+        - if @inventory_item.price.try(:retail_low) > 0 
+          %tr
+            %td
+              = "Retail Value:"
+              - if @inventory_item.price.retail_low > 0 && @inventory_item.price.retail_high > 0
+                = "#{@inventory_item.price.retail_low.format} to #{@inventory_item.price.retail_high.format}"
+              - elsif @inventory_item.price.retail_low > 0
+                = @inventory_item.price.retail_low.format
+              = @inventory_item.price.retail_low.currency_as_string
+            - if current_user.currency && current_user.currency.to_s.upcase != @inventory_item.price.retail_low.currency.to_s
+              %tr.italic
+                %td
+                  = "Retail Value (estimated in your local currency):"
+                  - if @inventory_item.price.retail_low > 0 && @inventory_item.price.retail_high > 0
+                    = "#{@inventory_item.price.retail_low.exchange_to(current_user.currency).format} to #{@inventory_item.price.retail_high.exchange_to(current_user.currency).format}"
+                  - elsif @inventory_item.price.retail_low > 0
+                    = @inventory_item.price.retail_low.exchange_to(current_user.currency).format
+                  = current_user.currency.upcase
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.price.try(:price_low) > 0
+          %tr
+            %td
+              = "Industry Rate:"
+              - if @inventory_item.price.price_low > 0 && @inventory_item.price.price_high > 0
+                = "#{@inventory_item.price.price_low.format} to #{@inventory_item.price.price_high.format} "
+              - elsif @inventory_item.price.price_low > 0
+                = @inventory_item.price.price_low.format
+              = @inventory_item.price.price_low.currency_as_string
+            - if current_user.currency && current_user.currency.to_s.upcase != @inventory_item.price.price_low.currency.to_s
+              %tr.italic
+                %td
+                  = "Net Price (estimated in your local currency):"
+                  - if @inventory_item.price.price_low > 0  && @inventory_item.price.price_high > 0
+                    = "#{@inventory_item.price.price_low.exchange_to(current_user.currency).format} to #{@inventory_item.price.price_high.exchange_to(current_user.currency).format}"
+                  - elsif @inventory_item.price.price_low > 0
+                    = @inventory_item.price.price_low.exchange_to(current_user.currency).format
+                  = current_user.currency.upcase
+        - if @inventory_item.price and @inventory_item.price.changelog
+          %tr
+            %td
+              %hr        
+          %tr
+            %td
+              #changelog1
+                = link_to "Price History", "", :remote => true, :class => "cl_change"
+              #changelog2.hide
+                = "Price History:"
+                = link_to "(hide)", "", :remote => true, :class => "cl_change"
+                .textile.pad_10
+                  :textile
+                    #{textilize(@inventory_item.price.changelog)}

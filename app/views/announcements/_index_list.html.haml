@@ -1,0 +1,12 @@
+%table.left
+  %tr
+    %th Message
+    %th Starts At
+    %th Ends At
+    %th
+  - for announcement in @announcements
+    %tr
+      %td= announcement.message
+      %td= announcement.starts_at
+      %td= announcement.ends_at
+      %td= link_to "edit", edit_announcement_path(announcement)

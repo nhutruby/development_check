@@ -1,0 +1,22 @@
+- title "New Brand"
+#content_wrapper
+  //added in line style to fix IE disappearing text.
+  #main_col.shadow.dark_text{:style => 'position:relative'}
+    .col_head
+      %h2.float_left
+        = "New Brand"
+      .right
+        = link_to "Dashboard", dashboard_path
+
+      .clear
+      #form_announcement.shadow
+        - unless current_user.organizations.empty?
+          = auto_link("It looks like you have already claimed another #{current_user.organizations.first.entity.downcase}.  While you are welcome to claim each #{current_user.organizations.first.entity.downcase} that you manage, we want to remind you that falsely claiming a #{current_user.organizations.first.entity.downcase} may result in your permanent removal from iTourSmart.  To cancel, click #{(link_to "here", :back)}.".html_safe)
+        - else
+          = auto_link("Thank you for claiming #{@organization.name}.  By taking a few minutes to complete this form, your business will become verified and available to the iTourSmart network.  <br/><br/> If you do not want to claim #{@organization.name}, click #{(link_to "here", :back)} to cancel.".html_safe)
+    .block_quote.left
+      = render 'form'
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  .pad_10

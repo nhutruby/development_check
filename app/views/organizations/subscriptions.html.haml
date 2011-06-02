@@ -1,0 +1,358 @@
+- stylesheet "jquery-ui-1.8.6.custom"
+- content_for :head do
+  :javascript
+    jQuery(document).ready(function() {
+    
+      $("a.acct_type_control").click(function() {
+        $('#js_account_types, #initial_account_types').toggle();
+      
+      });
+      
+      $("a.acct_desc_control").click(function() {
+        $('#js_account_descriptions, #initial_account_descriptions').toggle();
+      
+      });
+      $('tr.hidden').hide();
+      $('a.plan-toggler').click(function() {
+        $('tr.hidden').toggle();
+        if ($('tr.hidden:visible').length == 0) {
+          $(this).html('need more credits?');
+        } else {
+          $(this).html('hide more credits');
+        }
+        return false;
+      });
+      //display form on error
+      if ($('.error_messages > ul').text().indexOf('Credit card') >= 0) {
+        $('#my-card-information').show();
+      }
+      
+      $('.fancybox-close').live('click', function() {
+        $.fancybox.close();
+        return false;
+      });
+
+      //hide all form validators when fancybox closed
+      $('a.fancybox_signup').fancybox({
+        'hideOnContentClick' : false,
+        'hideOnOverlayClick' : false,
+        'onClosed' : function() {
+          $('div.jquerytools-validator-error').remove();
+        }
+      });
+
+    });
+    
+
+- title "Account Details"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        Account Details
+      .right
+        - if can? :update, @organization
+          = link_to "Edit this Organization", edit_organization_path(@organization)
+          |
+        = link_to "back to #{@organization.name}", organization_path(@organization)
+        |
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .right.account_options
+
+      - unless @organization.free_subscription?
+        = "Account Details"
+        |
+        = link_to "Transaction Details", transactions_organization_path(@organization)
+    .clear
+
+    .price-options-content
+      = error_messages_for @organization, :header_message => "Your request could not be processed", :message => "An error occurred while updating your subscription"
+
+    .price-options-content
+      .float_left
+        %h1.inline
+          = @organization.name
+        - if @current_user.owned_organizations.size > 1
+          %span.even_smaller
+            = link_to("(change)", "#", :rel => "#my-organizations", :class => "hideable")
+      .float_right.smaller.ten_pixels
+        = "Member since %s" % @organization.created_at.strftime("%B %d, %Y")
+      .clear
+      %hr
+
+      - if @current_user.owned_organizations.size > 1
+        #my-organizations.hidden.left.smaller
+          |
+          - for organization in @current_user.owned_organizations
+            - if organization == @organization
+              = organization.name
+            - else
+              = link_to organization.name, subscriptions_organization_path(organization)
+            |
+        .clear
+
+      - unless @organization.free_subscription?
+        .float_left.even_smaller
+          = "You have used #{@credits_used} credits and have #{@credit_limit} credits available"
+
+      .float_right.even_smaller
+        - unless (@organization.trial_ends_at && @organization.trial_ends_at > Time.now) or (@organization.account_type && !@organization.account_type.link_to_chargify?)
+          = "Next charge: $%d on %s on %s %s" % [@product.price_in_cents/100, @subscription.current_period_ends_at.strftime("%B %d, %Y"), @payment_profile.card_type, @payment_profile.masked_card_number.split('-').last]
+          = link_to "(change)", change_card_organization_path(@organization), :class => 'fancybox_inline'
+        - else
+          - if @organization.trial?
+            = "Currently in Free Trial Period"
+   
+        .clear
+
+    -# Hard Coding AccountType id
+    - if !@organization.account_type.is_travel_provider?
+      .free-trial
+        %h1 30-day Free Trial on All Accounts.
+      .price-options
+        - if !@organization.account_type.link_to_chargify or (@organization.trial_ends_at && @organization.trial_ends_at > Time.now)
+          = link_to "Basic", signup_organization_path(@organization, :account_type_id => 4), :class => 'fancybox_signup btn-small basic'
+        - else
+          - if @organization.selected_plan == 's_15'
+            = link_to "Basic", '#', :class => 'btn-small basic'
+          - else
+            = link_to "Basic", upgrade_organization_path(@organization, :account_type_id => 4), :class => 'fancybox_inline btn-small basic'
+
+        - if !@organization.account_type.link_to_chargify or (@organization.trial_ends_at && @organization.trial_ends_at > Time.now)
+          = link_to "Premium", signup_organization_path(@organization, :account_type_id => 5), :class => 'fancybox_signup btn-large premium'
+        - else
+          - if @organization.selected_plan == "s_75"
+            = link_to "Premium", '#', :class => 'btn-large premium'
+          - else
+            = link_to "Premium", upgrade_organization_path(@organization, :account_type_id => 5), :class => 'fancybox_inline btn-large premium'
+
+        - if !@organization.account_type.link_to_chargify or (@organization.trial_ends_at && @organization.trial_ends_at > Time.now)
+          = link_to "Unlimited", signup_organization_path(@organization, :account_type_id => 6), :class => 'fancybox_signup btn-small enterprise'
+        - else
+          - if @organization.selected_plan == "s_150"
+            = link_to "Unlimited", '#', :class => 'btn-small enterprise'
+          - else
+            = link_to "Unlimited", upgrade_organization_path(@organization, :account_type_id => 6), :class => 'fancybox_inline btn-small enterprise'
+
+      .pad_10
+        We also offer a nice courtesy plan at no cost (organization listing, single user).
+
+    .price-options-content.pad_10
+      .block_quote
+        - if @organization.categories.any? {|c| c.tipe == "provider"}  
+          %h2
+            .red.left
+              = "Does #{@organization.name} want to sell products/services to other professional travel planners in the iTourSmart community?  If so, select a different account type and then edit your brand profile to include the appropriate categories."
+        #initial_account_types
+          - if (@organization.categories.any? {|c| c.tipe == "provider"}) && @organization.account_type.is_travel_provider?
+            - account_types = AccountType.non_provider.order(:price_in_cents) 
+          - if @organization.account_type.is_travel_provider?
+            .pad_10
+            .float_right
+              = link_to "Show all account types", "", :class=> "acct_type_control", :remote => true
+            .pad_10
+		
+          %table.plans.collapse
+            %tr
+              %th.firstcol.left.boldtable.plans
+                Plan
+              %th.bold
+                Cost
+              %th.bold
+                &nbsp;
+            //if Organization has a provider checkbox AND has a non-provider account_type
+            - if (@organization.categories.any? {|c| c.tipe == "provider"}) && !@organization.account_type.is_travel_provider? 
+              - account_types = AccountType.order(:price_in_cents)
+              - for account_type in account_types
+                = render :partial => 'account_types', :locals => {:account_type => account_type}
+            - else
+              - if @organization.categories.any? {|c| c.tipe == "provider"} && @organization.account_type.is_travel_provider?  
+                - account_types = AccountType.provider.order(:price_in_cents)
+              - else
+                - account_types = AccountType.non_provider.order(:price_in_cents)
+              - for account_type in account_types
+                = render :partial => 'account_types', :locals => {:account_type => account_type}
+          
+        #js_account_types.hide
+          .pad_10
+          %h3.left
+            = "Account Types for brands that"
+            .red.inline
+              = "do not want to sell"
+            = "to the iTourSmart Community"
+          %table.plans.collapse
+            %tr
+              %th.firstcol.left.boldtable.plans
+                Plan
+              %th.bold
+                Cost
+              %th.bold
+                &nbsp;
+            - account_types = AccountType.provider.order(:price_in_cents)
+            - for account_type in account_types
+              = render :partial => 'account_types', :locals => {:account_type => account_type}
+          .pad_10
+          .pad_10
+          %h3.left
+            = "Account Types for brands that"
+            .red.inline
+              = "do want to sell"
+            = "to the iTourSmart Community"
+          .smaller.left Please note professional travel planners are welcome to select from one of these and participate as both a buyer and seller.
+          %table.plans.collapse
+            %tr
+              %th.firstcol.left.boldtable.plans
+                Plan
+              %th.bold
+                Cost
+              %th.bold
+                &nbsp;
+            - account_types = AccountType.non_provider.order(:price_in_cents)
+            - for account_type in account_types
+              -# Don't show Courtesy account_type for Travel Providers
+              - next if @organization.account_type.is_travel_provider && account_type.courtesy?
+              = render :partial => 'account_types', :locals => {:account_type => account_type}
+    .price-options-content
+      .block_quote
+        #initial_account_descriptions
+          = link_to "Show breakdown of price vs. benefit", "", :class=> "acct_desc_control", :remote => true
+        #js_account_descriptions.hide
+          .bold
+            Breakdown of price vs. benefit   
+          .pad_10    
+          = render :partial => 'subscription_types'
+
+
+    .price-options-content
+      .column-uno.left
+        - if @organization.roles.approved.count > 1
+          %h2 Want to make someone else the account owner?
+          .p
+            The account owner is the
+            %strong
+              only
+            person that can access this organization's account page, upgrade, downgrade,
+            change billing information, access invoices, and cancel the account.
+            Once you make this change, you will no longer be the account owner for
+            this organization.
+
+            = simple_form_for @organization, :html => { :class => 'change-account-owner'} do |f|
+              =# f.input :owner_id, :collection => f.object.users(:order => "name_last, name_first"), :label => "Account owner", :include_blank => false
+              = f.input :owner_id, :collection => f.object.users(:order => "name_last, name_first"), :label => false, :include_blank => false, :wrapper_html => {:class => 'float_left'}
+              =# f.association :owner, :collection => @organization.team_members, :include_blank => false, :selected => @organization.owner_id, :wrapper_html => {:class => 'float_left'}, :label => false
+              = f.submit 'Update'
+              .clear
+
+        %h2 Need to cancel?
+        %p
+          We'll be sorry to see you go.
+          %strong
+            Once your account is cancelled, your organizational 
+            listing will be downgraded to our free, simple listing.
+          If you have a paying account you won't be charged again after your
+          official cancellation date. Please familiarize yourself with our
+          = link_to 'refund policy', '/refund'
+          = "."
+          %br
+          = link_to "Please cancel my account", cancel_organization_path(@organization), :class => 'fancybox_inline'
+      
+        - unless @organization.account_type.is_travel_provider?
+          %h2.inline Invoices
+          %span.even_smaller
+            = link_to("(See full transaction history)", transactions_organization_path(@organization))
+          .p
+            Here is a list of all charges and payments to date for #{@organization.name}
+            .invoices
+              %ol
+                - for transaction in @subscription.transactions
+                  - next if transaction.type != 'Charge'
+                  %li
+                    %a.ui-modal-link{:href => '#', :rel => '#' + "dialog_#{transaction.id}"}
+                      = transaction.memo
+                      at
+                      = number_to_currency(transaction.amount_in_cents.to_f / 100.0)
+                    .hidden{:id => "dialog_#{transaction.id}"}
+                      %table.transaction_detail
+                        %tr
+                          %td.bold
+                            Customer ID:
+                          %td
+                            = @subscription.customer.id
+                        %tr
+                          %td.bold
+                            Customer Name:
+                          %td
+                            = "#{@subscription.customer.first_name} #{@subscription.customer.last_name}"
+                        %tr
+                          %td.bold
+                            Customer Email:
+                          %td
+                            = @subscription.customer.email
+                        %tr
+                          %td.bold
+                            Product ID:
+                          %td
+                            = @subscription.product.id
+                        %tr
+                          %td.bold
+                            Product Name:
+                          %td
+                            = @subscription.product.name
+                        %tr
+                          %td.bold
+                            Subscription Status:
+                          %td
+                            = @subscription.state
+                        %tr
+                          %td.bold
+                            Transaction Type:
+                          %td
+                            = transaction.type
+                        %tr
+                          %td.bold
+                            Transaction Amt:
+                          %td
+                            = number_to_currency(transaction.amount_in_cents.to_f / 100.0)
+                        %tr
+                          %td.bold
+                            Transaction Memo:
+                          %td
+                            = transaction.memo
+        .clear
+      
+        - unless @organization.account_type.is_travel_provider?
+          %h2 Credits -- What are they?</h2>
+          %p Use credits to add Inventory Items/Products to specific locations.  If you have one location and 5 Items/Products you'd like to display to Travel Providers, you'll need 5 credits.  If you have 5 locations and 3 Items/Products you'd like to display to Travel Providers, you'll need 15 credits.
+  
+          %h2 No hidden fees
+          %p The price shown above is the price you pay. Period. There are no setup fees, cancellation fees, switching fees, or incremental per invoice fees.
+  
+          %h2 Easy access
+          %p iTourSmart doesn't have complicated software or tools to install. Everything is accessible through a modern browser (which is what you're probably using to view this page now). You'll be setup to do more business and better serve your clients in under 30 seconds.
+        
+          %h2 We're home
+          %p You're not buying iTourSmart from robots. We're here to answer any and all questions. Email inquiries regarding plans to <a href="mailto:admin@itoursmart.com">admin@itoursmart.com</a>.
+        
+          %h2 Clear cut terms
+          %p We honor your privacy. Check out our <a href="#">terms of service</a> and <a href="#">privacy policy.</a>
+
+      - unless @organization.account_type.is_travel_provider?  
+        .column-dos.left
+          %h2 Upgrade, Downgrade, or Cancel
+          %p We keep it simple.  If you upgrade you'll be charged the prorated difference for your new plan today.  If you downgrade your new rate begins on your next billing cycle. If you cancel you'll be cancelled immediately and you won't be charged again.
+          %img(src="/images/credit_card_logos.gif")
+          %p We accept Visa, Mastercard, American Express and Discover.
+    .clear
+
+#sidebar.justify
+  = render 'account_status'
+  = render 'organizations/team'
+  .pad_10
+  -# %img(src="/images/decide.gif")
+
+
+- if flash[:notice]
+  #fancybox-flash_notice.dark_text.dialog
+    = flash[:notice]
+  %a.hidden.fancybox_autoload{:href => "#fancybox-flash_notice"}

@@ -1,0 +1,32 @@
+- title "Role Detail"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Detail for " +  @role.organization.name + " team member " + @role.user.full_name
+      .right
+        = link_to "dashboard", :back
+      .clear
+    .block_quote.left
+      %table
+        %tr
+          %td
+            Name:
+          %td
+            = @role.user.full_name
+        %tr
+          %td
+            Role:
+          %td
+            - if @role.organization.owner_id == current_user.id
+              = "Owner"
+            - elsif @role.is_admin
+              = "Administrator"
+            - else
+              = "User"
+              
+          - for member in @role.team_members
+            %tr
+              %td
+                = member.user.full_name
+          

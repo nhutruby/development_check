@@ -1,0 +1,14 @@
+- title "Edit Location"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit Location for " + @location.organization.name
+      .clear
+    .block_quote.left
+      = render 'form'
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  = render 'geocode'
+  .pad_10

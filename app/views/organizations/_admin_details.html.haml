@@ -1,0 +1,24 @@
+- if f.object.roles.count > 1
+  %hr
+  .bold
+    Account Administration
+  %hr
+
+- if f.object.roles.count > 1
+  %label
+    Account Admins
+  = f.simple_fields_for :roles do |r|
+    .non_input
+      - if r.object.user
+        - if f.object.owner_id == r.object.user_id || !f.object.owner_id
+          = r.check_box :is_admin, :input_html => {:checked => "checked"}, :disabled => true
+          = r.object.user.full_name
+          .darkish_text.even_smaller.inline.italic
+            = "(acct owner)"
+        - else
+          = r.check_box :is_admin
+          = r.object.user.full_name
+
+- if f.object.roles.count > 1 && f.object.owner_id == current_user.id
+  = f.input :owner_id, :collection => f.object.users(:order => "name_last, name_first"), :label => "Account owner"
+.clear

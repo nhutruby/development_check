@@ -1,0 +1,209 @@
+#friends {
+  color: black; }
+
+#friend-left-container {
+  width: 24%;
+  float: left; }
+
+#friend-middle-container {
+  width: 50%;
+  float: left;
+  padding: 20px 0 0 0;
+  text-align: left; }
+
+#friend-right-container {
+  width: 24%;
+  float: right; }
+
+.friend_search_box {
+  background-color: #f8f8f8;
+  color: black;
+  margin: 2px 0; }
+
+.domain_icon {
+  width: 10%;
+  float: left; }
+
+.friend_domain {
+  width: 40%;
+  float: left; }
+
+.find_link {
+  width: 40%;
+  float: right; }
+
+#friend_list ul {
+  text-align: left; }
+
+#gmail-form {
+  z-index: 9999; }
+
+.hide {
+  display: none; }
+
+.show {
+  display: true; }
+
+.header-hide {
+  display: none; }
+
+.header-show {
+  display: true; }
+
+.input_email {
+  width: 30%;
+  text-align: right; }
+
+#email-label {
+  width: 40%;
+  float: left;
+  text-align: right;
+  padding: 10px 0 10px 10px; }
+
+#email-input {
+  width: 49%;
+  float: left;
+  text-align: left;
+  padding: 10px 0 10px 10px; }
+
+#password-label {
+  width: 40%;
+  float: left;
+  text-align: right;
+  padding: 10px 0 10px 10px; }
+
+#password-input {
+  width: 49%;
+  float: left;
+  text-align: left;
+  padding: 10px 0 10px 10px; }
+
+.input_field, .pass_field {
+  border: 1px solid #c6c6c6;
+  font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+  font-size: 11px;
+  padding: 3px; }
+
+.input-label {
+  color: #282828;
+  cursor: pointer;
+  font-weight: normal;
+  vertical-align: middle; }
+
+a.find_friend {
+  color: #0094cc;
+  cursor: pointer;
+  text-decoration: none; }
+
+#submit-friend {
+  float: right; }
+
+#skip-friend {
+  float: right; }
+
+.domain-icon {
+  float: left;
+  background-color: #edfaff;
+  width: 100%;
+  text-align: left; }
+
+.image-icon {
+  v-align: middle;
+  width: 10%;
+  text-align: right;
+  float: left;
+  padding: 0 10px 0 0; }
+
+.domain-label {
+  v-align: middle;
+  font-size: 16px;
+  font-weight: bold;
+  width: 60%;
+  flaot: right;
+  padding: 10px;
+  margin: 0 0 0 10px;
+  color: #282828; }
+
+.other-label {
+  width: 35%;
+  float: left;
+  text-align: right; }
+
+.other-form {
+  background-color: #edfaff;
+  padding: 20px; }
+
+.other-form-input {
+  width: 54%;
+  float: right;
+  text-align: left; }
+
+.domain-image {
+  width: auto;
+  height: 40px; }
+
+.float_left_extra {
+  padding: 0 0 0 20px;
+  width: 100%; }
+
+#people_icon {
+  width: 3%;
+  float: left; }
+  #people_icon img {
+    width: 20px;
+    height: 20px; }
+
+#friends_label {
+  width: 96%;
+  float: left;
+  font-size: 18px;
+  font-weight: bold; }
+
+#friend_list_sub_header {
+  font-size: 10px;
+  text-align: left;
+  padding: 30px 0 10px 30px; }
+
+#friend_list {
+  text-align: left;
+  padding: 0 30px 30px 30px; }
+
+#friend_list_content {
+  width: 100%; }
+
+#select_friends {
+  border: 1px solid #c6c6c6;
+  background-color: #e7e7e5;
+  padding: 10px; }
+
+#friend-main-list {
+  border: 1px solid #c6c6c6;
+  padding: 5px; }
+
+#input-chekbox {
+  width: 5%;
+  float: left; }
+
+#friend-pic {
+  width: 8%;
+  float: left; }
+
+#submit-friend {
+  padding: 0 0 0 30px; }
+
+#friend-info {
+  width: 50%;
+  float: left; }
+
+#form_submit {
+  padding: 0 0 0 410px;
+  float: left;
+  margin: 0 0 20px 0; }
+
+.float_left_people_icon {
+  padding: 0 0 0 60px;
+  width: 100%; }
+
+#friend_sub_label {
+  padding: 0 0 0 60px;
+  font-size: 11px; }

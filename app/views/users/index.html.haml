@@ -1,0 +1,69 @@
+- title "Users"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Users"
+      .right#q_search
+        = form_tag users_path, :method => 'get' do
+          = label_tag :search
+          = text_field_tag :term, params[:term], :size => "50"
+          = submit_tag "Search", :name => nil
+
+      .clear
+    .block_quote
+      -# if @users.present?
+        =# render 'generic/pagination_info', :entries => @users, :total => @total
+
+      %table.left.no_border.collapse
+        - for user in @users
+          - connection = current_user.all_connections.detect {|connection| connection.user_id == current_user.id && connection.connection_id == user.id}
+          %tr
+            %td.dashed.pad_5{:width => "40px"}
+              - if user.avatar.exists?
+                = image_tag(user.avatar.url(:mini), :alt => nil) if  user.avatar.exists?
+              - else
+                = image_tag("/images/avatar_mini.gif")
+            %td.dashed.smaller.pad_5
+              .float_left
+                = link_to user.full_name, user
+              -#- if connection.try(:is_inner_circle?)
+                -#.inner_circle_icon.float_left
+                  -#= image_tag("/images/inner_circle_icon.png")
+              .clear
+              .new_line.even_smaller
+                = link_to "Send Message", new_note_path(:sender_id => current_user.id, :recipient_id => user.id, :from => current_user.full_name, :to => user.full_name)
+              .new_line.even_smaller
+                - if connection
+                  - if connection.is_approved?
+                    -#- if !connection.is_inner_circle?
+                      -#= link_to "Add to my Inner Circle", connection_path(connection.id, :is_inner_circle => true), :method => :put
+                    -#- else
+                      -#= link_to "Remove from my Inner Circle", connection_path(connection.id, :is_inner_circle => "false"), :method => :put
+                    -#%br
+                    = link_to "Remove Connection", connection_path(connection.id), :method => :delete
+                  - elsif connection.try(:is_approved).nil?
+                    -#%br
+                    = "Connection Request Pending"
+                - else
+                  = link_to "Make A Connection", connections_path(:connection_id => user), :method => :post
+            %td.dashed.middle.left.smaller.pad_5{:width => '30%'}
+              = "Involved with" unless user.organizations.blank?
+              = user.organizations.all.map {|o| link_to o.name, o}.to_sentence.html_safe
+            %td.dashed.middle.right.pad_5
+              - for organization in current_user.organizations
+                - if can? :update, organization
+                  - if organization.can_add_team_member?
+                    .even_smaller
+                      = link_to "Add to the #{organization.name} team", add_to_organization_roles_path(:user_id => user.id, :organization_id => organization.id), :method => :post unless user.organizations.find_by_id(organization.id)
+                  - else
+                    .even_smaller
+                      = link_to "Upgrade Your Account To Invite #{user.name_first} To Join The #{organization.name} Team", subscriptions_organization_path(organization) unless user.organizations.find_by_id(organization.id)
+                    
+
+      - if @users.present?
+        = render 'generic/pagination_full', :entries => @users
+
+#sidebar.justify
+  = render "generic/banner_1"
+  = render "generic/banner_2"

@@ -1,0 +1,42 @@
+- title "Smart Map"
+- stylesheet 'jquery-ui-1.8.6.custom'
+- content_for :on_ready do
+  :plain
+    $("#tabs").tabs();
+
+#leftbar.justify
+  = render 'search_refine'
+
+#rightbar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+
+
+#middle
+  #main_col.shadow.smaller
+    .col_head
+      %h2.float_left
+        = "Smart Map"
+      .right.even_smaller
+        = link_to_function "+/-", "$('#maps_wrapper').toggle()"
+      .pad_10
+
+    #maps_wrapper
+      #tabs
+        %ul
+          %li
+            = link_to "Map", "#tabs-1"
+          %li
+            = link_to "Location", "#tabs-2"
+        .clear
+        #tabs-1
+          .fullmaps
+            = render 'search_map'
+        .clear
+        #tabs-2
+          .search_wrapper
+            #maps_search_result
+              = render 'search_result'
+            .clear
+      .clear
+

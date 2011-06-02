@@ -1,0 +1,10 @@
+- title "Sign Up"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Sign Up"
+      .clear
+    .block_quote.left
+      = render 'users/registrations/form_new'
+      = render :partial => "devise/shared/links"

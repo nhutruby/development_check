@@ -1,0 +1,104 @@
+:javascript
+  jQuery(document).ready(function() {
+    $(".form_credit_card").validator({
+      inputEvent: 'change',
+      messageClass: 'jquerytools-validator-error'
+    });
+
+    $('#submit').show();
+    $("#submit>a, #submit input:submit").click(function() {
+      var myval = $(".form_credit_card").validator(); 
+      var myresult = myval.data("validator").checkValidity();
+      if (myresult) {
+      $('#post_back_msg').show();
+      $('#submit').hide();
+      }
+    });
+  });
+
+
+- selected_credits = @account_type.credits
+- selected_users = @account_type.user_limit
+
+- current_credits_used = @organization.inventory_item_locations.size
+- current_users_used = @organization.roles.size
+
+
+#content_wrapper
+  .dark_text
+    .col_head
+      %h2.float_left
+        = "Thanks for choosing our #{ @account_type.name } account!"
+      .clear
+    .block_quote.left
+  
+      You're selecting the #{ @account_type.name } subscription level for the #{ @organization.name } iTourSmart account.
+
+      = simple_form_for @organization, :url => account_update_organization_path(@organization), :html => { :class => 'form_credit_card jquerytools-validator'} do |f|
+        = hidden_field_tag :organization_credit_card_product_id, @account_type.product_id, :name => "organization[credit_card][product_id]" if @account_type.product_id
+        = hidden_field_tag :organization_credit_card_account_type_id, @account_type.id, :name => "organization[credit_card][account_type_id]"
+        - if @account_type.link_to_chargify?
+          .pad_10
+          Since you have chosen a pay account, we'll need your secure credit card details 
+          so we can bill you at $#{ Chargify::Product.find(@account_type.product_id).price_in_cents / 100 }/month for the new plan. 
+          The upgrade will be effective immediately. You'll have access to your new features today.
+          .pad_10
+
+          = render 'form_credit_card', :f => f
+          - if selected_credits and selected_users and ((selected_credits == 0 and (selected_credits < current_credits_used)) or (selected_credits < current_credits_used) or selected_users == 1 and (selected_users < current_users_used) or selected_credits < current_credits_used)
+            %br
+            .warning.shadow
+              .center.bold
+                = "To avoid any complications:"
+              .left
+                %ul
+                  - if selected_credits == 0 and (selected_credits < current_credits_used)
+                    %li.normal= "All products/services will be removed from all locations."
+                  -elsif selected_credits && selected_credits < current_credits_used
+                    %li.normal= "Please remove #{current_credits_used - selected_credits} products/services from locations before continuing to avoid all of them being automatically removed."
+                  - if selected_users == 1 and (selected_users < current_users_used)
+                    %li.normal= "All team members - except for you - will be removed from #{@organization.name}."
+                  -elsif selected_users && selected_users < current_users_used
+                    %li.normal= "Please remove #{current_users_used - selected_users} users before continuing to avoid everyone except yourself from being automatically removed."
+          %br
+   
+          .middle-checkbox
+            = check_box_tag :understand_upgrading, true, nil, :required => 'required'
+            %label{:for => :understand_upgrading}
+              * I understand that signing up for an account ends my free trial.
+              Once I click the "Please sign me up" button below I'll be charged for the first month. 
+              I'll continue to be billed every month until I cancel the service (at which point I won't be charged again)
+            .clear
+          .clear
+        - else
+          .pad_10
+          Since this is a free account, no further information is required from you at this time.
+          .pad_10
+          - if selected_credits and selected_users and ((selected_credits == 0 and (selected_credits < current_credits_used)) or (selected_credits < current_credits_used) or selected_users == 1 and (selected_users < current_users_used) or selected_credits < current_credits_used)
+            %br
+            .warning.shadow
+              .center.bold
+                = "To avoid any complications:"
+              .left
+                %ul
+                  - if selected_credits == 0 and (selected_credits < current_credits_used)
+                    %li.normal= "All products/services will be removed from all locations."
+                  -elsif selected_credits && selected_credits < current_credits_used
+                    %li.normal= "Please remove #{current_credits_used - selected_credits} products/services from locations before continuing to avoid all of them being automatically removed."
+                  - if selected_users == 1 and (selected_users < current_users_used)
+                    %li.normal= "All team members - except for you - will be removed from #{@organization.name}."
+                  -elsif selected_users && selected_users < current_users_used
+                    %li.normal= "Please remove #{current_users_used - selected_users} users before continuing to avoid everyone except yourself from being automatically removed."
+          %br  
+          .middle-checkbox
+            = check_box_tag :understand_upgrading, true, nil, :required => 'required'
+            %label{:for => :understand_upgrading}
+              * I understand that signing up for an account ends my free trial and I will no longer be able to enjoy the benefits of the Premium Account.
+        %br
+        %br
+        %p
+          Thank you for your business!
+        = render "/generic/action", :f => f, :submit_text => "Please sign me up", :skip_destroy_link => true
+        =# f.button :submit, "Please sign me up"
+        =# "or "
+        =# link_to("cancel", subscriptions_organization_path(@organization), :class => "fancybox-close even_smaller")

@@ -1,0 +1,88 @@
+/*
+Syntax error: Undefined variable: "$faint".
+        on line 11 of /Users/patrickconnor/Sites/itoursmart/public/stylesheets/sass/jquery.scss
+
+6:   line-height:1 ;
+7:   position:relative ;
+8:   overflow:hidden ;
+9:   width:500px ;
+10:   height:22px ;
+11:   background-color:$faint ;
+12:   border:1px solid $border_grey ;
+13:   }
+14: 
+15: ul.marquee li{
+16:   position:absolute ;
+
+Backtrace:
+/Users/patrickconnor/Sites/itoursmart/public/stylesheets/sass/jquery.scss:11
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/script/variable.rb:39:in `_perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/script/node.rb:61:in `perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/prop_node.rb:132:in `perform!'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:305:in `_perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:213:in `perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `block in perform_children'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `map'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `perform_children'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:317:in `perform!'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/rule_node.rb:191:in `perform!'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:305:in `_perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:213:in `perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `block in perform_children'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `map'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:327:in `perform_children'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:317:in `perform!'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/root_node.rb:59:in `perform!'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:305:in `_perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/node.rb:213:in `perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/root_node.rb:37:in `perform'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/tree/root_node.rb:29:in `render'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:223:in `update_stylesheet'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:88:in `block (2 levels) in update_stylesheets'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:81:in `each'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:81:in `block in update_stylesheets'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:79:in `each'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:79:in `update_stylesheets'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin.rb:50:in `check_for_updates'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/haml-3.0.25/lib/sass/plugin/rack.rb:40:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/warden-1.0.3/lib/warden/manager.rb:35:in `block in call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/warden-1.0.3/lib/warden/manager.rb:34:in `catch'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/warden-1.0.3/lib/warden/manager.rb:34:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/head.rb:14:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/methodoverride.rb:24:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/flash.rb:182:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/session/abstract_store.rb:149:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/cookies.rb:302:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activerecord-3.0.4/lib/active_record/query_cache.rb:32:in `block in call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activerecord-3.0.4/lib/active_record/connection_adapters/abstract/query_cache.rb:28:in `cache'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activerecord-3.0.4/lib/active_record/query_cache.rb:12:in `cache'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activerecord-3.0.4/lib/active_record/query_cache.rb:31:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activerecord-3.0.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:354:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/callbacks.rb:46:in `block in call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activesupport-3.0.4/lib/active_support/callbacks.rb:415:in `_run_call_callbacks'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/callbacks.rb:44:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/sendfile.rb:107:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/remote_ip.rb:48:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/show_exceptions.rb:47:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/railties-3.0.4/lib/rails/rack/logger.rb:13:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/runtime.rb:17:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/activesupport-3.0.4/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/lock.rb:11:in `block in call'
+<internal:prelude>:10:in `synchronize'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/lock.rb:11:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/actionpack-3.0.4/lib/action_dispatch/middleware/static.rb:30:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/railties-3.0.4/lib/rails/application.rb:168:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/railties-3.0.4/lib/rails/application.rb:77:in `method_missing'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/railties-3.0.4/lib/rails/rack/log_tailer.rb:14:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/content_length.rb:13:in `call'
+/Users/patrickconnor/.rvm/gems/ruby-1.9.2-head/gems/rack-1.2.1/lib/rack/handler/webrick.rb:52:in `service'
+/Users/patrickconnor/.rvm/rubies/ruby-1.9.2-head/lib/ruby/1.9.1/webrick/httpserver.rb:111:in `service'
+/Users/patrickconnor/.rvm/rubies/ruby-1.9.2-head/lib/ruby/1.9.1/webrick/httpserver.rb:70:in `run'
+/Users/patrickconnor/.rvm/rubies/ruby-1.9.2-head/lib/ruby/1.9.1/webrick/server.rb:183:in `block in start_thread'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$faint\".\A         on line 11 of /Users/patrickconnor/Sites/itoursmart/public/stylesheets/sass/jquery.scss\A \A 6:   line-height:1 ;\A 7:   position:relative ;\A 8:   overflow:hidden ;\A 9:   width:500px ;\A 10:   height:22px ;\A 11:   background-color:$faint ;\A 12:   border:1px solid $border_grey ;\A 13:   }\A 14: \A 15: ul.marquee li{\A 16:   position:absolute ;"; }

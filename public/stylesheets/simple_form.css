@@ -1,0 +1,158 @@
+.simple_form label {
+  float: left;
+  min-width: 200px;
+  text-align: right;
+  margin: 3px 0px 2px 10px; }
+
+.simple_form .no_width_label {
+  float: left;
+  text-align: right;
+  margin: 3px 0px 2px 10px; }
+
+.simple_form .hint {
+  clear: left;
+  margin: 0px 0px 10px 220px;
+  font-size: 12px;
+  color: #282828;
+  display: block;
+  font-style: italic; }
+
+.simple_form .inline_hint {
+  margin: 2px 10px 0px 220px;
+  padding: 2px 0px;
+  font-size: 12px;
+  color: #282828;
+  display: block;
+  font-style: italic; }
+
+.simple_form .floating_inline_hint {
+  margin: 2px 0px 0px 10px;
+  padding: 2px 0px;
+  font-size: 12px;
+  color: #282828;
+  float: left;
+  font-style: italic;
+  clear: none;
+  display: inline; }
+
+.simple_form .error {
+  clear: left;
+  margin-left: 220px;
+  font-size: 12px;
+  color: red;
+  display: block; }
+
+.simple_form .non_input {
+  margin: 2px 10px 2px 217px;
+  padding: 2px 0px;
+  color: #282828;
+  display: block; }
+
+.simple_form input.string {
+  margin: 2px 0px 2px 10px; }
+
+.simple_form input.file {
+  margin: 2px 0px 2px 10px; }
+
+.simple_form input.numeric {
+  margin: 2px 0px 2px 10px; }
+
+.simple_form input.password {
+  margin: 2px 0px 2px 10px; }
+
+.simple_form .image {
+  margin: 2px 0px 2px 10px; }
+
+.simple_form input {
+  margin: 2px 0px 2px 0px; }
+
+.simple_form select {
+  margin: 5px 0px 0px 10px;
+  position: relative;
+  max-width: 600px; }
+
+.simple_form textarea {
+  width: 100%;
+  margin: 5px 5px 0px 3px; }
+
+.simple_form label.check_boxes {
+  margin: 3px 0px 2px 10px;
+  display: inline;
+  clear: both;
+  width: 200px; }
+
+.simple_form .remove {
+  margin: 3px 0px 2px 10px;
+  float: left; }
+
+.simple_form label.collection_check_boxes {
+  margin: 2px 0px 2px 2px;
+  text-align: left;
+  float: none;
+  display: inline; }
+
+.simple_form input.check_boxes {
+  margin: 0px 5px 0px 2px;
+  padding: 0px 0px 0px 0px;
+  float: none; }
+
+.simple_form label.collection_radio {
+  margin: 2px 0px 0px 2px;
+  padding: 0px;
+  text-align: left;
+  float: none;
+  display: inline; }
+
+.simple_form input[type='radio'] {
+  margin: 7px 5px 0px 10px;
+  padding: 0px 0px 0px 0px; }
+
+.simple_form div.boolean, .simple_form input[type='submit'] {
+  margin: 10px 0px 0px 220px; }
+
+.error_messages, #error_explanation {
+  -moz-box-shadow: 5px 5px 5px #cccccc;
+  -webkit-box-shadow: 5px 5px 5px #cccccc;
+  box-shadow: 5px 5px 5px #cccccc;
+  border: 1px red solid;
+  padding: 0px 0px 10px 0px;
+  margin: 0px 0px 10px 0px;
+  font-size: 90%;
+  text-align: left;
+  float: none; }
+  .error_messages p, #error_explanation p {
+    padding: 5px 10px 5px 10px; }
+  .error_messages h2, #error_explanation h2 {
+    background-color: red;
+    color: white;
+    margin: 0;
+    padding: 5px; }
+  .error_messages ul, #error_explanation ul {
+    list-style-type: disc;
+    margin: 5px 10px 5px 20px; }
+
+.error_notification {
+  padding: 5px 10px 15px 10px;
+  color: red; }
+
+.simple_form div.boolean label, .simple_form label.collection_radio {
+  float: none;
+  margin: 0; }
+
+.simple_form label.collection_radio {
+  margin-right: 20px;
+  margin-left: 0px;
+  margin-top: 0px;
+  text-align: left; }
+
+.simple_form div.input {
+  margin: 0px 0px 10px 0px; }
+
+.simple_form div.input.text {
+  margin: 0px 0px 0px 0px; }
+
+.simple_form abbr {
+  border: none; }
+
+.simple_form div.boolean {
+  margin: 0px 0px 0px 220px; }

@@ -1,0 +1,13 @@
+.bold
+  = "These people have asked to be on your team:" 
+.pad_10
+%table.left   
+  - for role in @roles_needing_org_approval.ordered
+    %tr
+      %td.note_message.dashed
+        = role.user.full_name
+      %td.note_message.dashed
+        = link_to "Add to team", org_approve_role_path(role, :return_to => request.env['REQUEST_URI']), :method => :put
+      %td.note_message.dashed
+        = link_to "Decline request to join team", org_decline_role_path(role, :return_to => request.env['REQUEST_URI']), :method => :put
+.pad_10

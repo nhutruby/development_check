@@ -1,0 +1,9 @@
+- title "Edit #{@page.name}"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit " + @page.name
+      .clear
+    .block_quote.left
+      = render 'form'

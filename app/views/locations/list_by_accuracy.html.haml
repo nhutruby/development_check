@@ -1,0 +1,35 @@
+- title "Manage Inaccurate Locations"
+
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Manage Inaccurate Locations"
+      .clear
+    
+    .block_quote
+      .search_wrapper
+        = form_tag list_by_accuracy_locations_path, :method => :get do |f|
+          %fieldset.search.float_left
+            = text_field_tag :query, params[:query], :placeholder => 'Search by Brand, City, or Category', :size => 70
+            = submit_tag "Search", :name => nil
+      .clear
+      = render 'generic/pagination_info', :entries => @locations
+      .pad_10
+      .pad_10
+      
+      %table
+        %tr
+          %th Name
+          %th Accuracy
+          %th Address
+          %th
+        - for location in @locations
+          %tr
+            %td= link_to location.organization.name + ': ' + location.name, organization_location_path(location.organization, location)
+            %td= location.address.accuracy
+            %td= location.map_address
+            %td= link_to 'Edit', edit_organization_location_path(location.organization, location)
+      .pad_10
+      .pad_10
+      = render 'generic/pagination_full', :entries => @locations

@@ -1,0 +1,18 @@
+- if @connections.count > 0
+
+  - name = @connections.first.user.name_first
+  - title "#{name.possessive} Connections"
+
+  #content_wrapper
+    #main_col.shadow.dark_text
+      .col_head
+        %h2.float_left
+          = "#{name.possessive} Connections (#{@connections.total_entries})"
+        .right
+          = link_to "Dashboard", dashboard_path
+        .clear
+      .block_quote
+        = render 'index_list'
+#sidebar.justify
+  = render "generic/banner_1"
+  = render "generic/banner_2"

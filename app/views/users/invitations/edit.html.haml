@@ -1,0 +1,38 @@
+- title "Welcome!"
+#full_col
+  #left_col.white_background.dark_text
+    .col_head.normal_padding
+      %h2 Confirm Sign up 
+    .block_quote.left
+      = simple_form_for(@user, :url => invitation_path(@user), :html => { :method => :put }) do |f|
+        = f.error_messages
+        = f.input :invitation_token, :as => 'hidden'
+        = f.input :name_first, :label => "First Name"
+        = f.input :name_last, :label => "Last Name"
+        = f.input :email, :input_html => { :size => "65" }
+        = f.input :password
+        = f.input :password_confirmation, :label => "Confirm Password"
+        = f.input :is_travel_planner, :collection => ([["I am a professional Travel Planner", true], ["I provide a product or service for professional Travel Planners", false]]), :as => :radio, :label => "Please select one", :input_html => {:value => false}
+        .non_input
+          By clicking "Complete Sign Up" you agree to the
+          - submit_text = "Complete Sign Up"
+          = raw("#{link_to 'Terms of Service', '/terms'}" + ", ")
+          = raw("#{link_to "Privacy Policy", "/privacy"}" + ", and")
+          = raw("#{link_to "Refund Policy", "/refund"}" + ".")
+        #submit
+          - submit_text ||= nil
+          - unless submit_text.blank?
+            = f.button :submit, submit_text
+          -else
+            = f.button :submit
+          = "or "
+          = link_to("cancel", :root)
+        .clear
+        .non_input
+          #post_back_msg
+            #indicator.inline
+              = image_tag "indicator.gif"
+            .inline
+              = "Please wait..."
+            .non_input
+        .pad_10

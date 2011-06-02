@@ -1,0 +1,74 @@
+- orgs = @user.organizations
+- count = orgs.count
+- i = 0
+.shadow.pad_10
+  .col_head
+    %h2.float_left
+      = count <= 1 ? "my brand" : "my brands"
+    .right.even_smaller
+      = link_to_function "+/-", "$('#brands').toggle()"
+    .clear
+    .link_to_new.even_smaller
+      - if count > 0
+        = link_to "(add another brand)", new_organization_path
+      - else
+        = link_to "(add your brand)", new_organization_path
+  #brands
+    .block_quote.left.smaller
+      - if @user.roles.approved.any? && @user.organizations.count > 0
+        - for organization in @user.organizations do
+          - i =+ 1
+          .img_col.smaller
+            - if !organization.logo_url.blank?
+              .float_left.margin_right_10
+                = image_tag(organization.logo_url(:mini), :alt => nil)
+            - else
+              .float_left.margin_right_10
+                = image_tag("/images/logo_mini.gif")
+          .non_img_col.smaller
+            .indent_10
+              = link_to "#{organization.name}", organization
+              .new_line.smaller
+                - if (can? :update, organization) && organization.owner_id == current_user.id && @account_type && !@account_type.link_to_chargify? && !@account_type.is_travel_provider?
+                  = link_to "(pricing & subscriptions)", subscriptions_organization_path(organization)
+          .clear
+          - if (can? :update, organization) and organization.trial_ends_at and organization.trial_ends_at > Time.now and !organization.account_type.is_travel_provider?
+            = render "/generic/enhance", :organization => organization
+          .clear
+          .team.pad_10.smaller
+            - if  count == 1
+              = organization.description
+              .new_line.pad_10
+            .bold
+              - if can? :update, organization
+                = link_to "The Team:", roles_path(:organization_id => organization.id)
+              - else
+                = "The Team:"
+            .new_line.indent_10.pad_10
+              - for role in organization.roles.approved.ordered do
+                = render "generic/team_member", :role => role
+
+
+          .clear
+          - unless i == count
+            %hr
+      - elsif count > 0
+        - for role in @user.roles do
+          = "#{role.organization.name} (pending approval)" unless role.is_organization_approved == false
+      - else
+        - domain = @user.email.split("@").last
+        - Organization.where("url = ? OR aba_email = ? OR syta_email = ?", "www."+ domain, @user.email, @user.email).each do |a|
+          - unless a.owner_id
+            .upgrade
+              .bold
+                = "Is #{a.name} your #{a.entity}?"
+              .even_smaller
+                = auto_link("If so, click #{link_to 'here', organization_path(a)} to claim it!".html_safe)
+            .pad_5
+          - else
+            .upgrade
+              .bold
+                = "Do you work for #{a.name}?"
+              .even_smaller
+                = auto_link("If so, click #{link_to 'here', organization_path(a)} to join the team!".html_safe)
+            .pad_5

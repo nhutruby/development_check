@@ -1,0 +1,11 @@
+- if !@inventory_items.empty?
+  %br
+  %br
+  %h2
+    Inventory Items Available at This Location
+
+  = hidden_field_tag "location[inventory_item_ids][]", ""
+  - for inventory_item in @inventory_items
+    .div
+      = check_box_tag "location[inventory_item_ids][]", inventory_item.id, @location.inventory_items.include?(inventory_item)
+      = inventory_item.name  

@@ -1,0 +1,12 @@
+- if current_user && current_user.admin?
+  .shadow.pad_10
+    .col_head
+      %h2
+        Administrative
+    .block_quote.left.smaller
+      = link_to 'New Blog Post', new_blog_post_path
+      .clear
+      = link_to 'Edit Drafts', drafts_blog_posts_path
+      .clear
+      = link_to 'All Posts', blog_posts_path
+

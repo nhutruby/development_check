@@ -1,0 +1,83 @@
+-# used by render_as_dialog in Organizations Controller
+- content_for :head do
+  = stylesheet_link_tag 'splash.css'
+
+- title "Welcome"
+#content_wrapper
+  #main_col
+    .block_quote
+      #banner
+        %div
+          = link_to("know more",'/know_more', :class => "know-more")
+        .clear.pad_10
+        .pad_10
+        %p.even_smaller.italic.left.indent_10
+          = "If we were marketing pros, we would insert some smart-sounding copy here to clearly communicate that iTourSmart is only available to Tour and Travel professionals and that it is free (complimentary, costless, on the house, for nothing, gratis)."
+
+    #splash_sidebar
+      = render 'generic/twitter'
+      .clear
+    .clear
+  .pad_10
+  #splash_middle
+    = render 'generic/organization_ticker'
+    .clear
+    .background
+      #bottom_col
+        .left-col
+          %h3 The best businesses in the tour industry connect with <strong>iTourSmart</strong>
+          %p
+            = "Why?  Because our inboxes are out of control and, while facebook is fun, it's hard to know what effect (if any) it has on the bottom line.  Since almost all of the content in iTourSmart.com is user-managed, its the easiest place to find the most current contact information and product offerings available to the tour and travel industry."
+          %p
+            = auto_link("If you want to #{link_to('know more','/know_more')} about how travel professionals use iTourSmart to create business opportunities, #{link_to('click here','/know_more')}.".html_safe)
+          -# %h4 <strong>OR</strong>
+          -#%p
+            -#= auto_link("Take 5 minutes to #{link_to('sign up', new_user_registration_path )}, find/update/add your profile, and decide for yourself if iTourSmart will benefit you and your business.".html_safe)
+          -#%p
+            -#= link_to "Basic", '/know_more', :class => 'sign-up'
+            -#.pad_5
+        .middle-col
+          %h3 We are Not About Technology, We ARE about <strong>solutions</strong> and <strong>benefits</strong>!
+          %p Isn't it time that we stopped putting information into 'the system' and started getting answers that make it easier for us to do business?  Every aspect of iTourSmart is built to provide you with the maximum reward for your efforts.
+          =link_to("Know More",'/know_more')
+        .right-col
+          %h3 Featuring <strong>smartMap</strong>
+          %img{:alt => "smartMaps", :src => "/images/smartmap/smartmap5.png", :title => "Smart Maps"}
+          =link_to("Know More",'/know_more')
+          .clear
+        .clear
+      .clear
+      #mid_footer
+        .center
+          %ul.inline
+            %li.inline
+            %li.inline
+              =link_to("About Us","/about", :class => "about")
+              |
+            %li.inline
+              =link_to("Contact","/contact", :class => "contact")
+              -#|
+            -#%li.inline
+              -#=link_to("Our Blog","/blog", :class => "contact")
+        .left-col
+        .clear
+
+-#    .middle-col
+-#      %h3 Twitter Updates
+-#      %p.post Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+-#      %p.date audioconexus | Thu, Sep 16, 2010 @ 01:00 PM
+    
+        
+        
+  -#sidebars.justify.float_left
+    -#= render "generic/banner_1"
+    =#render "generic/banner_2"
+
+
+      
+        
+        
+      
+    
+  
+  

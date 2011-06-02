@@ -1,0 +1,48 @@
+- vtitle = @note.recipients ? "message" : "mote"
+- title vtitle
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = yield(:title)
+      .right
+        = link_to "message center", :back
+        = "|"
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote.left
+      %table.smaller
+        %tr
+          %td.right.bold(width = "1px")
+            From:
+          %td
+            = @note.is_sysmessage == true ? image_tag("/images/its_blue.gif", :alt => "logo", :height => "38", :width => "213") : @note.sender.full_name
+        %tr
+          %td.right.bold
+            Subject:
+          %td
+            = @note.subject
+        %tr
+          %td.right.bold
+            To:
+          %td
+            - for @recipient in @note.recipients
+              = @recipient.user.try(:full_name)
+        %tr
+          %td.right.bold
+            Sent:
+          %td
+            = @note.occurred_at.strftime("%B %e, %Y %r %Z")
+      %hr
+      #note_view_body.left.dark_text
+        - if !@recipient.note.permalink
+          :textile
+            #{textilize(@recipient.note.body)}
+        - else
+          = render @recipient.note.permalink
+          
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  .pad_10
+  = render "generic/twitter"

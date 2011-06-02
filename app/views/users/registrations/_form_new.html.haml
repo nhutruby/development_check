@@ -1,0 +1,16 @@
+= simple_form_for resource do |f|
+  = f.error_notification
+  = f.input :name_first, :label => "First Name"
+  = f.input :name_last, :label => "Last Name"
+  = f.input :is_travel_planner, :collection => [["I am a professional Travel Planner", true], ["I provide a product or service for professional Travel Planners", false]], :as => :radio, :label => "Which best describes you?"
+  .clear.pad_10
+  = f.input :email, :input_html => { :size => "65" }
+  = f.input :password
+  = f.input :password_confirmation
+  .non_input
+    By clicking Submit you agree to the
+    = raw("#{link_to 'Terms of Service', '/terms'}" + ", ")
+    = raw("#{link_to "Privacy Policy", "/privacy"}" + ", and")
+    = raw("#{link_to "Refund Policy", "/refund"}" + ".")
+    .new_line
+  = render "/generic/action", :f => f

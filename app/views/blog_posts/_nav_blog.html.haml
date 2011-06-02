@@ -1,0 +1,9 @@
+.shadow
+  .col_head
+    %h2
+      Blog
+  .block_quote.left.smaller
+    = link_to 'Archives', blog_posts_path
+    .clear
+    = link_to 'Feed', blog_posts_path(:format => :atom)
+

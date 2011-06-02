@@ -1,0 +1,22 @@
+- title "Account Types"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "account types"
+      .right
+        = link_to "Add a New Account Type", new_account_type_path
+        = "|"
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote
+      %table.border.collapse.left
+        %tr
+          %th.border
+            = "Name"
+          %th.border
+            = "Chargify Name"
+          %th.border
+            = "Description"
+        - for account_type in @account_types
+          = render 'index_list', :account_type => account_type

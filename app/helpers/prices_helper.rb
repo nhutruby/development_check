@@ -1,0 +1,4 @@
+module PricesHelper
+
+
+end

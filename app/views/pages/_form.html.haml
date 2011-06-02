@@ -1,0 +1,6 @@
+- simple_form_for @page do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :permalink
+  = f.input :content
+  = render "/generic/action", :f => f

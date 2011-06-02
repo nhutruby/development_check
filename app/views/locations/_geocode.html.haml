@@ -1,0 +1,65 @@
+.shadow.pad_10
+  .col_head
+    %h2.float_left
+      = "Preview address geocode"
+    .clear
+  #geocode.block_quote
+    %table.transaction_detail
+      %tr
+        %td.bold Attributes
+        %td.bold Original
+        %td.bold Preview
+      %tr
+        %td Lat
+        %td= @location.lat
+        %td.lat
+      %tr
+        %td Lng
+        %td= @location.lng
+        %td.lng
+      %tr
+        %td Accuracy
+        %td= @location.accuracy
+        %td.accuracy
+
+    %a.geocode{:href => '#'}
+      Geocode
+    .post_back_msg.float_left.pad_2.hidden
+      #indicator.inline
+        = image_tag "indicator.gif"
+      .inline
+        = "Please wait..."
+        .non_input
+    .clear
+  .clear
+.clear
+
+
+- if can? :geocode, @location# && current_user.its_admin
+  - content_for :on_ready do
+    :plain
+      $('#geocoder a.geocode').click(function() {
+        var form = $(this).parent().siblings('.float_left').children('form');
+
+        // progress UI
+        $('#geocoder a.geocode').hide();
+        $('#geocoder .post_back_msg').show();
+        
+        var a = [
+          $('input[name="location[address_attributes][line_1]"]', form).val(),
+          $('input[name="location[address_attributes][city]"]', form).val(),
+          $('input[name="location[address_attributes][region]"]', form).val(),
+          $('input[name="location[address_attributes][postal_code]"]', form).val()
+        ];
+        var address = _.compact(a).join(', ');
+        $.getJSON('/locations/geocode.js?address=' + address, function(data) {
+          $('#geocoder td.lat').html( data.lat );
+          $('#geocoder td.lng').html( data.lng );
+          $('#geocoder td.accuracy').html( data.accuracy );
+          
+          //progress UI
+          $('#geocoder a.geocode').show();
+          $('#geocoder .post_back_msg').hide();
+        });
+      });
+

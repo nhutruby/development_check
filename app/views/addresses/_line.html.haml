@@ -1,0 +1,22 @@
+.smaller
+  - if !address.line_1.blank?
+    = address.line_1
+  - if !address.line_2.blank?
+    .pipe.inline
+      |
+    = address.line_2
+  - if !address.city.blank? && !address.region.blank? && !address.postal_code.blank?
+    .pipe.inline
+      |
+    = address.city + ", " + address.region + " " + address.postal_code
+  - elsif !address.city.blank? && !address.region.blank?
+    .pipe.inline
+      |
+    = address.city + ", " + address.region
+  - elsif !address.city.blank?
+    .pipe.inline
+      |
+    = address.city
+  .pipe.inline
+    |
+  = address.country

@@ -1,0 +1,13 @@
+- title "Site-wide Announcements"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "site-wide announcements"
+      .right
+        = link_to "Add a New Site-wide Announcement", new_announcement_path
+        |
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote
+      = render 'index_list'

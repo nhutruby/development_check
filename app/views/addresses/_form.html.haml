@@ -1,0 +1,104 @@
+- stylesheet 'jquery-ui-1.8.6.custom'
+- content_for :on_ready do
+  :plain
+    $(".t_line_1").keyup(function() {
+      $("#line_1").val($(this).val());
+    })
+    $(".t_line_2").keyup(function() {
+      $("#line_2").val($(this).val());
+    })
+    $(".t_city").keyup(function() {
+      $("#city").val($(this).val());
+    })
+    $( "#ca_postal_code" ).autocomplete({
+      minLength: 1,
+      source: '#{ search_postal_code_path(:country_code => :ca, :format => :js) }',
+      focus: function( event, ui ) {
+        return false;
+      },
+      select: function( event, ui ) {
+        $( "#ca_postal_code" ).val( ui.item.code );
+        $( "#postal_code" ).val ( ui.item.code );
+        $( "#ca_region" ).val( ui.item.region );
+        $( "#region" ).val( ui.item.region );
+        $( "#city" ).val( ui.item.city );
+        $( ".t_city" ).val( ui.item.city );
+        // change focus to 'Street Address 1'
+        $( "#location_address_attributes_line_1" ).focus();
+        return false;
+      }
+    })
+    .data( "autocomplete" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .data( "item.autocomplete", item )
+        .append( "<a>" + item.code + '&nbsp;&nbsp;&nbsp;<strong>' + item.city + ', ' + item.region + "</strong></a>" )
+        .appendTo( ul );
+    };
+
+
+    $( "#us_postal_code" ).autocomplete({
+      minLength: 1,
+      source: '#{ search_postal_code_path(:country_code => :us, :format => :js) }',
+      focus: function( event, ui ) {
+        return false;
+      },
+      select: function( event, ui ) {
+        $( "#us_postal_code" ).val( ui.item.code );
+        $( "#postal_code" ).val ( ui.item.code );
+        $( "#us_region" ).val( ui.item.region );
+        $( "#region" ).val( ui.item.region );
+        $( "#city" ).val( ui.item.city );
+        $( ".t_city" ).val( ui.item.city );
+        // change focus to 'Street Address 1'
+        $( "#location_address_attributes_line_1" ).focus();
+        return false;
+      }
+    })
+    .data( "autocomplete" )._renderItem = function( ul, item ) {
+      return $( "<li></li>" )
+        .data( "item.autocomplete", item )
+        .append( "<a>" + item.code + '&nbsp;&nbsp;&nbsp;<strong>' + item.city + ', ' + item.region + "</strong></a>" )
+        .appendTo( ul );
+    };
+
+= f.input :country,  :include_blank => 'Please choose...', :priority => ['Canada', 'United States'], :input_html => {:id => "country"}
+
+#generic_form.hide
+  = f.input :other_postal_code, :required => false, :input_html => {:id => "other_postal_code", :size => "10", :value => f.object.postal_code}, :label => "* Postal code", :disabled => true
+  = f.input :t_line_1, :label => '* Street Address 1', :input_html => {:size => "60", :class => "t_line_1", :value => f.object.line_1}, :hint => "(physical location as it should appear on SmartMap)", :disabled => true
+  = f.input :t_line_2, :label => 'Street Address 2', :input_html => {:size => "60", :class => "t_line_2", :value => f.object.line_2}, :disabled => true
+  = f.input :t_city, :label => '* City', :input_html => {:size => "30", :class => "t_city", :value => f.object.city}, :disabled => true
+  = f.input :other_region, :label => "* State, Province, or Region", :required => false, :as => :string, :input_html => {:id => "other_region"}, :disabled => true
+
+
+#us_form.hide
+  = f.input :us_postal_code, :input_html => {:id => "us_postal_code", :size => "10", :value => f.object.postal_code}, :required => true, :label => "Zip code", :hint => "(select a valid Zip code to autofill City & State)"
+  = f.input :t_line_1, :label => '* Street Address 1', :input_html => {:size => "60", :class => "t_line_1", :value => f.object.line_1}, :hint => "(physical location as it should appear on SmartMap)"
+  = f.input :t_line_2, :label => 'Street Address 2', :input_html => {:size => "60", :class => "t_line_2", :value => f.object.line_2}
+  = f.input :t_city, :label => '* City', :input_html => {:size => "30", :class => "t_city", :value => f.object.city}
+  = f.input :us_region, :collection => STATES, :label => '* State',  :include_blank => 'Please choose...', :input_html => {:id => "us_region"}
+
+#canada_form.hide
+  = f.input :ca_postal_code, :required => false, :input_html => {:id => "ca_postal_code", :size => "10", :value => f.object.postal_code}, :label => "* Postal code", :hint => "(select a valid Postal code to autofill City & Province)"
+  = f.input :t_line_1, :label => '* Street Address 1', :input_html => {:size => "60", :class => "t_line_1", :value => f.object.line_1}, :hint => "(physical location as it should appear on SmartMap)"
+  = f.input :t_line_2, :label => 'Street Address 2', :input_html => {:size => "60", :class => "t_line_2", :value => f.object.line_2}
+  = f.input :t_city, :label => '* City', :input_html => {:size => "30", :class => "t_city", :value => f.object.city}
+  = f.input :ca_region, :collection => PROVINCES, :label => '* Province',  :include_blank => 'Please choose...', :input_html => {:id => "ca_region"}
+
+#other_form.hide
+  = f.input :other_postal_code, :required => false, :input_html => {:id => "other_postal_code", :size => "10", :value => f.object.postal_code}, :label => "* Postal code"
+  = f.input :t_line_1, :label => '* Street Address 1', :input_html => {:size => "60", :class => "t_line_1", :value => f.object.line_1}, :hint => "(physical location as it should appear on SmartMap)"
+  = f.input :t_line_2, :label => 'Street Address 2', :input_html => {:size => "60", :class => "t_line_2", :value => f.object.line_2}
+  = f.input :t_city, :label => '* City', :input_html => {:size => "30", :class => "t_city", :value => f.object.city}
+  = f.input :other_region, :label => "* State, Province, or Region", :required => false, :as => :string, :input_html => {:id => "other_region"}
+
+= f.hidden_field :region, :id => "region"
+= f.hidden_field :line_1, :id => "line_1"
+= f.hidden_field :line_2, :id => "line_2"
+= f.hidden_field :city, :id => "city"
+
+=# f.input :region, :as => :hidden, :input_html => {:id => "region"}
+-# these won't work, value never get sets
+-# f.input :postal_code, :as => :hidden, :input_html => {:id => "postal_code"}
+=# f.input :postal_code, :as => :hidden, :input_html => {:id => "postal_code", :value => f.object.postal_code}
+= f.hidden_field :postal_code, :id => "postal_code"

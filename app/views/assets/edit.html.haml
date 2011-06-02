@@ -1,0 +1,9 @@
+- title "Edit File for #{@organization.name}"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit File for #{@organization.name}"
+      .clear
+    .block_quote.left
+      = render 'form'

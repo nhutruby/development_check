@@ -1,0 +1,16 @@
+- style = 'blogComment'
+- style += ' blogCommentAdmin' if comment.user && comment.user.respond_to?(:admin?) && comment.user.admin?
+
+%div{:class => style}
+  .blogUserImage.avatar_mini
+    = (comment.user.avatar.exists? ? image_tag(comment.user.avatar.url(:mini)) : image_tag("/images/avatar_mini.gif"))
+  %p.blogCommentPostedAt
+    By
+    %span.blogPoster= comment.user_name
+    on
+    %span.blogPostDate= comment.formatted_created_at
+  = h(comment.parsed_body)
+  - if current_user && current_user.admin?
+    %p= button_to('Delete', blog_post_blog_comment_path(@blog_post, comment), :method => :delete, :confirm => 'Are you sure you want to delete this comment?')
+  %br{:style => "clear: both;"}/
+

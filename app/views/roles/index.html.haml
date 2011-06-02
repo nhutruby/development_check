@@ -1,0 +1,22 @@
+- title "The #{@organization.name} Team"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "The #{@organization.name} Team"
+      .right
+        - if  @organization.roles.find_all_by_user_id(current_user.id).any?(&:is_admin?) and @organization.can_add_team_member?
+          - travel_planner = current_user.is_travel_planner ? "true" : "false"
+          = link_to "add team member", new_user_invitation_path(:temp_org_id => @organization.id, :inviter => current_user.full_name, :is_travel_planner => travel_planner)
+          = "|"
+        - elsif can? :update, @organization and !@organization.owner_id.blank?
+          = link_to "upgrade your account to add team members", subscriptions_organization_path(@organization)
+          = "|"
+        = link_to "Dashboard", dashboard_path          
+      .clear
+    .block_quote.left
+      - if !@roles_needing_org_approval.blank?
+        = render "need_org_approval"
+      - if !@roles_needing_user_approval.blank?
+        = render "need_user_approval"
+      = render "approved"

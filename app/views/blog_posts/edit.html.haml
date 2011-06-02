@@ -1,0 +1,16 @@
+- self.respond_to?(:title) && title('Edit Post')
+- @show_title = false
+= stylesheet_link_tag 'blog_kit'
+
+#content_wrapper
+  #main_col
+    %h1 Edit Blog Post
+    .block_quote.left
+      = render :partial => 'form'
+
+
+#sidebar.justify
+  = render "nav_blog"
+  = render "nav_admin"
+.clear
+

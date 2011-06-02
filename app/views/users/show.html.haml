@@ -1,0 +1,100 @@
+- pass = nil
+- for organization in @user.organizations.where("roles.is_user_approved = ? AND roles.is_organization_approved = ?", "true", "true") do
+  - organization.account_type && (organization.account_type.link_to_chargify? or organization.account_type.is_travel_provider?) ? pass = true : pass = pass
+
+- title "#{@user.full_name}"
+- connection = current_user.connections.find_by_connection_id(@user.id)
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %table.collapse
+        %tr
+          - if pass == true
+            %td.qr
+              = render "qr"
+              %br
+              .even_smaller.center
+                -# phone = "TEL:+#{@user.contact_methods.phone.last.address};" if @user.contact_methods.phone.last
+                -# email = "EMAIL:#{@user.contact_methods.email.last.address};" if @user.contact_methods.email.last
+                = link_to "download contact", vcard_path(@user)
+          - if @user.avatar.exists?
+            %td.thumbnail
+              .avatar_thumbnail
+                = image_tag @user.avatar.url(:thumb), :alt => nil
+          - else
+            %td.thumbnail
+              .avatar_thumbnail
+                = image_tag("/images/avatar.gif")
+          %td.left
+            %table.collapse
+              %tr
+                %td.left
+                  %h2
+                    = @user.full_name
+                    -#- if connection.try(:is_inner_circle?)
+                      -#.inner_circle_icon.inline
+                        -#= image_tag("/images/inner_circle_icon.png")
+              
+              - unless @user.id == current_user.id
+                %tr.smaller
+                  %td
+                    = link_to "Send Message", new_note_path(:sender_id => current_user.id, :recipient_id => @user.id, :from => current_user.full_name, :to => @user.full_name) 
+                - if connection
+                  - if connection.is_approved?
+                    -#%tr.smaller
+                      -#%td              
+                        -#- if !connection.is_inner_circle?
+                          -#= link_to "Add to my Inner Circle", connection_path(connection.id, :is_inner_circle => true), :method => :put
+                        -#- else
+                          -#= link_to "Remove from my Inner Circle", connection_path(connection.id, :is_inner_circle => "false"), :method => :put
+                    %tr.smaller
+                      %td              
+                        = link_to "Remove Connection", connection_path(connection.id), :method => :delete
+                  - elsif connection.try(:is_approved).nil?
+                    %tr.smaller
+                      %td              
+                        = "Connection Request Pending"
+                - else
+                  %tr.smaller
+                    %td              
+                      = link_to "Make A Connection", connections_path(:connection_id => @user), :method => :post
+
+                %tr
+                  %td
+                    - for organization in current_user.organizations
+                      - if can? :update, organization
+                        - if organization.can_add_team_member?
+                          = link_to "Add to the #{organization.name} team", add_to_organization_roles_path(:user_id => @user.id, :organization_id => organization.id), :method => :post unless @user.organizations.find_by_id(organization.id)
+                        - else
+                          = link_to "Upgrade Your Account To Invite #{user.name_first} To Join The #{organization.name} Team", subscriptions_organization_path(organization) unless user.organizations.find_by_id(organization.id)
+          %td.right
+            - if can? :update, @user
+              = link_to "Edit my Profile", edit_user_path(@user) 
+              |
+            = link_to "Dashboard", dashboard_path
+    .block_quote.left
+      - for role in @user.roles do
+        .new_line.smaller
+          = "#{role.title}: #{role.organization.name}" if !role.title.blank? 
+          = link_to "(remove yourself from the #{role.organization.name} team)", remove_from_organization_role_path(role), :method => :post if role.user_id == current_user.id
+      - if pass == true
+        - for phone in @user.contact_methods.phone do
+          .new_line.smaller
+            = phone.lokation + ":" unless phone.lokation.blank?
+            = phone.address
+            = "ext. #{phone.extension}" if !phone.extension.blank?
+        - for email in @user.contact_methods.email do
+          .new_line.smaller
+            = email.lokation + ":" unless email.lokation.blank?
+            = auto_link(email.address.html_safe)
+      .clear
+      %hr
+        = render :partial => "/organizations/index/list", :locals => {:organizations => @user.organizations.where("roles.is_user_approved = ? AND roles.is_organization_approved = ?", "true", "true").uniq}
+
+        .clear
+      .clear
+    .clear
+  .clear
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'

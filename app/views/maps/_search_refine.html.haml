@@ -1,0 +1,11 @@
+.shadow.smaller
+  .col_head
+    %h2.float_left
+      Search
+    .right.even_smaller
+      = link_to_function "+/-", "$('#maps_search_refine').toggle()"
+    .clear
+
+  = form_tag maps_path, :method => 'get', :id => 'search' do
+    = render 'generic/search_refine'
+

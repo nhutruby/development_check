@@ -1,0 +1,24 @@
+%table.left
+  %tr
+    = will_paginate @connections        
+  - for connection in @connections
+    %tr.with_avatar
+      %td.dashed{:width => "60px"}
+        - if connection.user.avatar.exists?
+          = link_to image_tag(connection.user.avatar.url(:mini), :alt => nil), user_path(connection.user)
+        - else
+          = link_to image_tag("/images/avatar_mini.gif"), user_path(connection.user)
+      %td.dashed{:width => "500px"}
+        .bold
+          = link_to connection.user.full_name, user_path(connection.user)
+        .new_line
+        - organizations = []
+        -for role in connection.user.roles
+          - organizations << link_to(role.organization.try(:name), organization_path(role.organization)) if role.organization
+        = auto_link_urls(organizations.to_sentence.html_safe)
+      - if can? :edit, connection
+        %td.dashed.middle.right.smaller
+          = link_to "Ignore Connection Request", connection_path(connection.id), :method => :delete
+
+        %td.dashed.middle.right.smaller
+          = link_to "Confirm Connection", connection_path(connection, :is_approved => true), :method => :put

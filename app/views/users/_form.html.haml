@@ -1,0 +1,57 @@
+= simple_form_for @user, :html => { :multipart => true }  do |f|
+  = f.error_notification
+  = f.error_messages
+  - if current_user.its_admin?
+    = f.input :invitee_trial_period_days
+    = f.input :invitee_trial_period_ends_at
+  %label
+    Profile Picture
+  .non_input
+    .image
+      - if @user.avatar.exists?
+        .avatar_mini.float_left.margin_right_10
+          = image_tag(@user.avatar.url(:mini), :alt => nil)
+      - else
+        .avatar_mini.float_left.margin_right_10.no_border
+          = image_tag("/images/avatar_mini.gif")
+    .avatar_tools.indent_10.float_left
+      .float_left
+        = f.file_field :avatar
+      .clear
+      .float_left.pad_10
+        - if @user.avatar.exists?
+          = f.check_box(:delete_avatar) + " delete current profile picture"
+      .clear
+      #logo_help.smaller
+        .bold
+          Your profile picture appears next to your name in search results and profile pages.
+        .plain
+          The picture must be in PNG, GIF, or JPG format.  All pictures will be cropped to a 55px by 55px square.
+  .clear
+  .new_line.pad_10
+  = f.input :name_first, :label => "First Name"
+  = f.input :name_last, :label => "Last Name"
+  = f.input :currency, :collection => major_currencies(Money::Currency::TABLE), :label => "Display Currency In", :include_blank => false
+  - unless @user.roles.empty?
+    %hr
+    .fields
+      = f.simple_fields_for :roles do |builder|
+        = builder.input :title, :input_html => {:class => "float_left"}, :hint_html => {:class => "floating_inline_hint"}, :hint => "(at #{builder.object.organization.name})"
+        .clear
+        .clear.pad_5
+  %hr
+  .fields
+    = f.simple_fields_for :contact_methods do |builder|
+      = render('/generic/phone_fields', :f => builder) if builder.object.name =="phone"
+  .non_input
+    = add_child_link "add a phone number", f, :contact_methods, :phone
+    -# add_child_link is found in dynamic_child_fields_helper.rb
+  %hr
+  .fields
+    = f.simple_fields_for :contact_methods do |builder|
+      = render('/generic/email_fields', :f => builder) if builder.object.name =="email"
+  .non_input
+    = add_child_link "add an email address", f, :contact_methods, :email
+    -# add_child_link is found in dynamic_child_fields_helper.rb
+  .new_line
+  = render "/generic/action", :f => f, :skip_destroy_link => true

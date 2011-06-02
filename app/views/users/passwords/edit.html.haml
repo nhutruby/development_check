@@ -1,0 +1,16 @@
+- title "Change Your Password"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Forgot Your Password?"
+      .clear
+    .block_quote.left
+      Enter your new password here to permanently change your iTourSmart password.
+      = simple_form_for resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put } do |f|
+        = devise_error_messages!
+        = f.hidden_field :reset_password_token
+        = f.input :password
+        = f.input :password_confirmation 
+        = render "/generic/action", :f => f, :submit_text => "Change my password", :skip_destroy_link => true
+      = render :partial => "devise/shared/links"

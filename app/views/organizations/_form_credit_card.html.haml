@@ -1,0 +1,18 @@
+= f.input :billing_first_name, :required => true
+= f.input :billing_last_name, :required => true
+= f.input :billing_email, :required => true, :input_html => {:type => 'email', :required => 'required'}
+
+= f.simple_fields_for :credit_card do |c|
+  = c.input :credit_card_number, :label => "Card Number", :hint => "(this information is secure) "
+  .input.select.required
+    %label
+      Expires on
+    - months = (1..12).map {|n| ["%02d - %s" % [n, Date::MONTHNAMES[n]], n] }
+    - years  = Time.now.year..Time.now.year + 7
+    = c.select :expiration_month, months, :selected => Time.now.month
+    = c.select :expiration_year,  years,  :selected => Time.now.year
+  = c.input :cvv, :label => "CVV"
+  = c.input :zip, :label => "Billing ZIP", :hint => "(or Postal Code if not in the USA)"
+  / %p.row
+  /   %label Enter Promo Code
+  /   = c.input :coupon_code, :class => 'input-n'

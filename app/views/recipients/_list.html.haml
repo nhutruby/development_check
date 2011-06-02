@@ -1,0 +1,65 @@
+- if @user.recipients.active.count > 0
+  - @recipients = @user.recipients.active.paginate(:per_page => 10, :page => params[:recipients_page], :order => "created_at DESC")
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        messages
+      .col_head_link
+        = link_to "message center", recipients_path(:partial => "inbox")
+        |
+        = link_to "email preferences", edit_email_preferences_user_path(current_user)
+      .even_smaller.right
+        = link_to_function "+/-", "$('#recipients').toggle()"
+        .clear
+      .clear
+    #recipients
+      .block_quote.left
+        .pad_10
+        = form_tag mark_as_recipients_path, :method => :put do
+          %table#note.collapse
+            - for recipient in @recipients do
+              %tr
+                %td.note_checkbox.dashed.note
+                  = check_box_tag "recipient_ids[]", recipient.id
+                %td.note_from.dashed.note
+                  - if !recipient.note.is_sysmessage
+                    = recipient.note.sender.name_first
+                  - else
+                    = "iTourSmart Admin"
+                %td.note_message.dashed.note
+                  .inline
+                    - if recipient.note.is_fancybox_autoload && !recipient.is_read
+                      = link_to recipient.note.subject, fancybox_show_recipient_path(recipient.id), :class => "note_unread fancybox_autoload fancybox_inline"
+                    - elsif !recipient.is_read
+                      = link_to recipient.note.subject, fancybox_show_recipient_path(recipient.id), :class => "note_unread fancybox_inline"
+                    - else
+                      = link_to recipient.note.subject, fancybox_show_recipient_path(recipient.id), :class => "note_read fancybox_inline"
+                  - if recipient.note.body
+                    = " - "
+                    = truncate(recipient.note.body.gsub(/<\/?[^>]*>/,  ""), :length => (100 - recipient.note.subject.length))
+                %td.note_received.dashed.note
+                  = distance_of_time_in_words(recipient.created_at, Time.now) + " ago"
+          .block_quote
+            = submit_tag "Mark as read"
+            = submit_tag "Mark as unread"
+            = submit_tag "Delete"
+        
+            = will_paginate(@recipients, :param_name => "recipients_page")
+            .clear
+- else
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        messages
+      .col_head_link
+        = link_to "Message Center", recipients_path(:partial => "inbox")
+        |
+        = link_to "Email Preferences", edit_email_preferences_user_path(current_user)
+      .even_smaller.right
+        = link_to_function "+/-", "$('#recipients').toggle()"
+        .clear
+      .clear
+    #recipients
+      .block_quote.left
+        .note
+          You do not have any new messages.

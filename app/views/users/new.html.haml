@@ -1,0 +1,36 @@
+- title "Sign Up"
+- content_for :head do
+  = stylesheet_link_tag 'party'
+#main_col
+  #left_col.white_background.dark_text
+    .col_head.normal_padding
+      %h2 Sign up 
+    .left.white_background.dark_text.normal_padding
+      = form_for(@user, :url => new_user_path) do |f|
+        .form
+          - @user.build_person
+          = f.fields_for :person do |builder|
+            = render("/devise/registrations/person_form", :f => builder)
+        .fields
+          = f.label :email, "Time Zone:"
+          = f.time_zone_select :timezone, ActiveSupport::TimeZone.us_zones, :default => "Central Time (US & Canada)"
+        .fields
+          = f.label :email, "Email:"
+          = f.text_field :email
+        .fields
+          = f.label :password, "Password:"
+          = f.password_field :password
+        .fields
+          = f.label :password_confirmation, "Confirm Password:"
+          = f.password_field :password_confirmation
+        .fields
+          = f.label :password_confirmation, "Confirm Password:"
+          = f.password_field :password_confirmation
+        .fields
+          By clicking Submit you agree to the
+          = raw("#{link_to 'Terms of Service', '/terms'}" + ", ")
+          = raw("#{link_to "Privacy Policy", "/privacy"}" + ", and")
+          = raw("#{link_to "Refund Policy", "/refund"}" + ".")
+        %br
+          = f.submit "Sign up"
+      = render :partial => "devise/shared/links"

@@ -1,0 +1,11 @@
+- if user_signed_in?
+  - past_due_orgs = current_user.past_due_organizations
+  - unless past_due_orgs.blank?
+    .block_quote.left.past_due
+      %p
+        The following subscriptions are past due and require an update to your payment information.  If you have already resolved this matter, please disregard this message.
+      %ul
+        - past_due_orgs.each do |organization|
+          %li
+            = "Organization: #{organization.name}"
+            = link_to "Update credit card information", change_card_organization_path(organization)

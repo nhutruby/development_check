@@ -1,0 +1,15 @@
+- title "Edit #{@user.full_name} Email Preferences"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Edit #{@user.full_name} Email Preferences"
+      .right
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote.left
+      = render 'email_preferences_form'
+      
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'

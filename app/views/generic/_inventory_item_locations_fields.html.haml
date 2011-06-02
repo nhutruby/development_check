@@ -1,0 +1,5 @@
+.fields.left
+  .non_input
+    = f.select(:location_id, @organization.locations.all.collect {|p| [ p.name, p.id ] }, { :include_blank => true })
+    = remove_child_link "remove", f
+  .clear

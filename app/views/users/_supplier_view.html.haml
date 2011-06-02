@@ -1,0 +1,1 @@
+= link_to (organization.is_featured == true ? "Unmark as Featured" : "Mark as Featured"), make_featured_organization_path(organization, :format => :js), :id => "organization_#{organization.id}", :method => :post, :remote => true

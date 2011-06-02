@@ -1,0 +1,8 @@
+- simple_form_for @category do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :tags, :hint => "Input tags separated by comma (,)"
+  = f.input :requires_verification
+  = f.input :tipe, :label => "Type", :collection => CATEGORIES
+  = f.input :color, :label => "Marker Color (Ex. #FF0000 for red)"
+  = render "/generic/action", :f => f

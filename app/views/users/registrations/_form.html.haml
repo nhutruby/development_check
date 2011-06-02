@@ -1,0 +1,13 @@
+- simple_form_for resource do |f|
+  = f.input :name_first, :label => "First Name"
+  = f.input :email
+  = f.input :password
+  = f.input :password_confirmation
+  .non_input
+    By clicking Submit you agree to the
+    = raw("#{link_to 'Terms of Service', '/terms'}" + ", ")
+    = raw("#{link_to "Privacy Policy", "/privacy"}" + ", and")
+    = raw("#{link_to "Refund Policy", "/refund"}" + ".")
+    .new_line
+  = render "/generic/action", :f => f,
+  .new_line

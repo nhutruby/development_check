@@ -1,0 +1,42 @@
+- if (!@organization.inventory_items.empty? or can? :update, @organization) && !@organization.owner_id.nil? && @organization.account_type && @organization.account_type.credits > 0
+  %hr
+  .bold
+    = "Products/Services Offered:"
+- allowed = @account_type && @account_type.credits == 0 ? false : true
+- if !@organization.inventory_items.empty? && allowed
+  - if @active    
+    %table.collapse
+      %tr
+        %th.smaller.pad_td.border
+          = "Name"
+        %th.smaller.pad_td.border
+          = "Industry Rate"
+        -#%th.smaller.pad_td.border
+          -#= "Retail Pricing"
+        %th.smaller.pad_td.border
+          = "Description"
+      - for product in @active
+        = render :partial => 'organizations/inventory_item', :locals => {:product => product} if !product.inventory_item_locations.blank? && product.is_active?
+    
+
+    - if !@inactive.blank? and can? :update, @organization
+      .pad_10
+        .bold.smaller
+          = "Products/Services Offered, but not assigned to a location (these are not seen by others):"              
+        .pad_10
+        %table.collapse
+          %tr
+            %th.smaller.pad_td.border
+              = "Name"
+            %th.smaller.pad_td.border
+              = "Industry Rate"
+            -#%th.smaller.pad_td.border
+              -#= "Retail Pricing"
+            %th.smaller.pad_td.border
+              = "Description"
+          - for product in @inactive
+            = render :partial => 'organizations/inventory_item', :locals => {:product => product} if product.inventory_item_locations.blank? or product.is_active.blank?
+    
+- if can? :update, @organization and @organization.owner_id && @organization.account_type && @organization.account_type.credits > 0
+  .pad_10.smaller
+    = link_to "(Add Item/Product/Service)", new_organization_inventory_item_url(@organization)

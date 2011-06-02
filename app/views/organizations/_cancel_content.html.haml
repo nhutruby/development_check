@@ -1,0 +1,25 @@
+.col_head
+  %h2.float_left
+    Are you sure you want to cancel
+    = @organization.name
+    account?
+  .clear
+
+.block_quote.left
+  %p
+    We'll be sorry to see you go, but thanks for trying iTourSmart.
+
+  %p
+    %strong
+      Once your subscription is cancelled, your organizational
+      listing will be downgraded to our free, simple listing.
+    If you have a paying account you won't be charged again after your
+    official cancellation date. Please familiarize yourself with our
+    = link_to 'refund policy', '/refund_policy'
+    = "."
+
+  %br
+  %br
+  = link_to "Cancel my account", unclaim_organization_path(@organization), :confirm => "Are you sure that you want to cancel this organization?", :method => :put
+  or
+  = link_to "go back to organization profile", @organization, :class => 'fancybox-close even_smaller'

@@ -1,0 +1,8 @@
+%table
+  %tr
+    %th Name
+    %th Content
+  - for page in @pages
+    %tr
+      %td= link_to page.name, edit_page_path(page)
+      %td= truncate(page.content, :length => 400)

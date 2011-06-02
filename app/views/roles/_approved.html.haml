@@ -1,0 +1,21 @@
+.bold
+  = "Your Team:"
+.pad_10
+%table.left   
+  - for role in @roles_approved.ordered
+    %tr
+      %td.note_message.dashed
+        = role.user.full_name
+        .darkish_text.even_smaller.inline.italic
+          - if role.organization.owner_id == role.user_id
+            = "(account owner)"
+          - elsif role.is_admin?
+            = "(admin)"
+      %td.dashed
+        - if (role.is_admin? && role.organization.owner_id != role.user_id)
+          = link_to "Remove admin privileges", unset_admin_role_path(role)
+        -elsif (!role.is_admin? && role.organization.owner_id != role.user_id)
+          = link_to "Add admin privileges", set_admin_role_path(role)
+      %td.dashed
+        = link_to "Remove from team", remove_from_organization_role_path(role),:method => :post, :confirm => "Are you sure you want to remove #{role.user.full_name} from your team?  This cannot be undone."
+.pad_10

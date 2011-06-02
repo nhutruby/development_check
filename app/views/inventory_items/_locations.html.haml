@@ -1,0 +1,9 @@
+- if @locations
+  Locations Offering This Inventory Item
+
+  = hidden_field_tag "inventory_item[location_ids][]", ""
+  - for location in @locations
+    %div
+      = check_box_tag "inventory_item[location_ids][]", location.id, @inventory_item.locations.include?(location)
+      = location.name
+  -#= @inventory_item.locations.inspect

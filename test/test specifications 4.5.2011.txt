@@ -1,0 +1,138 @@
+#Application Layout
+## As signed in or unsigned in user I should be able to click "about" and be routed to /about
+## As signed in or unsigned in user I should be able to click "blog" and be routed to /blog
+## As signed in or unsigned in user I should be able to click "contact" and be routed to /contact
+## As signed in or unsigned in user I should be able to click "support" and be routed /support
+## As a signed in user I should be able to click "Home" and be routed to root
+## As a signed in user I should be able to click "My Dashboard" and be users/#/dashboard
+
+#Generic/_tweets
+## As signed in or unsigned in user I should be able to view last three aggregated tweets.
+## As signed in or unsigned in user I should be able to click tweet links"about" and be routed to /about
+
+#Home Page
+## As signed in or unsigned in user I should be able to click "know more" and be routed to /know_more
+## As an unsigned in user I should be able to click "sign in" and be routed to /users/sign_in
+
+#Sign In 
+## As unsigned user I should be able to authenticate
+## As unsigned user I should be able to click "Forgot your password?" and be routed to /users/password/new
+
+#Sign Up
+#Forgot password /users/password/new
+## Not utilized by general users.  Only admins for testing.
+
+#Blog
+## As unsigned in user I should be able to read blog posts
+## As a signed in user I should be able to comments
+## As a signed in user I should be able to read blog posts
+## As unsigned or signed in user I should be able to subscribe to rss
+## As user with its_admin=true, I should be able to create blog posts
+## As user with its_admin=true, I should be able to edit blog posts
+## As user with its_admin=true, I should be able to destroy blog posts
+## As user with its_admin=true, I should be able to read blog posts
+## As user with its_admin=true, I should be able to make comments
+
+#Invitation Email From Dashboard
+## @resource.message is not null if inviter entered message into invitation form
+## 
+
+#Confirm Signup /users/invitation/accept?<token>
+## Link Terms of Service routes to /terms
+## Link Privacy Policy routes to /privacy
+## Link Refund Policy routes to /refund
+## Cancel should route to homepage / splash
+
+#Default Welcome System Message (created when new user signs in)
+## As a signed in user on first login, if my user email does not match a related organization contact (through system import), I should have a setup 
+profile link routed to  /users/#/edit
+## As a signed in user on first login, if my user email does match a related organization contact (through system import), I should have a click here to join
+the team link routed to  /users/#/edit
+
+#Dashboard (all users must be signed in)
+##User with no organization and no roles sees a div (search for your org message) above search bar that suggests that they "search iTourSmart for their company" to encourage users to search 
+and claim rather than create a new brand.
+## (search for your org message) contains a link "create your brand" that will route to organizations/new
+## As a signed in user I should be able to sign out and "Home" and be signed out and routed to root
+
+#Dashboard Messages Partial (signed in)
+## Link to Message Center routes to "recipients?partial=inbox"
+## Link to Email Preferences routes to "users/#/edit_email_preferences"
+
+#Message Center (signed in) /recipients?partial=inbox
+## Link to inbox should route to /recipients?partial=inbox
+## Button "Mark as read" action is set "is_read" to true should link to recipients/partial=inbox
+## Button "Mark as unread" action is set "is_read" to false should link to recipients/partial=inbox
+## Button "Delete" action is "is_deleted" to true should link to recipients/partial=inbox
+
+## Link to notifications route to /recipients?partial=notifications
+## Button "Mark as read" action is set "is_read" to true should link to recipients/partial=notifications
+## Button "Mark as unread" action is set "is_read" to false should link to recipients/partial=notifications
+## Button "Delete" action is "is_deleted" to true should link to recipients/partial=notifications
+
+## Link to sent route to /recipients?partial=sent
+
+## Link to Message route to /recipients/#
+
+# Message Detail /recipeients/#
+## Link to Delete
+## Link to Reply (exists if notes sender id is not null. i.e. non system generated message) and (exists if sender still exists)
+
+# Trade Association Directories 
+## Link to /organizations?association_id=#
+## Should be able to search based on defined Search Criteria for Association Directory
+## Friendly filters should adjust returned results
+## Lettered Pagination should work
+## Link to "My Dashboard" should route to /users/#/dashboard
+## Search Results - "<org Name>" route to /organizations/#
+## Search Results - "<org contact>" route to /users/#
+
+# Dashboard Invite Others
+## link "Invite a tour and travel professional to join iTourSmart" should route to /users/invitation/new
+## Link "Send invitation" route to /users/invitation action is some devise invitable.
+## Link "Cancel" route to /users/15/dashboard
+
+# Dashboard People
+## My user should be listed (avatar, name)
+## Grid shows connectionships sorted by last seen after connectionship count > 5
+## if my connections > 0 link to "connections" route to connections index
+## connections request > 0 link to "connections request" rout to connections index with requests param
+## when user count > 300 link to "make new connections" route find_connections_connections_path 
+## my inner circle should display after user count > 300.  show 
+## search
+
+# Dashboard Brands
+## link "add another brand" /organization/new
+## link Organization Name routes to /organization/# (show)
+## link "The Team" routes to /roles?organization_id=#  roles/index
+## link "First Name Last Name" user/show
+
+============
+Search Criteria
+1) Association Directory
+2) Dashboard Search
+- Search "Planet" yields Planet Hollywood
+- Search "Planet H" yields nothing
+- Search "Planet Ho" yields Planet Hollywood
+- Odd flashing on results in Safari
+- Search "Hard Rack" yields nothing
+- Search "Hard Rock" yields Hard Rock
+
+3) Return type ahead names found by first or last
+
+
+
+
+=============
+What is an industry product?
+  products and services intended for professional travel providers to be the end user.
+  not resaleable. such as legal, accounting, software, liability & property insurance (not for resale)
+
+What is an industry supplier?
+  
+
+
+
+
+
+

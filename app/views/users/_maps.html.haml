@@ -1,0 +1,40 @@
+- stylesheet 'jquery-ui-1.8.6.custom'
+
+#main_col_map.shadow
+  .col_head
+    %h2.float_left
+      = "find"
+    .right.even_smaller
+      = link_to_function "+/-", "$('#maps_wrapper').toggle()"
+    .pad_10
+  - if @user.roles.empty?
+    .block_quote
+      .warning.center.bold.shadow
+        = auto_link("In order for iTourSmart to work for you, you must be associated with at least one brand.  Please Search for your company below.  If it isn't already in iTourSmart, click #{link_to 'here', new_organization_path} to add it.".html_safe)
+  #maps_wrapper
+    = form_tag dashboard_path, :method => 'get', :id => 'search' do
+      #user_leftbar
+        = render 'maps/search_map'
+        .clear
+        = render 'generic/search_refine', :hide_query_field => true
+
+
+      #user_middle
+        .search_wrapper
+          %fieldset.search
+            = text_field_tag :query, params[:query], :placeholder => 'Search by Brand, City, or Category', :class => "qsearch", :value => session[:query_string]
+            .inline
+              = submit_tag "Search Brands", :name => nil, :id => 'search_button'
+              #post_back_msg.pad_2.inline.float_left
+                #indicator.inline
+                  = image_tag "indicator.gif"
+                .inline
+                  = "Please wait..."
+                  .non_input
+                .clear
+
+          #maps_search_result
+            = render 'search_result'
+        .clear
+      .clear
+

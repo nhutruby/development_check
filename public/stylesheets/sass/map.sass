@@ -1,0 +1,105 @@
+//---------------------------------- IMPORT PARTIALS ----------------------------------//
+@import partials/map_search
+@import partials/map_refine
+@import global.sass
+
+div#logo
+  background: transparent url(/images/its_map_header.gif) no-repeat top left
+  width: 255px
+  height: 49px
+  position: absolute
+  left: 80px
+  top: 30px
+  z-index: 9999
+
+  
+#map_search 
+  background: #FBFD6B
+  -moz-border-radius: 5px
+  -webkit-border-radius: 5px
+  padding: 5px
+  position: absolute
+  width: 250px
+  height: 25px
+  z-index: 1000
+  left: 10px
+  bottom: 50px
+  font-size: 18px
+
+
+#map_search input[type=text] 
+  width: 170px
+
+
+#map_search input[type=submit] 
+  width: 60px
+
+#map_search_result 
+  position: absolute
+  background: $white
+  -moz-border-radius: 5px
+  -webkit-border-radius: 5px
+  padding: 5px
+  width: 250px
+  height: 180px
+  z-index: 1000
+  left: 10px
+  bottom: 80px
+  color: #333
+  text-align: left
+
+
+#map_search_result ul 
+  padding: 0
+  margin: 0
+  position: relative
+
+
+#map_search_result .close_holder 
+  position: relative
+  height: 14px
+
+
+#map_search_result .close_holder .close 
+  position: absolute
+  top: 0px
+  right: 10px
+  cursor: pointer
+
+
+#map_search_result ul li 
+  font-size: 14px
+  list-style-type: none
+  text-decoration: none
+  border-bottom: 1px dashed #999
+  padding: 2px
+  cursor: pointer
+
+
+.none 
+  display: none
+  
+#org_profile_map
+  width: 50%
+  text-align:  center
+  margin-left: auto
+  margin-right: auto
+  
+  #map_canvas
+    width: 81%
+    height: 300px
+  
+#map_canvas
+  margin-left: auto
+  margin-right: auto
+  border: $border_grey 2px solid
+
+.map_link  
+  width: 81%
+  margin-left: auto
+  margin-right: auto
+  border-width: 0px 2px 2px 2px 
+  border-style: solid
+  border-color: $border_grey
+  padding: 2px 0px 3px 0px
+

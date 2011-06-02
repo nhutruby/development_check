@@ -1,0 +1,9 @@
+= google_map
+
+= content_for :on_ready do
+  == show_markers_on_location_page(#{raw({:id => @location.id, :name => escape_javascript(@location.organization.name), :location_name => @location.name, :address_line1 => escape_javascript(@location.address.line_1), :address_line2 => escape_javascript(@location.address.line_2), :city => escape_javascript(@location.address.city), :region => escape_javascript(@location.address.region), :postal_code => escape_javascript(@location.address.postal_code), :country => escape_javascript(@location.address.country), :accuracy => @location.accuracy, :lat => @location.lat, :lng => @location.lng, :organization_type => getOrganizationType(@location.organization)}.to_json)});
+
+  init_locale_form();
+
+#map_canvas{:style => 'width: 400px; height: 300px;'}
+

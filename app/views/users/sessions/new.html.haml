@@ -1,0 +1,28 @@
+- title "Sign In"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Sign in"
+      .clear
+    .block_quote.left
+      = render 'users/sessions/form'
+      = render :partial => "devise/shared/links"
+
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Find us on Facebook?"
+      .clear
+    .block_quote.left
+      = textilize("We would love for you to visit \"our Facebook page\":http://www.facebook.com/pages/Dallas-TX/iTourSmart/127836497253509 and leave a comment on our wall!").html_safe
+      = "Or - if you like us, just click \"Like\" below and let the world know."
+      .clear.pad_10
+      %iframe{:frameborder => "0", :scrolling => "no", :show_faces => false,  :layout => "button_count", :src => "http://www.facebook.com/plugins/like.php?href=http://www.facebook.com/pages/Dallas-TX/iTourSmart/127836497253509", :style => "border:none; width:450px; height:30px"}
+        
+        
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  .pad_10
+  = render "generic/twitter"

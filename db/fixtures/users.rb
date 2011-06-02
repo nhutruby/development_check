@@ -1,0 +1,4 @@
+User.seed(:id,
+  {"id"=>1,"email"=>"patrick@itoursmart.com", "encrypted_password"=>"$2a$10$Sq7LNpOBgMf8Lbwf6JvqPuRhAbdMmVLH9wVtKm4P.2BCU.0r51RBa", "name_first"=>"Patrick", "name_last"=>"Connor", "its_admin"=>true, "email_messages"=>true, "email_requests"=>true, "is_travel_planner"=>true, "is_active"=>true, "is_deleted"=>false, "currency"=>"usd"},
+  {"id"=>2,"email"=>"corey@itoursmart.com", "encrypted_password"=>"$2a$10$VfGpSgDnb5hUFoB9BKyIpeMeY/ep/5T3p6JWK6LgXOJFh7yi1M0hy", "name_first"=>"Corey", "name_last"=>"Black", "its_admin"=>true, "email_messages"=>true, "email_requests"=>true, "is_travel_planner"=>true, "is_active"=>true, "is_deleted"=>false, "currency"=>"usd"}
+)

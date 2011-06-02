@@ -1,0 +1,46 @@
+- number = 1
+
+%table.left
+  = "#{@user.name_first} is not currently associated with any brands in iTourSmart." unless !organizations.blank?
+  - for organization in organizations
+    %tr.location
+      %td(width = "40px")
+        - if !organization.logo_url.blank? && organization.account_type && organization.account_type.allow_logo?
+          = link_to(image_tag(organization.logo.url(:mini), :alt => nil), organization_path(organization), :class => "logo")
+        -# else
+          =# link_to(image_tag("/images/logo_mini.gif"), organization_path(organization), :class => "logo")
+
+      %td
+        - style = organization.account_type && organization.account_type.allow_enhance_listing? ? "bold" : "normal"
+        = link_to(organization.name, organization_path(organization), :class => style)
+        .info
+          .even_smaller
+            - if organization.locations.all.count > 0
+              = organization.locations.all.count == 1 ? "Location: " : "Locations: "
+            - if organization.locations.all.count < 7
+              = organization.locations.all.map { |l| link_to(l.name, organization_location_path(l.organization, l))}.to_sentence.html_safe
+          - if organization.account_type && organization.account_type.allow_enhance_listing?
+            - if organization.description.present?
+              .listing_description.even_smaller
+                = organization.description
+          .even_smaller
+            - if organization.categories.all.count > 0
+              = organization.categories.all.count == 1 ? "Category: " : "Categories: "
+              = organization.categories.all.map { |r| r.name }.to_sentence
+          - if organization.account_type && organization.account_type.allow_enhance_listing?
+            .even_smaller
+              - if organization.primary_contact
+                = "Contact: "
+                = link_to organization.primary_contact.name, user_path(organization.primary_contact)
+                = organization.primary_contact.contact_methods.phone.map { |r| r.address }.to_sentence(:two_words_connector => " or ", :last_word_connector => " or ")
+            .even_smaller
+              - unless organization.url.blank?
+                - website = organization.url
+                - website = "http://" + website unless website.start_with?("http://")
+                = "Website: "
+                = link_to organization.url, website, :target => "_blank", :escape => false
+          .even_smaller.bold
+            - if can? :update, organization && current_user.admin?
+              = render :partial => 'users/supplier_view', :locals => {:organization => organization}
+          .pad_10
+          

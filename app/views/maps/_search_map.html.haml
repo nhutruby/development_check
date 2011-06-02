@@ -1,0 +1,9 @@
+= google_map
+
+= content_for :on_ready do
+  - if @locations.blank?
+    :plain
+      show_google_maps();
+
+#map_canvas
+

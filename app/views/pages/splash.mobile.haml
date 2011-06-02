@@ -1,0 +1,10 @@
+- title "Welcome"
+%ul
+  - if user_signed_in?
+    %li
+      = 'Signed in as ' "#{current_user.email}" ' (' "#{current_user.name_first}" ')'
+    %li.arrow
+      = link_to "sign out", destroy_user_session_path
+  - else
+    %li.arrow
+      = link_to "sign in", new_user_session_path

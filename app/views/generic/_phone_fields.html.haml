@@ -1,0 +1,13 @@
+-# used anytime a person or entity needs to enter phone info
+
+.fields
+  = f.input :name,  :input_html => {:value => "phone"}, :as => :hidden
+  = f.input :address, :value => number_to_phone(f.object.address), :label => "Phone Number", :input_html => {:class => "float_left"}
+  .float_left.indent_10.simple_form.no_width_label
+    = "extension"
+  .float_left.indent_10
+    = f.text_field :extension, :value => f.object.extension, :style=>'width: 60px;'
+  = f.input :lokation, :collection => PHONE_LOCATIONS, :label => false, :input_html => {:class => "float_left pad_right_10"}
+  .remove
+    = remove_child_link "remove", f
+  .clear

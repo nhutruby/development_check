@@ -1,0 +1,63 @@
+- title "#{@inventory_item.name}"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = @inventory_item.organization.name + ": " + @inventory_item.name
+      .right
+        = link_to "Back to " + @inventory_item.organization.name, organization_path(@organization.id)
+      .clear
+    .block_quote.left
+      %table.smaller
+        %tr
+          %td
+            = @inventory_item.description
+        %tr
+          %td
+            %hr        
+        - if !@inventory_item.url.empty?
+          %tr
+            %td
+              = link_to(@inventory_item.url, @inventory_item.url, :target => '_blank')
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.expires_on
+          %tr
+            %td
+              = "Good Until:"
+              = @inventory_item.expires_on.strftime('%b %d, %Y')
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.price.retail_low
+          %tr
+            %td
+              = "Retail Value:"
+              - if @inventory_item.price.retail_low && @inventory_item.price.retail_high
+                = "#{number_to_currency(@inventory_item.price.retail_low)} to #{number_to_currency(@inventory_item.price.retail_high)} "
+              - else
+                = number_to_currency(@inventory_item.price.retail_low)
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.price.price_low
+          %tr
+            %td
+              = "Net Price:"
+              - if @inventory_item.price.price_low && @inventory_item.price.price_high
+                = "#{number_to_currency(@inventory_item.price.price_low)} to #{number_to_currency(@inventory_item.price.price_high)} "
+              - else
+                = number_to_currency(@inventory_item.price.retail_low)
+          %tr
+            %td
+              %hr        
+        - if @inventory_item.locations
+          %tr
+            %td
+              .bold
+                = "Available At:"
+              - for location in @inventory_item.locations do
+                .new_line.left
+                  = location.name
+                  = "(" + location.address.city + ", " + location.address.region + ")"

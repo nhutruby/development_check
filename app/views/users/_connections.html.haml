@@ -1,0 +1,90 @@
+- content_for :on_ready do
+  :plain
+    $( "#term" ).autocomplete({
+      minLength: 2,
+      source: '#{ users_path }',
+      focus: function( event, ui ) {
+        $( "#term" ).val( ui.item.label );
+        return false;
+      },
+      select: function( event, ui ) {
+        if (ui.item.value === "__search_more__") {
+          window.location.href = '#{ users_path }' + '?term=' + ui.item.label;
+        } else {
+          window.location.href = '/users/' + ui.item.value;
+        }
+        return false;
+      }
+    })
+    .data( "autocomplete" )._renderMenu = function( ul, items ) {
+      var self = this;
+      $.each(items, function(index, item) {
+        $( "<li></li>" )
+          .data( "item.autocomplete", item )
+          .append( "<a>" + '<img src="' + item.avatar + '" /><br />' + item.label + "</a>" )
+          .appendTo( ul );
+      });
+
+      $('<li></li>')
+        .data("item.autocomplete", {'value': "__search_more__", 'label': self.term})
+        .append('<a><div><span>Show more results for <strong>' + self.term + '</strong></span><br/>Displaying top '+ items.length +' results</div></a>')
+        .appendTo( ul );
+
+      $('li:last', ul).addClass('ui-menu_more-results');
+    };
+
+
+.shadow.pad_10
+  .col_head
+    %h2.float_left
+      = User.all.count > 100 ? "people" : "my profile"
+    .right.even_smaller
+      = link_to_function "+/-", "$('#connections').toggle()"
+    .clear
+  #connections
+    .block_quote.left.smaller
+      .img_col.smaller
+        - if @user.avatar.exists?
+          .avatar_mini.float_left.margin_right_10
+            = image_tag(@user.avatar.url(:mini), :alt => nil)
+        - else
+          .avatar_mini.float_left.margin_right_10.no_border
+            = image_tag("/images/avatar_mini.gif", :class => "no_border")
+      .non_img_col.smaller
+        .indent_10
+          = link_to @user.full_name, user_path(@user)
+          .clear
+        .clear
+      .clear
+      .new_line.pad_10
+        - if @user.connectionships.count > 0
+          = link_to "connections (#{@user.connectionships.count})", connections_url(:user_id => current_user.id)
+      .clear
+      - if @user.inverse_connections.requested.count > 0
+        = link_to "connection requests (#{@user.requested_connectionships.count})", requested_connections_url
+      .clear
+      - if User.all.count > 300
+        = link_to "make new connections", find_connections_connections_path
+      -#.new_line
+      -#- if @user.connections.where(:is_inner_circle => true).count > 0
+        -#= link_to "My Inner Circle", inner_circle_connections_path, :method => :get, :class => "float_left"
+        -#.inner_circle_icon
+          -#= link_to(image_tag("/images/inner_circle_icon.png"), inner_circle_connections_path, :method => :get, :class => "float_left")
+        -#.clear
+
+      .new_line
+        .pad_10
+        = form_tag users_path, :method => 'get' do
+          = text_field_tag :term, params[:term]
+          = submit_tag "search people", :name => nil
+      - if @user.connectionships.count > 5
+        .block_quote_no_indent
+          %table#avatar_grid.left
+            - avatars = @user.connectionships.where(["avatar_file_name IS NOT NULL"]).order('last_seen DESC').limit(12)
+            - avatars = avatars.sort_by{rand}
+            -# avatars.sort! { |a,b| a.last_seen <=> b.last_seen}
+            - avatars.in_groups_of(4) do |row_connections|
+              %tr
+                - for connection in row_connections
+                  %td
+                    = image_tag(connection.avatar.url(:mini), :alt => nil) if connection && connection.avatar.exists?

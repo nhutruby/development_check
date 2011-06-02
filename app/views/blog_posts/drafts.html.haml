@@ -1,0 +1,20 @@
+- self.respond_to?(:title) && title('Drafts')
+- @show_title = false
+= stylesheet_link_tag 'blog_kit'
+= stylesheet_link_tag 'syntax/' + (BlogKit.instance.settings['theme'] || 'mac_classic')
+
+#content_wrapper
+  - if @blog_posts.size == 0 && !params[:page]
+    #main_col.blogPost
+      %h1 No Blog Posts
+      %p There are currently no blog posts, please check back shortly.
+  - else
+    = render :collection => @blog_posts, :partial => 'blog_post'
+  .blogPages
+    = will_paginate @blog_posts
+
+#sidebar.justify
+  = render "nav_blog"
+  = render "nav_admin"
+.clear
+

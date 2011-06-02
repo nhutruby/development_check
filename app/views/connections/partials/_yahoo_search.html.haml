@@ -1,0 +1,21 @@
+%hr
+  %div#yahoo-header.block_quote
+    %h4.float_left
+      Yahoo!
+    .right.pad_5
+      = link_to "Find Connections", "#", :class => 'find_friend'
+    .clear
+  %div#yahoo-form.hide.block_quote
+    %h4.float_left
+      Yahoo!
+    .clear
+    = render :partial => 'connection_search_form', :locals => {:mail_type => "yahoo"}
+  .clear      
+%script{:type => "text/javascript"}
+  $('#yahoo-header').click(function(){
+  $('div#main_col').find(".header-hide").removeClass('header-hide');
+  $('div#main_col').find(".show").removeClass('show').addClass('hide');
+  $('#yahoo-form').removeClass('hide');
+  $('#yahoo-form').addClass('show');
+  $('#yahoo-header').addClass('header-hide');
+  })

@@ -1,0 +1,35 @@
+- if @organizations.blank?
+  - non_exists_label = 'Confirm this is a NEW brand/company to iTourSmart'
+- else
+  %h3 Possible Matches
+  - non_exists_label = 'This is a brand/company that does not yet exist in iTourSmart'
+  - for organization in @organizations
+    - if !organization.logo_url.blank?
+      .logo_pad_right.float_left.logo_box
+        = link_to(image_tag(organization.logo.url(:mini), :alt => nil), organization_path(organization), :class => "logo")
+    - else
+      .logo_pad_right.float_left.logo_box
+        = link_to(image_tag("/images/logo_mini.gif"), organization_path(organization), :class => "logo")
+
+    = link_to organization.name, claim_organization_path(organization)
+    .even_smaller
+      - if organization.locations.all.count > 0
+        = organization.locations.all.count == 1 ? "Location: " : "Locations: "
+        - if organization.account_type && organization.account_type.allow_enhance_listing?
+          - if organization.locations.all.count < 7
+            = organization.locations.all.map { |l| link_to(l.name, organization_location_path(l.organization, l))}.to_sentence.html_safe
+          - else
+            = link_to "#{organization.locations.all.count} Locations"
+        - else
+          - if organization.locations.all.count < 7
+            = organization.locations.all.map { |l| l.name}.to_sentence.html_safe
+          - else
+            = "#{organization.locations.all.count} Locations"
+    .clear
+    .pad_10
+
+.input.checkboxes.required
+  %label.checkboxes{:for => 'none_is_mine'}
+    = check_box_tag :none_is_mine, :class => 'checkboxes'
+    = non_exists_label
+.pad_10

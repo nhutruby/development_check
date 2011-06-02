@@ -1,0 +1,25 @@
+- @notes = current_user.sent_notes.not_deleted.paginate(:per_page => 10, :page => params[:notes_page], :order => 'notes.updated_at DESC')
+.block_quote.left
+  = will_paginate(@notes, :param_name => "notes_page")
+  .pad_10
+  = form_tag mark_as_recipients_path, :method => :put do
+    %table#notes
+      - for note in @notes do
+        - recipient = note.recipients.last
+        %tr.notes_read
+          %td.note_checkbox
+            = check_box_tag "recipient_ids[]", recipient.id
+          %td.note_from
+            = recipient.user.try(:full_name) if recipient.try(:user)
+          %td.note_message
+            .inline
+              = link_to note.subject, note, :class => "note_read"
+            = " - " if note && !note.body.blank?
+            = auto_link(truncate(note.body, :length => (100 - note.subject.length)).html_safe)
+          %td.note_received
+            = distance_of_time_in_words(note.created_at, Time.now) + " ago"
+    .block_quote
+      = submit_tag "Delete"
+    
+    = will_paginate(@notes, :param_name => "notes_page")
+    .clear

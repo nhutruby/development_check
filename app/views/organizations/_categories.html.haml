@@ -1,0 +1,9 @@
+= simple_fields_for @organization do |f|
+  - if collection.count > 1
+    = f.label :categories, "* #{ categories }", :class => "check_boxes optional"
+    .non_input
+      = f.association :categories, :label => false, :collection => collection, :as => :check_boxes, :input_html => { :class => 'cb' }
+      
+  - else
+    .hidden
+      = f.association :categories, :label => false, :collection => collection, :as => :check_boxes, :required => true, :input_html => { :class => 'cb', :checked => "checked" }

@@ -1,0 +1,28 @@
+- title "Confirmation"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Resend Confirmation Instructions"
+      .clear
+    .block_quote.left
+      = simple_form_for(resource, :as => resource_name, :url => confirmation_path(resource_name)) do |f|
+        = f.error_messages
+        = f.input :email, :input_html => {:size => "70"}
+        #submit
+          - submit_text = "Please Resend"
+          - unless submit_text.blank?
+            = f.button :submit, submit_text
+          -else
+            = f.button :submit
+          = "or "
+          = link_to("cancel", :back)
+        .clear
+        .non_input
+          #post_back_msg
+            #indicator.inline
+              = image_tag "indicator.gif"
+            .inline
+              = "Please wait..."
+            .non_input
+          = render :partial => "devise/shared/links"

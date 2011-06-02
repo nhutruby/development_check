@@ -1,0 +1,76 @@
+- if @selected_product.nil?
+  - selected_price_in_cents = 0
+  - selected_name = @selected_account_type.name
+- else
+  - selected_price_in_cents = @selected_product.price_in_cents
+  - selected_name = @selected_product.name
+- selected_credits = @selected_account_type.credits
+- selected_users = @selected_account_type.user_limit
+
+- if @product.nil?
+  - current_price_in_cents = 0
+  - current_name = @current_account_type.name
+- else
+  - current_price_in_cents = @product.price_in_cents
+  - current_name = @product.name
+- current_credits = @current_account_type.credits
+- current_credits_used = @organization.inventory_item_locations.size
+- current_users = @current_account_type.user_limit
+- current_users_used = @organization.roles.size
+
+- upgrade = current_price_in_cents < selected_price_in_cents
+
+.col_head
+  %h2.float_left
+    - word = upgrade ? "upgrade" : "change"
+    = "Please confirm the %s from %s to %s" % [word, current_name, selected_name]
+  .clear
+
+.block_quote.left
+  %p
+    - word = upgrade ? "upgrading" : "changing"
+    = "You're %s your %s iTourSmart account." % [word, @organization.name]
+
+    - word = upgrade ? "upgraded" : "downgraded"
+    - word2 = upgrade ? "upgrade" : "change"
+    = "Once you click the \"#{word2} my account\" link below you'll be #{word} to the #{selected_name} plan."
+  - if selected_credits and selected_users and ((selected_credits == 0 and (selected_credits < current_credits_used)) or (selected_credits < current_credits_used) or selected_users == 1 and (selected_users < current_users_used) or selected_credits < current_credits_used)
+    %br
+    .warning.shadow
+      .center.bold
+        = "To avoid any complications:"
+      .left
+        %ul
+          - if selected_credits == 0 and (selected_credits < current_credits_used)
+            %li.normal= "All products/services will be removed from all locations."
+          -elsif selected_credits && selected_credits < current_credits_used
+            %li.normal= "Please remove #{current_credits_used - selected_credits} products/services from locations before continuing to avoid all of them being automatically removed."
+          - if selected_users == 1 and (selected_users < current_users_used)
+            %li.normal= "All team members - except for you - will be removed from #{@organization.name}."
+          -elsif selected_users && selected_users < current_users_used
+            %li.normal= "Please remove #{current_users_used - selected_users} users before continuing to avoid everyone except yourself from being automatically removed."
+    %br
+   
+  
+  
+  
+  - if current_price_in_cents != selected_price_in_cents
+    %p
+      A prorated credit will be created to reimburse you for your current subscription. 
+      Note that this is not a refund; no money will be returned. 
+      A charge for the full amount of your new plan will be applied minus any prorated credit 
+      for your current plan. After today, you'll be charged the new rate of
+      = "$#{ selected_price_in_cents / 100 }/month"
+      starting on your next bill.
+  - else
+    %p
+      Since both of these plans are free, no additional information is needed from you at this time.
+    
+  %br
+  %p
+    Thank you for your business!
+  %br
+  - word = upgrade ? "Upgrade" : "Downgrade"
+  = link_to word + " my account", migrate_organization_path(@organization, :account_type_id => @selected_account_type.id), :method => :put
+  = "or "
+  = link_to("cancel", subscriptions_organization_path(@organization), :class => "fancybox-close even_smaller")

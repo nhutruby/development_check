@@ -1,0 +1,17 @@
+%table
+  - for person in people
+    %tr
+      %td.smaller
+        = link_to person.full_name, user_path(person)
+        .darkish_text.even_smaller.inline.italic
+          - if person.role.organization.owner_id == current_user.id
+            = "(acct owner)"
+          - elsif person.role.is_admin
+            = "(acct admin)"
+    %tr
+      %td.even_smaller.darkish_text.pad_bottom_10
+        = person.role.user.last_seen ? "latest activity " + distance_of_time_in_words(person.role.user.last_seen, Time.now) + " ago"  : "has never signed in"
+  %tr
+    %td
+      .smaller.pad_bottom_10
+        = link_to "(add team member)", new_user_invitation_path(:temp_org_id => organization.id, :inviter => @user.full_name)

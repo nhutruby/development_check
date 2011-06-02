@@ -1,0 +1,24 @@
+- title "Message Center"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "messages"
+      .col_head_link
+
+        = link_to_unless_current "inbox", recipients_path(:partial => "inbox")
+        |
+        = link_to_unless_current "notifications", recipients_path(:partial => "notifications")
+        |
+        = link_to_unless_current "sent", recipients_path(:partial => "sent")
+
+      .right
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote
+      - if params[:partial] == "sent"
+        = render 'sent'
+      - elsif params[:partial] == "inbox"
+        = render 'inbox'
+      - elsif params[:partial] == "notifications"
+        = render 'notifications'

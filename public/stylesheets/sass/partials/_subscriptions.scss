@@ -1,0 +1,284 @@
+-table.current_subscription {
+  text-align:left;}
+  table.current_subscription tr:first-child {
+    font-size:22px; }
+    table.current_subscription tr td:first-child {
+      width: 130px; }
+  table.current_subscription .progress_bar {
+    -webkit-border-radius:5px 5px 5px 5px;
+    -moz-border-radius:5px 5px 5px 5px;
+    /*background:url("../images/bg/bar_progress_grad.jpg") repeat-x scroll 0 0
+    background:#0A0;
+    border:1px solid #E7E1D0;
+    padding:3px;
+    position:relative;
+    width:400px; }
+    table.current_subscription .progress_bar .percentage {
+      -webkit-border-radius:4px;
+      -moz-border-radius:4px 4px 4px 4px;
+      /*background:url("../images/bg/bg_green.gif") repeat-x scroll 0 0 transpa
+      background:#0D0;
+      color:#FFF;
+      font-size:12px;
+      font-weight:bold;
+      /*line-height:33px;*/
+      padding:2px;
+      text-align:center;
+      text-shadow:1px 1px 1px #666666; }
+
+.price-options {
+  background: url(/images/price-option.png) no-repeat;
+  margin: auto;
+  position: relative;
+  width: 729px;
+  height: 316px;
+  z-index: 9; }
+  
+.price-options-content {
+  margin: auto;
+  position: relative;
+  width: 80%; }
+
+.price-options-content h2 {
+  font: 105% $primary, $secondary, $tertiary, $family;
+  font-weight: bold;
+	// color:		#d25359;
+	color: $dark;
+  }  
+
+// form tag can't be inside p tag
+.price-options-content .p, .price-options-content p {
+	border-bottom:	1px dotted #bcbcbc;
+	font-family:	Arial, Helvetica, sans-serif;
+	font-size:		13px;
+	line-height:	20px;
+	margin:			10px 0 24px 0;
+	padding:		0 0 24px;
+  }
+
+
+.free-trial h1 {
+  text-align: center;
+  font-style: normal;
+  letter-spacing: -1.5px;
+  font-weight: 200;
+  font-size: 30px;
+  margin: 40px 0 5px 0;
+  color: $dark;
+  line-height: 1.1em;
+}
+
+.price-img {
+  margin: 0 0 0 5px; 
+  }
+
+a.btn-small.basic {
+  background: url(/images/btnSign-sm.gif) no-repeat;
+  display: block;
+  height: 32px;
+  left: 50px;
+  top: 248px;
+  position: absolute;
+  text-indent: -2000px;
+  width: 110px; }
+
+a.btn-small.enterprise {
+	background: url(/images/btnSign-sm.gif) no-repeat;
+	display: block;
+	height: 32px;
+	left: 565px;
+	top: 248px;
+	position: absolute;
+	text-indent: -2000px;
+	width: 110px;
+}
+
+a.btn-large.premium{
+  background: url(/images/btnSign-Lrg.gif) no-repeat;
+  display: block;
+  height: 37px;
+  left: 305px;
+  top: 242px;
+  position: absolute;
+  text-indent: -2000px;
+  width: 127px; }
+
+a.btn-small:hover,
+a.btn-large:hover {
+  background-position: bottom left; }
+
+.account_options {
+  display: block;
+  margin: 10px;
+  text-align:right; }
+  
+table.plans.center {
+  text-align:center;} 
+   
+table.plans tr:first-child {
+  border-top:1px solid #6A747B; }
+
+table.plans tr {
+  border-bottom:1px solid #6A747B; }
+
+table.plans th {
+  background: $faint;
+  padding: 10px;
+  font-weight: bold;}
+
+table.plans td.firstcol, table.plans th.firstcol{
+width: 155px;
+}
+
+table.plans tr.highlight, table.plans tr.highlight td {
+  background: #FFF6C0; }
+
+table.plans td {
+  padding: 10px; }
+  
+.column-uno{
+  float: left;
+  width: 65%;
+  padding: 10px;
+}
+
+.column-dos {
+  float: right;
+  width: 25%;
+  padding: 10px;
+}
+
+form.simple_form.change-account-owner {
+  input[type='submit'] {
+    margin: 5px 0 10px 10px;
+  }
+}
+  
+.highlight {
+  background:#FFF6C0;}
+
+div.error_messages{
+  text-align: left;
+  border: 2px solid #ffcccc;
+  padding: 7px;
+  padding-bottom: 0;
+  margin: 20px 10px;}
+  div.error_messages h2{
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #ffcccc;}
+  div.error_messages p{
+    margin: 10px;}
+    div.error_messages ul li{
+      color:#F00000;
+      font-size: 12px;
+      margin: 10px;
+      list-style: square;}
+
+table.account_types {
+  border-collapse:collapse;
+  text-align:left;}
+
+table.account_types .set_account_type{
+  padding: 0px 10px;
+  text-align: right;}
+
+table.account_types tr td {
+  border-top:1px solid #6A747B; }
+
+table.account_types tr td th label{
+  width: auto; }
+
+table.account_types tr td:first-child {
+  text-align:left;
+  border-top:1px solid #6A747B;
+  width:120px; }
+
+table.account_types tr td:last-child {
+  width:320px; }
+
+table.account_types tr th:last-child {
+  text-align:left; }
+
+table.account_types tr {
+  border-bottom:1px solid #6A747B; }
+
+table.account_types form input[type="submit"] {
+  margin:0;}
+
+table.transactions {
+  border-collapse: collapse;
+  font-size: 0.9em;}
+  table.transactions tr {
+    line-height:28px; }
+    table.transactions tr th {
+      padding: 0px 5px;
+      background-color:#CCC; }
+    table.transactions tr td {
+      padding: 0px 5px; }
+    table.transactions tr td:last-child {
+      //text-align:center; 
+      }
+
+table.transaction_detail {
+  border-collapse: collapse;
+  font-size: 0.7em;
+  width:100%;}
+  table.transaction_detail tr {
+    line-height:20px; }
+    table.transaction_detail tr td:first-child {
+      width:140px; }
+    table.transaction_detail tr td {
+      text-align:left;
+      padding: 0px 5px; }
+
+.green_text {
+  color: #3C3;
+  #font-size: 0.9em;
+  #font-weight: bold;}
+
+.past_due {
+  background-color: #D00;
+  font-size: 12px;
+  margin: 10px 10px 0;}
+  .past_due ul {
+    list-style-type: disc;
+    list-style-position: inside;
+    color:#FFF;}
+      .past_due ul li a{
+        background-color: #FFF;}
+
+.search_results{
+  float: left;
+  width: 470px;}
+.search_result{
+  padding:10px 0;}
+  .search_result a.brand_name{
+    font-size: 13px;
+    font-weight: bold;}
+  .search_result .brand_logo{
+    margin:10px 10px 10px 0;}
+  .search_result .line{
+    clear:both;
+    padding: 10px 0px;}
+  .search_result ul{
+    font-size:12px;
+    margin-top:0px;}
+
+.gmap-info{
+  color:#6A747B;
+  padding:10px;
+  width: 200px;}
+  .gmap-info h1{
+    font-size:18px;
+    margin-top:10px;}
+  .gmap-info h2{
+    font-size:14px;}
+  .gmap-info img{
+    margin-bottom:15px;}
+  .gmap-info p{
+    font-size:12px;}

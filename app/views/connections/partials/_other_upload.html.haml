@@ -1,0 +1,29 @@
+%hr
+  #other-header.block_quote
+    %h4.float_left
+      Other
+    .right.pad_5
+      = link_to "Find Connections", "#", :class => 'find_friend'
+    .clear
+  #other-form.hide.block_quote
+    %h4.float_left
+      Other
+    .clear
+    #other-label.other-label
+      Upload contacts as CSV format:
+    #other-form.other-form-input
+      - form_tag find_connections_connections_path, :multipart => true do
+        = file_field_tag :file
+        = hidden_field_tag "mail_type",nil, :value => "other"
+        = submit_tag "Upload Contacts", :id => 'find_friend'
+    .clear
+  %script{:type => "text/javascript"}
+    $('#other-header').click(function(){
+    $('div#main_col').find(".header-hide").removeClass('header-hide');
+    $('div#main_col').find(".show").removeClass('show').addClass('hide');
+    $('#other-form').removeClass('hide');
+    $('#other-form').addClass('show');
+    $('#other-header').addClass('header-hide');
+    })
+
+

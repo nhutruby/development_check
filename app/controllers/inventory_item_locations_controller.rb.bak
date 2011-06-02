@@ -1,0 +1,51 @@
+class InventoryItemLocationsController < ApplicationController
+  #Devise Authentication
+  before_filter :authenticate_user!
+    
+  
+
+  load_and_authorize_resource
+
+  def index
+    @inventory_item_locations = InventoryItemLocation.all
+  end
+  
+  def show
+    @inventory_item_location = InventoryItemLocation.find(params[:id])
+  end
+  
+  def new
+    @inventory_item_location = InventoryItemLocation.new
+  end
+  
+  def create
+    @inventory_item_location = InventoryItemLocation.new(params[:inventory_item_location])
+    if @inventory_item_location.save
+      flash[:notice] = "Successfully created inventory item location."
+      redirect_to @inventory_item_location
+    else
+      render :action => 'new'
+    end
+  end
+  
+  def edit
+    @inventory_item_location = InventoryItemLocation.find(params[:id])
+  end
+  
+  def update
+    @inventory_item_location = InventoryItemLocation.find(params[:id])
+    if @inventory_item_location.update_attributes(params[:inventory_item_location])
+      flash[:notice] = "Successfully updated inventory item location."
+      redirect_to @inventory_item_location
+    else
+      render :action => 'edit'
+    end
+  end
+  
+  def destroy
+    @inventory_item_location = InventoryItemLocation.find(params[:id])
+    @inventory_item_location.destroy
+    flash[:notice] = "Successfully destroyed inventory item location."
+    redirect_to inventory_item_locations_url
+  end
+end

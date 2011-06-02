@@ -1,0 +1,26 @@
+- closing = ['Corey and Patrick', 'Patrick and Corey']
+- if @recipient.role
+  %p
+    = "#{@recipient.user.name_first},"
+  %br
+  %p
+    = "#{@recipient.note.sender.full_name} is requesting to join the #{@recipient.role.organization.name} team.  You can approve (or decline) this request here:"
+  %ul.no_bullets
+    %li
+      = link_to "Add to team", org_approve_role_url(@recipient.role_id), :method => :put
+    %li
+      = link_to "Decline request to join team", org_decline_role_url(@recipient.role_id), :method => :put  
+  %p.pad_10 
+  
+    =  auto_link("Or, click #{link_to 'here', roles_url(:organization_id => @recipient.role.organization_id)} to see this (and any other) requests to join your team.".html_safe)
+- else
+  %p
+    = "#{@recipient.user.name_first},"
+  %br
+  %p
+    = "#{@recipient.note.sender.full_name} had requested to join yur team, but the request is now void.  Feel free to delete this message."
+%br
+%p
+  = "Have a great day,"
+%p
+  = closing[rand(closing.length)]

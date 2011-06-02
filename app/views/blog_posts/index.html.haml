@@ -1,0 +1,25 @@
+- self.respond_to?(:title) && title(@index_title)
+- @show_title = false
+= stylesheet_link_tag 'blog_kit'
+= stylesheet_link_tag 'syntax/' + (BlogKit.instance.settings['theme'] || 'mac_classic')
+= auto_discovery_link_tag :atom, blog_posts_path(:format => :atom)
+
+#content_wrapper
+  #main_col
+    - if @blog_posts.size == 0 && !params[:page]
+      .blogPost
+        %h1 No Blog Posts
+        %p There are currently no blog posts, please check back shortly.
+    - else
+      - if @tag
+        %h1
+          Tag: #{@tag}
+      = render :collection => @blog_posts, :partial => 'blog_post'
+    .blogPages
+      = will_paginate @blog_posts
+
+#sidebar.justify
+  = render "nav_blog"
+  = render "nav_admin"
+.clear
+

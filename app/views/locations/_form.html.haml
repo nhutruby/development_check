@@ -1,0 +1,18 @@
+.left
+  = simple_form_for [@organization, @location] do |f|
+    = f.error_notification
+    = f.error_messages
+    = f.label :name
+    .smaller.inline.indent_10
+      = " #{@location.organization.name}:"
+    = f.text_field :name, :placeholder => " Location Name"
+    = f.input :is_active, :label => "Active", :as => :radio, :hint => "(only locations marked as Active will show up in searches)"
+    = f.association :primary_contact, :collection => @organization.users.all(:order => "name_last, name_first"), :include_blank => "Select if desired..."
+    = f.association :contact_method do |a|
+      = a.input :address, :label => 'Phone', :hint => "(public number for this location - not contact phone number for booking)"
+      = a.input :name, :as => :hidden
+    = f.input :url, :label => "Location Website", :placeholder => " enter url for the website specific to this location", :input_html => { :size => 60 } 
+    = f.simple_fields_for :address do |builder|
+      = render "addresses/form", :f => builder
+    = f.association :inventory_items, :collection => @organization.inventory_items.order(:name), :hint => "select all that apply", :as => :check_boxes if !@organization.inventory_items.empty?
+    = render "/generic/action", :f => f

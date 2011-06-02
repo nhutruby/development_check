@@ -1,0 +1,30 @@
+- if user
+  .image
+    - if user.avatar.exists?
+      .avatar_mini.float_left.margin_right_10
+        = image_tag(user.avatar.url(:mini), :alt => nil)
+    - else
+      .avatar_mini.float_left.margin_right_10.no_border
+        = image_tag("/images/avatar_mini.gif")
+  .smaller.float_left
+    .pad_left_10
+      - if @account_type && @account_type.allow_website?
+        = link_to user.name, user_path(user)
+        .smaller
+          = user.roles.find_by_organization_id(@organization.id).try(:title)
+        - user.contact_methods.email.each do |email|
+          .even_smaller
+            = email.lokation + ":" unless email.lokation.blank?
+            = mail_to(email.address)
+        - user.contact_methods.phone.each do |phone|
+          .even_smaller
+            = phone.lokation + ":" unless phone.lokation.blank?
+            = phone.address
+      - else
+        = user.name
+        - if user.contact_methods.phone.try(:last)
+          .even_smaller
+            - phone = user.contact_methods.phone.last
+            = phone.lokation + ":" unless phone.lokation.blank?
+            = phone.address
+  .clear

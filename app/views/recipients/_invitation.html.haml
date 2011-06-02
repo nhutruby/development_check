@@ -1,0 +1,6 @@
+%p
+  = "You have been invited to join the #{@recipient.role.organization.name} team."
+%p
+  = auto_link("Click #{link_to 'here', user_approve_role_path(@recipient.role.id), :method => :put} to accept.".html_safe)
+%p.smaller
+= auto_link("Or, click #{link_to 'here', user_decline_role_path(@recipient.role.id), :method => :put} to decline and block future invitations from this organization.".html_safe)

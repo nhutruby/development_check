@@ -1,0 +1,22 @@
+#primary_location
+  %hr
+    .bold Primary Location
+    %p.smaller (You will be able to add additional locations and/or modify this location later.)
+  %hr
+  = f.simple_fields_for :locations, @location do |f|
+    = f.input :is_active, :as => :hidden
+    = f.input :primary_contact_id, :as => :hidden
+    = f.label :is_headquarters, "* Type"
+    .non_input
+      = f.collection_radio :is_headquarters, [[true, "Corporate Offices"], [false, "Retail Location"]], :first, :last
+    .inline_hint
+      = "please select the type that best describes this location"
+    .clear.pad_10
+    = f.association :contact_method do |a|
+      = a.input :address, :label => 'Phone', :hint => "(public number for this location - not contact phone number for booking)"
+      = a.input :name, :as => :hidden
+  
+  
+  
+    = f.simple_fields_for :address do |f|
+      = render "addresses/form", :f => f

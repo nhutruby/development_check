@@ -1,0 +1,48 @@
+!!! Strict
+%html
+  %head
+    %title
+      - if :title
+        = "iTourSmart | " + yield(:title)
+      - else
+        = "iTourSmart"
+    = csrf_meta_tag
+    = stylesheet_link_tag "jqtouch.css", "themes/apple/theme.css"
+    =# javascript_include_tag "/jqtouch/jquery.1.3.2.min.js", "/jqtouch/jqtouch.min.js", "mobile"
+    = javascript_include_tag 'library','itoursmart', 'mobile'
+    %script{ :type => 'text/javascript', :charset => 'utf-8' }
+      $(document).ready(function() {
+      = yield(:on_ready)
+      })
+      = yield(:inline_script)
+    - analytical.identify current_user.id, :email=>current_user.email if current_user
+    -#- analytical.track request.request_uri
+    = raw analytical.head_append_javascript
+    = yield(:head)
+  %body
+    = raw analytical.body_prepend_javascript
+    .current
+      .toolbar
+        = link_to "Back", nil, :class => "back" unless current_page? root_path
+        %h1= yield(:title)
+        =# link_to "Full Site", root_url(:mobile => 0), :class => "button", :rel => "external"
+        = yield(:toolbar)
+      - unless flash.empty?
+        .info
+          - flash.each do |name, msg|
+            = content_tag :div, msg, :id => "flash_#{name}"
+      = yield
+      = raw analytical.body_append_javascript
+           
+      :javascript
+        var clicky_site_id = 244988;
+        (function() {
+          var s = document.createElement('script');
+          s.type = 'text/javascript';
+          s.async = true;
+          s.src = '//static.getclicky.com/js';
+          ( document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0] ).appendChild( s );
+        })();
+      %noscript
+        %p
+          %img{:alt => "Clicky", :height => "1", :src => "//in.getclicky.com/244988ns.gif", :width => "1"}/

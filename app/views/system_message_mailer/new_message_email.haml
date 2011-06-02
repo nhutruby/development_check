@@ -1,0 +1,14 @@
+%p
+  = "#{@recipient.note.sender.full_name} has sent you a message in iTourSmart.  Click #{link_to 'here', recipient_url(@recipient)} to see this message in your itoursmart message center.".html_safe
+
+- if !@recipient.note.permalink
+  :textile
+    #{textilize(@recipient.note.body)}
+- else
+  = render auto_link("/recipients/#{(@recipient.note.permalink)}".html_safe)
+  
+%br
+%h2.float_left Brought to you by:
+= image_tag("http://itoursmart.com/images/its_blue.gif", :alt => "iTourSmart", :height => "38", :width => "213")
+.new_line
+= "www.itoursmart.com"

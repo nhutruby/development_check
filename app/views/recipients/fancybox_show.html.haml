@@ -1,0 +1,37 @@
+%table#fancybox.smaller
+  %tr
+    %td.right.bold(width = "2px")
+      From:
+    %td
+      = @recipient.note.is_sysmessage == true ? image_tag("/images/its_blue.gif", :alt => "logo", :height => "38", :width => "213") : @recipient.note.sender.full_name
+  %tr
+    %td.right.bold
+      Subject:
+    %td
+      = @recipient.note.subject
+  %tr
+    %td.right.bold
+      To:
+    %td
+      - for @receiver in @recipient.note.recipients
+        = @receiver.user.try(:full_name)
+  %tr
+    %td.right.bold
+      Received:
+    %td
+      = distance_of_time_in_words(@recipient.created_at, Time.now) + " ago"
+      = "(#{@recipient.note.occurred_at.strftime("%B %e, %Y %r %Z")})"
+
+.block_quote.left
+  = link_to "Reply", new_note_path(:sender_id => current_user.id, :recipient_id => @recipient.note.sender.id, :from => current_user.full_name, :to => @recipient.note.sender.full_name, :subject => "Re: #{@recipient.note.subject}", :body => @recipient.note.body ) if !@recipient.note.is_sysmessage
+  = "|" if !@recipient.note.is_sysmessage
+  = link_to "Delete", recipient_path, :method => :delete
+
+
+%hr
+#note_view_body.left.dark_text
+  - if !@recipient.note.permalink
+    :textile
+      #{textilize(@recipient.note.body)}
+  - else
+    = render @recipient.note.permalink

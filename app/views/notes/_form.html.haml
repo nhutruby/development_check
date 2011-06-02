@@ -1,0 +1,21 @@
+= simple_form_for @note do |f|
+  = f.error_notification
+  .input.string
+    %label
+      = "From"
+    .non_input
+      = "#{params[:from]}"
+  .input.string
+    %label
+      = "To"
+    .non_input
+      = "#{params[:to]}"
+  = f.input :subject, :input_html => {:size => 100 }
+  %label
+    = "Body"
+  .non_input
+    = f.input :body, :input_html => {:cols => 100, :class => "simple_form text_area"}, :label => false
+  - f.simple_fields_for :recipients do |recipient|
+    = recipient.input :user_id, :as => :hidden
+  = f.input :sender_id, :as => :hidden
+  = render "/generic/action", :f => f

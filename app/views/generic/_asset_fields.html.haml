@@ -1,0 +1,35 @@
+- if f.object.file.exists? 
+  .non_input
+    - if ['image/jpeg', 'image/png', 'image/gif'].include?(f.object.file_content_type)
+      = image_tag f.object.file.url(:medium)
+    - if f.object.file_file_name
+      = f.object.file_file_name
+      %br
+
+  .pad_10
+  = f.input :name
+  %label
+    * Description
+  .non_input
+    = f.input :description, :as => :text, :input_html => { :id => "orgtext"}, :label => false, :error => false, :required => true,  :input_html => { :size => 100 }
+
+
+
+
+  .non_input.indent_10
+    = f.check_box(:delete_file)
+    = "delete this file"
+  %hr
+- else
+  = f.input :file, :label => "File", :as => :file, :input_html => {:class => "float_left indent_10"}
+  .clear
+  .pad_10
+  = f.input :name
+  %label
+    * Description
+  .non_input
+    = f.input :description, :as => :text, :input_html => { :id => "orgtext"}, :label => false, :error => false, :required => true,  :input_html => { :size => 100 }
+  %br
+  %hr
+
+.clear

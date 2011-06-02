@@ -1,0 +1,84 @@
+# Synonym mappings can be used for spelling correction too
+
+# Commas are used to create Expansions.
+# In the case of buca di beppo (a high degree of misspelling opportunities)
+# We use expansions to expand "de" to "de di" and "di" will be expanded to "de di" as well.
+# bucca is a mispelling example.  bucca is replaced in all cases with "buca"  
+de, di
+bucca => buca
+
+#NYC is replaced in all cases with new york city. new york city works with new york because the minimum match is 2 terms,
+#rather than a percentage.
+
+nyc=>new york city
+
+#expand capital
+capital,capitol
+
+#expand la (note the second term in la quinta will prevent unexpected results)
+la, los angeles, louisiana
+
+#directors choice tour and travel does not return directors choice tour & travel
+& => and
+
+#State Expansions
+alabama => al
+ALASKA,AK
+ARIZONA,AZ
+ARKANSAS,AR
+CALIFORNIA,CA
+COLORADO,CO
+CONNECTICUT,CT
+DELAWARE,DE
+DISTRICT OF COLUMBIA,DC
+FLORIDA,FL
+GEORGIA,GA
+HAWAII,HI
+IDAHO,ID
+ILLINOIS, IL
+INDIANA,IN
+IOWA,IA
+KANSAS,KS
+KENTUCKY,KY
+# LOUISIANA,LA Done above.
+MAINE,ME
+MARYLAND,MD
+MASSACHUSETTS,MA
+MICHIGAN,MI
+MINNESOTA,MN
+MISSISSIPPI,MS
+MISSOURI,MO
+MONTANA,MT
+NEBRASKA,NE
+NEVADA,NV
+NEW HAMPSHIRE,NH
+NEW JERSEY,NJ
+NEW MEXICO,NM
+NEW YORK,NY
+NORTH CAROLINA,NC
+NORTH DAKOTA,ND
+OHIO,OH
+OKLAHOMA,OK
+OREGON,OR
+PENNSYLVANIA,PA
+PUERTO RICO,PR
+RHODE ISLAND,RI
+SOUTH CAROLINA,SC
+SOUTH DAKOTA,SD
+TENNESSEE,TN
+TEXAS,TX
+UTAH,UT
+VERMONT,VT
+VIRGIN ISLANDS,VI
+VIRGINIA,VA
+WASHINGTON,WA
+WEST VIRGINIA,WV
+WISCONSIN,WI
+WYOMING,WY
+
+#Dealing with the Saint
+ST,SAINT,STREET
+ST.,SAINT
+
+#Dealing with the Fort
+FT,FORT,FT.

@@ -1,0 +1,11 @@
+- tweets = Twitter::Search.new('@itoursmart OR #itoursmart OR itoursmart OR sytaorg OR ustravelpr OR #tourtravelstuff')
+- if tweets.first
+  - tweets.each do |result|
+    .tweet
+      = auto_link((ProfanityFilter::Base.clean(result.text, 'dictionary')).html_safe)
+    .tweet_date
+      = result.from_user
+      |
+      = result.created_at.to_time.localtime.strftime("%a, %b %d, %Y @ %I:%M %p")
+- else
+  Tweet with #itoursmart for your tweet to show up here!

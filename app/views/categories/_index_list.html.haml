@@ -1,0 +1,23 @@
+%table.left
+  %tr
+    %th Name
+    %th Requires Verification
+    %th Type
+    %th Map Color
+  - for category in @categories
+    %tr
+      %td
+        = link_to category.name, edit_category_path(category)
+        <br/>
+        .even_smaller
+          %em
+            = category.description
+        .even_smaller
+          <em>tags: </em>
+          - if category.tags.present?
+            = category.tags
+          - else
+            (none)
+      %td= category.requires_verification  
+      %td= category.tipe
+      %td= category.marker_colors

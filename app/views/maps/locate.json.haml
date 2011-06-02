@@ -1,0 +1,1 @@
+!={'data' => @locations.collect{|c| {:id => c.id, :name => escape_javascript(c.organization.name + " " + c.name), :address => escape_javascript(c.map_address), :accuracy => c.accuracy, :lat => c.lat, :lng => c.lng, :organization_type=>getOrganizationType(c.organization) }}, :l => '111'}.to_json

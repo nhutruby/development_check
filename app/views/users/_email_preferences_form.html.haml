@@ -1,0 +1,11 @@
+= simple_form_for @user, :html => { :multipart => true }  do |f|
+  = "Send email notification to #{@user.email} when..."
+  .new_line
+  = f.input :email_messages, :label => "You receive a message"
+  =# f.input :email_requests, :label => "You receive a request for a connection"
+  = f.input :email_newsletter, :label => "A new issue of the newsletter is available"
+  = f.input :email_special_offers, :label => "we have a special offer you might be interested in (it won't be very often - promise)."
+  .new_line
+  = f.button :submit
+  = "or "
+  = link_to("cancel", :back)

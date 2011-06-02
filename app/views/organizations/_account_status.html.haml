@@ -1,0 +1,43 @@
+- subscription = @organization.subscription
+.shadow.smaller
+  .col_head
+    %h2.float_left
+      = "Account Details"
+    .clear
+    .link_to_new.smaller
+      = link_to "(pricing & subscriptions)", subscriptions_organization_path(@organization)
+  .block_quote.left
+    = "Account Type:"
+    - if @organization.trial_subscription? && !@organization.account_type.is_travel_provider?
+      = "Trialing"
+    - else
+      = @organization.account_type.name if @organization.account_type
+    .new_line
+      = "Account Status:"
+      - if @organization.trial_ends_at && @organization.trial_ends_at > Time.now && !@organization.account_type.is_travel_provider?
+        = "Trialing"
+      - elsif @organization.account_type && !@organization.account_type.link_to_chargify?
+        = "Active (free)"
+      - else
+        = @organization.try(:subscription_state).try(:titleize)
+    .new_line
+      - if (can? :update, @organization) && @organization.account_type && @organization.trial_ends_at && @organization.trial_ends_at > Time.now && !@organization.account_type.is_travel_provider?
+        = render "/generic/enhance", :organization => @organization
+        =# @organization.selected_plan
+      - elsif @organization.account_type && !@organization.account_type.credits.nil? && !@organization.account_type.is_travel_provider?
+        = "Credits:"
+        = "#{@credits_used} used, #{@credit_limit - @credits_used} available"
+      - elsif @organization.account_type && @organization.account_type.credits.nil?
+        = "Credits:"
+        = "Unlimited"
+    .new_line
+      = "Team Members:"
+      = @organization.roles.size
+    .new_line
+      = "Locations:"
+      = @organization.locations.size
+    .new_line
+      - if @organization.account_type && !@organization.account_type.is_travel_provider?
+        = "Products/Services:"
+        = @organization.inventory_items.size
+.ten_pixels

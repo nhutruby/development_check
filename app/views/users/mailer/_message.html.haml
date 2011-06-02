@@ -1,0 +1,12 @@
+%p
+  Hi #{@resource.name_first},
+%p I would like to personally invite you to be a part of the future of tour and travel!
+%p #{@resource.message}
+%p= auto_link("You can confirm your account by clicking #{link_to 'here.', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token)} or pasting the following into your browser:").html_safe
+%p #{accept_invitation_url(@resource, :invitation_token => @resource.invitation_token)}
+%p Username: #{@resource.email}
+%br
+%p I hope to see you soon!
+%br
+%p Enjoy the journey,
+%p #{@resource.inviter}

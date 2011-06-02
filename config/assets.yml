@@ -1,0 +1,78 @@
+#embed_assets: on
+
+javascripts:
+  library:
+    - app/javascripts/library/jquery.js
+    - app/javascripts/library/jquery-ui-1.8.9.custom.js
+    # rails
+    - app/javascripts/library/rails.js
+    - app/javascripts/library/autocomplete-rails.js
+    # others
+    - app/javascripts/library/jquery.easing.1.3.js
+    - app/javascripts/library/jquery.cycle.all.js
+
+
+    # legacy /maps code, safe to delete, compiled ok, but throw errors when run
+    #- app/javascripts/library/paginator.js
+
+
+
+    # fancybox
+    - app/javascripts/library/jquery.mousewheel-3.0.4.pack.js
+    - app/javascripts/library/jquery.fancybox-1.3.4.js
+
+    # html5 placeholder
+    - app/javascripts/library/jquery.placeholder.js
+    
+    # ruby like utility class for js
+    # http://documentcloud.github.com/underscore/
+    - app/javascripts/library/underscore.js
+    
+    # tags editor http://webspirited.com/tagit/?page=tagit
+    - app/javascripts/library/tagit.js
+
+    # js form validator
+    # http://flowplayer.org/tools/validator/index.html
+    - app/javascripts/library/jquerytools-validator.js
+    
+    # js timestamps auto-update
+    # http://timeago.yarp.com/
+    - app/javascripts/library/jquery.timeago.js
+    
+    # qtip
+    # http://craigsworks.com/projects/qtip/demos/
+    - app/javascripts/library/jquery.qtip-1.0.0-rc3.js
+    - app/javascripts/library/jquery.ui.autocomplete.selectFirst.js
+
+  itoursmart:
+    - app/javascripts/itoursmart/application.js
+
+  crop:
+   - app/javascripts/crop/jquery.Jcrop.js
+   - app/javascripts/crop/application.js
+
+  maps:
+   - app/javascripts/maps/application.js
+   
+  mobile:
+   - app/javascripts/mobile/jqtouch.js
+   - app/javascripts/mobile/jqt.autotitles.js
+   - app/javascripts/mobile/jqt.floaty.js
+   - app/javascripts/mobile/jqt.location.js
+   - app/javascripts/mobile/jqt.offline.js
+   - app/javascripts/mobile/mobile.js
+
+  token_input:
+    - app/javascripts/token_input/jquery.tokeninput.js
+
+  tweets:
+    - app/javascripts/tweets/jquery.marquee.min.js
+    - app/javascripts/tweets/application.js
+
+  wysiwyg:
+    - app/javascripts/wysiwyg/jquery.wysiwyg.js
+    - app/javascripts/wysiwyg/application.js
+
+package_path: javascripts
+javascript_compressor: yui
+gzip_assets: off

@@ -1,0 +1,14 @@
+- title "Brand Categories"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "Brand Categories"
+      .right
+        - if can? :update, @categories
+        = link_to "Add a New Brand Category", new_category_path
+        |
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .block_quote
+      = render 'index_list'

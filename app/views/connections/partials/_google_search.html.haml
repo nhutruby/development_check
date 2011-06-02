@@ -1,0 +1,21 @@
+%hr
+  %div#gmail-header.block_quote
+    %h4.float_left
+      Gmail
+    .right.pad_5
+      = link_to "Find Connections", "#", :class => 'find_friend'
+    .clear
+  %div#gmail-form.hide.block_quote
+    %h4.float_left
+      Gmail
+    .clear
+    = render :partial => 'connection_search_form', :locals => {:mail_type => "gmail"}
+  .clear      
+%script{:type => "text/javascript"}
+  $('#gmail-header').click(function(){
+  $('div#main_col').find(".header-hide").removeClass('header-hide');
+  $('div#main_col').find(".show").removeClass('show').addClass('hide');
+  $('#gmail-form').removeClass('hide');
+  $('#gmail-form').addClass('show');
+  $('#gmail-header').addClass('header-hide');
+  })

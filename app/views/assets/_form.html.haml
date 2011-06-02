@@ -1,0 +1,15 @@
+= simple_form_for @asset, :html => { :multipart => true }  do |f|
+  - unless @asset.new_record?
+    .non_input
+      = image_tag f.object.file.url(:medium)
+    = f.input :file, :as => :file, :label => "Change File", :hint => "Allowed file types are pdf, jpg, gif, png, doc, docx, xls, xlsx.  File size is limited to 5 megabytes per file."
+  - else
+    = f.input :file, :as => :file, :label => "File", :hint => "Allowed file types are pdf, jpg, gif, png, doc, docx, xls, xlsx.  File size is limited to 5 megabytes per file."
+  = f.input :name
+  %label
+    = "Description"
+  .non_input
+    = f.input :description, :as => :text, :input_html => { :id => "orgtext", :cols => "100"}, :label => false
+    = f.input :organization_id, :as => :hidden
+  = render "/generic/action", :f => f
+.clear

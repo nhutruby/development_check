@@ -1,0 +1,16 @@
+- content_for :head do
+  = stylesheet_link_tag 'token-input'
+  = javascript_include_tag 'token_input'
+  
+:javascript
+  $(function() {
+    $("#organization_dmo_tokens").tokenInput("/dmo_index.json", {
+      crossDomain: false,
+      prePopulate: $("#organization_dmo_tokens").data("pre"),
+      preventDuplicates: true,
+      theme: ""
+    });
+  });
+
+.non_input
+  = f.text_field :dmo_tokens, "data-pre" => @organization.associations.dmas.where("is_organization_approved IS true").map(&:attributes).to_json, :label => false

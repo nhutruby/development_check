@@ -1,0 +1,93 @@
+- product = Chargify::Product.find(account_type.product_id) if account_type.product_id
+%tr
+  %td.border
+    = account_type.name
+    = link_to "(edit)", edit_account_type_path(account_type)
+  %td.border
+    = product.blank? ? "n/a" : product.name
+  %td.border(rowspan = 2)
+    = account_type.description
+%tr
+  %td.border.left(colspan = 2)
+    %table.even_smaller
+      %tr
+        %td.right(width = 200)
+          = "Credits:"
+        %td.left
+          =account_type.credits
+      %tr
+        %td.right
+          = "Link To Chargify:"
+        %td.left
+          =account_type.link_to_chargify
+      %tr
+        %td.right
+          = "Allow Website:"
+        %td.left
+          =account_type.allow_website
+      %tr
+        %td.right
+          = "Allow Email:"
+        %td.left
+          =account_type.allow_email
+      %tr
+        %td.right
+          = "Allow Logo:"
+        %td.left
+          =account_type.allow_logo
+      %tr
+        %td.right
+          = "Allow Short Description:"
+        %td.left
+          =account_type.allow_short_description
+      %tr
+        %td.right
+          = "Allow Long Description:"
+        %td
+          =account_type.allow_long_description
+      %tr
+        %td.right
+          = "Allow Keywords:"
+        %td.left
+          =account_type.allow_keywords
+      %tr
+        %td.right
+          = "Allow Primary Contact:"
+        %td.left
+          =account_type.allow_location_primary_contact
+      %tr
+        %td.right
+          = "Allow Location Phone:"
+        %td.left
+          =account_type.allow_location_phone
+      %tr
+        %td.right
+          = "Allow Location Website:"
+        %td.left
+          =account_type.allow_location_website
+      %tr
+        %td.right
+          = "Allow Tour Operator Search:"
+        %td.left
+          =account_type.allow_tour_operator_search
+      %tr
+        %td.right
+          = "Allow Association Directories:"
+        %td.left
+          =account_type.allow_association_directories
+      %tr
+        %td.right
+          = "Allow Round Up:"
+        %td.left
+          =account_type.allow_round_up
+      %tr
+        %td.right
+          = "Allow Buyer Blast:"
+        %td.left
+          =account_type.allow_buyer_blast
+      %tr
+        %td.right
+          = "Allow Enhanced Listing:"
+        %td.left
+          =account_type.allow_enhance_listing
+       

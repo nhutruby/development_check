@@ -1,0 +1,58 @@
+module ApplicationHelper
+  def current_announcements
+    unless session[:announcement_hide_time].nil?
+      time = session[:announcement_hide_time]
+    else
+      time = cookies[:announcement_hide_time].to_datetime unless cookies[:announcement_hide_time].nil?
+    end
+    @current_announcements ||= Announcement.current_announcements(time)
+  end
+
+  def google_map_image_tag(address, image_options={})
+    if address.lat && address.lng
+      map = GoogleStaticMap.new(:width => 240, :height => 200)
+      map.markers << MapMarker.new(:color => "blue", :location => MapLocation.new(:latitude => address.lat, :longitude => address.lng))
+      image_tag(map.url, image_options)
+    end
+  end
+  
+  def google_map_locations_image_tag(locations, image_options={})
+    map = GoogleStaticMap.new(:width => 480, :height => 400)
+      locations.each do |location|
+        if location.address.lat && location.address.lng
+          map.markers << MapMarker.new(:color => "blue", :location => MapLocation.new(:latitude => location.address.lat, :longitude => location.address.lng))
+        end
+      end
+    image_tag(map.url, image_options)
+  end
+
+  def google_map
+    content_for :maps do
+    # TODO change back to production key
+      if Rails.env == 'production'
+        '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=' + GOOGLE_MAP[:production_key] + '&hl=en" type="text/javascript"></script>'+
+        '<script src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js" type="text/javascript"></script>'
+      else
+        '<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=' + GOOGLE_MAP[:development_key] + '&hl=en" type="text/javascript"></script>'+
+        '<script src="http://gmaps-utility-library.googlecode.com/svn/trunk/markermanager/release/src/markermanager.js" type="text/javascript"></script>'
+      end
+    end
+  end
+
+  def getOrganizationType(organizationId)
+     colorhash={"Black"=>"#000000","White"=>"#ffffff","Green"=>"#006400","Red"=>"#DC143C","Orange"=>"#FFA500","Blue"=>"#000080"}
+    category=Categorization.find_by_organization_id(organizationId)
+
+   if !category.nil?
+       cattype=Category.find_by_id(category.category_id)
+       colorhash.fetch(cattype.marker_colors)
+    
+   else
+      "#006400"
+   end
+
+  end
+  
+end
+
+

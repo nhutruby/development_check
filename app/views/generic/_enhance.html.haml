@@ -1,0 +1,23 @@
+- if organization.trial_ends_at.present?
+  .pad_10
+  .center
+    Your trial expires in
+    .dash
+      .digit
+        .digit= (organization.trial_ends_at.to_date - Time.now.to_date).to_i
+      .dash_title days
+      .clear
+    .clear
+  .clear
+  .center.even_smaller
+    = "Trial started on #{organization.trial_started_at.strftime("%b %d, %Y")}"
+    .new_line
+    = "by #{organization.owner.name}"
+  .pad_10
+  .upgrade.bold.center
+    = link_to "I am ready to signup!", subscriptions_organization_path(organization)
+  .pad_10
+- else
+  .upgrade.bold.center
+    = link_to "Upgrade to a paid account to enhance your listing!", subscriptions_organization_path(organization)
+  .pad_10

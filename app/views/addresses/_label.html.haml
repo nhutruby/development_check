@@ -1,0 +1,17 @@
+.smaller
+  - if !address.line_1.blank?
+    = address.line_1
+  - if !address.line_2.blank?
+    %br
+    = address.line_2
+  - if !address.city.blank? && !address.region.blank? && !address.postal_code.blank?
+    %br
+    = address.city + ", " + address.region + " " + address.postal_code
+  - elsif !address.city.blank? && !address.region.blank?
+    %br
+    = address.city + ", " + address.region
+  - elsif !address.city.blank?
+    %br
+    = address.city
+  %br
+  = address.country

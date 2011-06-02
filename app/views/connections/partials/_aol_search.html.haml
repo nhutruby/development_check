@@ -1,0 +1,21 @@
+%hr
+  %div#aol-header.block_quote
+    %h4.float_left
+      AOL!
+    .right.pad_5
+      = link_to "Find Connections", "#", :class => 'find_friend'
+    .clear
+  %div#aol-form.hide.block_quote
+    %h4.float_left
+      AOL!
+    .clear
+    = render :partial => 'connection_search_form', :locals => {:mail_type => "aol"}
+  .clear      
+%script{:type => "text/javascript"}
+  $('#aol-header').click(function(){
+  $('div#main_col').find(".header-hide").removeClass('header-hide');
+  $('div#main_col').find(".show").removeClass('show').addClass('hide');
+  $('#aol-form').removeClass('hide');
+  $('#aol-form').addClass('show');
+  $('#aol-header').addClass('header-hide');
+  })

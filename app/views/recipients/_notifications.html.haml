@@ -1,0 +1,46 @@
+- @recipients = @recipients.notifications.paginate(:per_page => 10, :page => params[:recipients_page])
+.block_quote.left
+  = will_paginate(@recipients, :param_name => "recipients_page")
+  .pad_10
+  = form_tag mark_as_recipients_path, :method => :put do
+    %table#notes
+      - for recipient in @recipients do 
+        - if !recipient.is_read
+          %tr.notes_unread
+            %td.note_checkbox
+              = check_box_tag "recipient_ids[]", recipient.id
+            %td.note_from
+              - if !recipient.note.is_sysmessage
+                = link_to recipient.note.sender.name_first, recipient, :class => "note_unread"
+              - else
+                = "iTourSmart Admin"
+            %td.note_message
+              .inline
+                = link_to recipient.note.subject, recipient, :class => "note_unread"
+              = " - " if recipient.note && !recipient.note.body.blank?
+              = auto_link(truncate(recipient.note.body, :length => (100 - recipient.note.subject.length)).html_safe) if recipient.note && !recipient.note.body.blank?
+            %td.note_received
+              = distance_of_time_in_words(recipient.created_at, Time.now) + " ago"
+        - else
+          %tr.notes_read
+            %td.note_checkbox
+              = check_box_tag "recipient_ids[]", recipient.id
+            %td.note_from
+              - if !recipient.note.is_sysmessage
+                = link_to recipient.note.sender.name_first, recipient, :class => "note_read"
+              - else
+                = "iTourSmart Admin"
+            %td.note_message
+              .inline
+                = link_to recipient.note.subject, recipient, :class => "note_read"
+              = " - " if recipient.note && !recipient.note.body.blank?
+              = auto_link(truncate(recipient.note.body, :length => (100 - recipient.note.subject.length)).html_safe) if recipient.note && !recipient.note.body.blank?
+            %td.note_received
+              = distance_of_time_in_words(recipient.created_at, Time.now) + " ago"
+    .block_quote
+      = submit_tag "Mark as read"
+      = submit_tag "Mark as unread"
+      = submit_tag "Delete"
+      
+      = will_paginate(@recipients, :param_name => "recipients_page")
+      .clear

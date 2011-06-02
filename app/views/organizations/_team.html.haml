@@ -1,0 +1,13 @@
+.shadow.smaller
+  .col_head
+    %h2
+      = "The Team"
+    -# if  @organization.roles.find_all_by_user_id(current_user.id).any?(&:is_admin?) && !@organization.free_subscription?
+    - if  @organization.roles.find_all_by_user_id(current_user.id).any?(&:is_admin?) #&& @organization.paid_subscription?
+      .clear
+      .link_to_new.smaller
+        - travel_planner = current_user.is_travel_planner ? "true" : "false"
+        = link_to "(add team member)", new_user_invitation_path(:temp_org_id => @organization.id, :inviter => current_user.full_name, :is_travel_planner => travel_planner, :inviter_id => current_user.id)
+  .block_quote.left
+    - for role in @organization.roles do
+      = render "generic/team_member", :role => role

@@ -1,0 +1,23 @@
+-# This is used for 90% + of all form 'submit' buttons and cancel links
+#submit{:style => 'position:relative'}
+  - submit_text ||= nil
+  - unless submit_text.blank?
+    = f.button :submit, submit_text
+  -else
+    = f.button :submit
+  = "or "
+  = link_to("cancel", :back)
+  - skip_destroy_link ||= false
+  - unless skip_destroy_link
+    .right
+      - if !f.object.new_record?
+        - resource = (f.object.class.name).downcase
+        = link_to "destroy", url_for(:action => 'destroy'), :confirm => "Are you sure that you want to delete this #{resource}?", :method => :delete
+.clear
+.non_input
+  #post_back_msg
+    #indicator.inline
+      = image_tag "indicator.gif"
+    .inline
+      = "Please wait..."
+    .non_input

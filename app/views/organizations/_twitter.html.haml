@@ -1,0 +1,29 @@
+- if @tweets && @tweets.first
+  -# twitter div
+  #org_twitter.shadow
+    .col_head
+      %h2
+        - if @association && @association.acronym
+          = "#{@association.acronym} buzz"
+        - elsif @organization && @organization.acronym
+          = "#{@organization.acronym} buzz"
+        - else
+          buzz
+    -# Twitter div called by _twitter
+    #org_tweetsd.block_quote.left.even_smaller
+      -# tweets = Twitter.user_timeline(@organization.twitter_name).first(3)  
+      -# tweets = Twitter.list_timeline('itoursmart', 'rt').first(3)  
+
+      =# tweets.inspect
+      - if @tweets.first
+        - @tweets.each do |result|
+          .tweet
+            = auto_link(ProfanityFilter::Base.clean(result.text, 'dictionary').html_safe)
+          .tweet_date.darkish_text
+            = result.user.screen_name
+            |
+            = distance_of_time_in_words(result.created_at.to_time.localtime, Time.now)
+            ago
+      - else
+        .tweet
+          Tweet with #itoursmart for your tweet to show up here!

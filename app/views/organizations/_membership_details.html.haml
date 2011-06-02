@@ -1,0 +1,16 @@
+- denied_memberships = @organization.association_memberships.where(:is_organization_approved => false).map {|m| m.organization_id}
+- collection = []
+- denieds = []
+- if Organization.trade_associations.count > 0
+  .non_input
+    - associations = Organization.trade_associations.flatten
+    - for association in associations do
+      - unless denied_memberships.include?(association.id)
+        - collection << association
+      - else
+        - denieds << association
+    
+    = f.association :associations, :collection => collection, :as => :check_boxes, :label => false
+    - for denied in denieds do
+      .smaller
+        = "If you are a member of #{denied.name}, please contact them and ask to be added as a member in iTourSmart"

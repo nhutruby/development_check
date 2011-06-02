@@ -1,0 +1,62 @@
+.half_banner_wrapper {
+  width: 234px;
+  height: 60px;
+  text-align: center; }
+
+.demo_banner_wrapper {
+  width: 234px;
+  height: 60px;
+  text-align: left;
+  background: #f8f8f8;
+  padding: 0px; }
+
+.demo_banner_text {
+  padding: 10px; }
+
+.half_banner_wrapper_text {
+  padding: 10px;
+  margin: 10px 0px 0px 0px;
+  width: 214px;
+  height: auto;
+  min-height: 60px;
+  text-align: center;
+  background: #f8f8f8; }
+
+a.half_banner_wrapper, a:link.half_banner_wrapper, a:visited.half_banner_wrapper, a:hover.half_banner_wrapper, a:active.half_banner_wrapper, a.half_banner_wrapper_text, a:link.half_banner_wrapper_text, a:visited.half_banner_wrapper_text, a:hover.half_banner_wrapper_text, a:active.half_banner_wrapper_text {
+  color: #282828;
+  border: none;
+  background: none; }
+  a.half_banner_wrapper img, a:link.half_banner_wrapper img, a:visited.half_banner_wrapper img, a:hover.half_banner_wrapper img, a:active.half_banner_wrapper img, a.half_banner_wrapper_text img, a:link.half_banner_wrapper_text img, a:visited.half_banner_wrapper_text img, a:hover.half_banner_wrapper_text img, a:active.half_banner_wrapper_text img {
+    border: none;
+    background: none; }
+
+.half_banner_wrapper_text_2 {
+  padding: 10px;
+  margin: 10px 0px 0px 0px;
+  width: 214px;
+  height: auto;
+  text-align: center;
+  background: #f8f8f8; }
+
+a.half_banner_wrapper_text_2, a:link.half_banner_wrapper_text_2, a:visited.half_banner_wrapper_text_2, a:hover.half_banner_wrapper_text_2, a:active.half_banner_wrapper_text_2 {
+  color: #282828;
+  border: none;
+  background: none;
+  text-decoration: underline; }
+  a.half_banner_wrapper_text_2 img, a:link.half_banner_wrapper_text_2 img, a:visited.half_banner_wrapper_text_2 img, a:hover.half_banner_wrapper_text_2 img, a:active.half_banner_wrapper_text_2 img {
+    border: none;
+    background: none; }
+
+.banner_avatar_thumbnail {
+  width: 55px;
+  height: 55px;
+  padding: 0;
+  margin: 0;
+  align: center;
+  text-align: center;
+  background-repeat: no-repeat;
+  border: solid 0px #c6c6c6;
+  float: left; }
+
+.banner_margin {
+  padding: 2px; }

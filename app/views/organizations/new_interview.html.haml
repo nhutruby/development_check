@@ -1,0 +1,47 @@
+- title "New Brand"
+- stylesheet 'jquery-ui-1.8.6.custom'
+- content_for :on_ready do
+  :plain
+    $('form.organization #submit input.button').attr('disabled', 'disabled');
+    $('form.organization #none_is_mine').live('click', function(){
+      if ($(this).is(':checked'))  {
+        $('form.organization #submit input.button').removeAttr('disabled');
+      } else {
+        $('form.organization #submit input.button').attr('disabled', 'disabled');
+      }
+    });
+
+    $('#organization_name').bind('blur', function() {
+      $(this).addClass('ui-autocomplete-loading');
+      var name = $(this).val();
+      $('form.organization .suggestion.name').load('/organizations.js?per_page=10&search='+escape(name), function() {
+        $('#organization_name').removeClass('ui-autocomplete-loading');
+      });
+    });
+    //disable submit on <enter>, trigger the blur event
+    $('form.organization').bind('keypress', function(e) {
+      if (e.keyCode == 13) {
+        $('#organization_name').trigger('blur');
+        return false;
+      }
+    });
+
+
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = "New Brand"
+      .clear
+    .block_quote.left
+      = simple_form_for @organization, :html => { :multipart => true }, :url => { :action => "new" }, :method => :get  do |f|
+        = f.error_notification
+        = f.error_messages
+        = f.input :creator_id, :input_html => { :value => current_user.id}, :as => "hidden"
+        = f.input :owner_id, :input_html => { :value => current_user.id}, :as => "hidden"
+        = f.input :name, :input_html => { :size => "65" }, :hint => "Press <Enter> or <Tab> to continue"
+        .non_input
+          .suggestion.name
+        .clear
+        .pad_10
+        = render "/generic/action", :f => f, :submit_text => "Continue"

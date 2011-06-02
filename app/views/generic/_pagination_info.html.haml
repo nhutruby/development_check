@@ -1,0 +1,18 @@
+-# generic will_paginate pagination div
+
+
+- if total
+  - if total.to_i < 100
+    .results_count{:style => "margin-left:12px;"}
+      - if @misspelled_query.present?
+        %p Whoops! Your search for <code>#{@misspelled_query}</code> did not return any results.
+
+      Showing
+      = pluralize(total, 'result')
+      - if !params[:query].blank?
+        for
+        &ldquo;<code>#{params[:query]}</code>&rdquo;
+- else
+  .results_count{:style => "margin-left:12px;"}
+    Featured Brands
+.clear

@@ -1,0 +1,17 @@
+=form_tag find_connections_connections_path, :id => "form_#{mail_type}", :class => 'input_form' do
+  %div#email-label
+    %label.input-label
+      = "#{mail_type} Username or Email"
+  %div#email-input
+    = text_field_tag :email, nil, :class => 'input_field', :size => 45
+  .clear
+  %div#password-label
+    %label.input-label
+      = "#{mail_type} Password"
+  %div#password-input
+    = password_field_tag :password, nil, :class => 'pass_field', :size => 45
+  .clear
+  = hidden_field_tag "mail_type",nil, :value => mail_type
+  %div#form_submit
+    = submit_tag "Find Connections", :id => 'find_friend'
+  .clear

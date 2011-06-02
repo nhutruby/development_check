@@ -1,0 +1,11 @@
+%ul.form
+  = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    %li
+      = f.input :email, :input_html => { :size => 60 }
+    %li
+      = f.input :password
+    %li
+      - if devise_mapping.rememberable?
+        = f.input :remember_me, :as => :boolean
+    = render "/generic/action", :f => f, :submit_text => "Sign in"
+

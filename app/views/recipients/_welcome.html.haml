@@ -1,0 +1,87 @@
+- domain = @recipient.user.email.split("@").last
+- closing = ['Corey and Patrick', 'Patrick and Corey']
+- if @recipient.user.is_travel_planner?
+  %p
+    = "#{@recipient.user.name_first},"
+  %p
+    = "Welcome to iTourSmart, the fastest way to find and connect with travel suppliers.  In an effort to get the most from your experience, please take a moment to:"
+  %ul        
+    - unless !@recipient.user.roles.empty?
+      %li
+        %h4
+          = auto_link("Setup/update your brand profile".html_safe)
+          - Organization.where("url = ? OR aba_email = ? OR syta_email = ?", "www."+ domain, @recipient.user.email, @recipient.user.email).each do |a|
+            - if !a.owner_id
+              .indent_10.pad_10
+                .upgrade
+                  .bold.indent_10
+                    = "Is #{a.name} your brand?"
+                  .even_smaller.indent_10
+                    = auto_link("If so, click #{link_to 'here', organization_path(a)} to claim it!".html_safe)
+                .pad_5
+            - else
+              .indent_10.pad_10
+                .upgrade
+                  .bold.indent_10
+                    = "Do you work at #{a.name}?"
+                  .even_smaller.indent_10
+                    = auto_link("If so, click #{link_to 'here', organization_path(a)} to join the team!".html_safe)
+                .pad_5
+    - else
+      %li
+        %h4
+          = auto_link"Check out #{link_to @recipient.user.organizations.last.name, organization_path(@recipient.user.organizations.last)}".html_safe
+    %li
+      %h4
+        = auto_link("Setup your #{link_to 'personal profile', edit_user_path(current_user)}".html_safe)          
+  %p
+    = "We have spent countless hours to ensure that iTourSmart is a tool that will increase your productivity, make your life easier, and hopefully bring a smile to your face once in a while.  That said, we are always looking for ways to improve. So, if something doesn't work, doesn't do what you want it to do, or you can think of an improvement to be implemented in the future - just click the link for 'support' in the title bar above and let us know."
+  %p
+    = "Enjoy,"
+  %p
+    = closing[rand(closing.length)]
+
+- else
+  %p
+    = "#{@recipient.user.name_first},"
+  %p
+    = "Welcome to iTourSmart, an online community for the Tour and Travel industry.  With over 1,100 Professional Travel Planners and 3,000+ travel suppliers represented, iTourSmart is THE place to find and connect with your customer base.  Getting started is as easy as 1-2-3!"
+
+  %ul
+    - unless !@recipient.user.roles.empty?
+      %li
+        %h4
+          = auto_link("Step 1: Setup/update your brand profile".html_safe)
+          - Organization.where("url = ? OR aba_email = ? OR syta_email = ?", "www."+ domain, @recipient.user.email, @recipient.user.email).each do |a|
+            - if !a.owner_id
+              .indent_10.pad_10
+                .upgrade
+                  .bold.indent_10
+                    = "Is #{a.name} your #{a.entity.downcase}?"
+                  .even_smaller.indent_10
+                    = auto_link("If so, click #{link_to 'here', organization_path(a)} to claim it!".html_safe)
+                .pad_5
+            - else
+              .indent_10.pad_10
+                .upgrade
+                  .bold.indent_10
+                    = "Do you work at #{a.name}?"
+                  .even_smaller.indent_10
+                    = auto_link("If so, click #{link_to 'here', organization_path(a)} to join the team!".html_safe)
+                .pad_5
+    - else
+      %li
+        %h4
+          = auto_link("Step 1: Check out #{link_to @recipient.user.organizations.last.name, organization_path(@recipient.user.organizations.last)}".html_safe)
+    %li
+      %h4
+        = auto_link("Step 2: Setup your #{link_to 'personal profile', edit_user_path(current_user)}".html_safe)
+    %li
+      %h4
+        = "Step 3: Start making connections with professional Travel Planners"
+  %p
+    = "We have spent countless hours to ensure that iTourSmart is a tool that will increase your productivity, make your life easier, and hopefully bring a smile to your face once in a while.  That said, we are always looking for ways to improve. So, if something doesn't work, doesn't do what you want it to do, or you can think of an improvement to be implemented in the future - just click the link for 'support' in the title bar above and let us know."
+  %p
+    = "Enjoy,"
+  %p
+    = closing[rand(closing.length)]

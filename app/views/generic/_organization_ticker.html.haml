@@ -1,0 +1,16 @@
+-# Splash page - who's been active on iTourSmart lately
+- content_for :head do
+  = stylesheet_link_tag 'jquery.marquee.min.css'
+  = javascript_include_tag 'tweets'
+- orgs = Organization.where("updated_at > ? AND owner_id IS NOT NULL", 5.days.ago).order("updated_at DESC").limit(10)
+- if orgs
+  .twitter_bar
+    .twitter_subbar
+      .twitter_title
+        Who's been active on iTourSmart recently?
+      .float_left
+        %ul#marquee.marquee
+          - orgs.each do |result|
+            %li
+              = auto_link(ProfanityFilter::Base.clean(result.name, 'dictionary').html_safe)
+    .clear

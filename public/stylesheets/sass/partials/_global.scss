@@ -1,0 +1,103 @@
+.hidden {
+  display: none;
+}
+
+.ui-menu_more-results {
+  text-align: center;
+  border-top:1px solid #C6C6C6;
+
+  a {
+    div {
+      text-align: center;
+      margin-top: 15px;
+      margin-bottom: 15px;
+
+      span {
+        font-size: 110%;
+        color: #000;
+      }
+    }
+  }
+}
+
+.logo_tools {
+  width: 50%;
+}
+
+.logo_box {
+  width: 50%;
+}
+
+#form_service_areas {
+  width: 50%;
+}
+
+.dialog {
+  width: 700px;
+}
+
+.middle-checkbox *{
+  vertical-align: middle;
+}
+.middle-checkbox {
+  margin-left: 20px;
+  margin-right: 20px;
+  label {
+    float: none;
+  }
+}
+
+//-- days count style from http://www.littlewebthings.com/projects/countdown/example/?style=light
+
+.dash {
+	width: 110px;
+	height: 74px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border:1px solid #C6C6C6;
+	background: #FFFFFF;
+}
+
+.dash .digit {
+	font-size: 32pt;
+	font-weight: bold;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	width: 100px;
+	text-align: center;
+	font-family: Times;
+	color: #555;
+	position: relative;
+	background: #FFFFC9;
+}
+
+.dash_title {
+	font-size: 9pt;
+	color: #555;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	margin-left: auto;
+	margin-right: auto;
+	border-top:1px solid #C6C6C6;
+	width: 100px;
+	height: 20px;
+}
+
+.loading-indicator {
+  background: transparent url("/images/indicator.gif") right center no-repeat;
+  height: 100px;
+  width: 100px;
+  position: fixed;
+  display: block;
+  margin: auto;
+  top: 45%;
+  left: 45%;
+  opacity: 0.5; 
+}
+

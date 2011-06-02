@@ -1,0 +1,254 @@
+-# used on dashboard - I think - PC
+
+
+-# template local variables
+-# hide_query_field = true will hide query input text
+- hide_query_field ||= false
+
+-content_for :on_ready do
+  :plain
+    $('form#search').submit(function() {
+      var data = $('form#search').serialize();
+      $('#search_button').hide();
+      $('#post_back_msg').show();
+      $("form#search input[type='text']").attr('disabled', true);
+      $(".refine-group input[type='checkbox']").attr('disabled', true);
+      $("#maps_search_result").css({opacity:'0.3'});
+      $("body").append('<div class="loading-indicator" />');
+
+      $('#maps_search_result').load(
+          $('form#search').attr('action') + '.js',
+          data,
+          function() {
+            $('#search_button').show();
+            $('#post_back_msg').hide();
+            $("form#search input[type='text']").attr('disabled', false);
+            $(".refine-group input[type='checkbox']").attr('disabled', false);
+            $("body .loading-indicator").remove();
+            $("#maps_search_result").css({opacity: '1'});
+          });
+      return false;
+    });
+
+    var searchTimeout;
+    // Trigger search when checkboxes clicked, wait for .5s
+    $(".refine-group input[type='checkbox']").live('click', function() {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+
+      searchTimeout = setTimeout(function() {
+        $('form#search').trigger('submit');
+      }, 500);
+
+    });
+
+    //disable the timeout when city/country searched
+    $('#country_ac, #city_ac').bind('focusin', function() {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+    });
+
+    $.fn.exists = function () {
+        return $(this).length !== 0;
+    }
+
+    // Countries autocomplete
+    var countries = #{ @countries.to_json };
+    $('#country_ac').autocomplete({
+      source: countries,
+      select: function(event, ui) {
+        var name = ui.item.value;
+        // normalize node name
+        var id   = 'filters_country_' + name.replace(/[^a-z0-9_]+?/gi,'_');
+        var selector = '#' + id;
+        if ($(selector).exists()) {
+          if ($(selector).is(':checked')) {
+            $(selector).attr('checked', false);
+          }
+          $(selector).trigger('click');
+        }
+        else {
+          var html = '<li>' +
+                     '<input id="' + id + '" name="filters[country][]" type="checkbox" value="'+ name + '" />' +
+                     '<label for="' + id + '">'+ name + '</label>' +
+                     '</li>';
+          $("ul#refine-country").append(html);
+          $(selector).trigger('click');
+        }
+
+        $("#country_ac").val('');
+        return false;
+      }
+    });
+
+    // Cities autocomplete
+    var cities = #{ @cities.to_json };
+    $('#city_ac').autocomplete({
+      source: cities,
+      select: function(event, ui) {
+        var name = ui.item.value;
+        // normalize node name
+        var id   = 'filters_city_region_' + name.replace(/[^a-z0-9_]+?/gi,'_');
+
+        var selector = '#' + id;
+        if ($(selector).exists()) {
+          if ($(selector).is(':checked')) {
+            $(selector).attr('checked', false);
+          }
+          $(selector).trigger('click');
+        }
+        else {
+          var html = '<li>' +
+                     '<input id="' + id + '" name="filters[city_region][]" type="checkbox" value="'+ name + '" />' +
+                     '<label for="' + id + '">'+ name + '</label>' +
+                     '</li>';
+          $("ul#refine-city").append(html);
+          $(selector).trigger('click');
+
+        }
+
+        $("#city_ac").val('');
+        return false;
+      }
+    });
+
+    function goToByScroll(selector){
+      $('html,body').animate({scrollTop: $(selector).offset().top},'slow');
+    }
+
+
+    // pagination handler
+    $('.pagination a').live('click', function() {
+      $('#post_back_msg').show();
+      $('#search_button').hide();
+      $("form#search input[type='text']").attr('disabled', true);
+      $(".refine-group input[type='checkbox']").attr('disabled', true);
+
+      $('#maps_search_result').load(
+          $(this).attr('href'),
+          function() {
+            $('#post_back_msg').hide();
+            $('#search_button').show();
+            $("form#search input[type='text']").attr('disabled', false);
+            $(".refine-group input[type='checkbox']").attr('disabled', false);
+
+            // scroll to #main_col_map for Quick Search
+            goToByScroll("div#main_col_map > div:nth-child(1)");
+          });
+      return false;
+    });
+
+    // toggle Subcategories display on selected Categories
+    $(document).bind('loadSubcategories', function() {
+    
+      var any_checked = false;
+      $('ul#refine-master_category input[type="checkbox"]').each( function() {
+        if ($(this).is(':checked')) {
+          any_checked = true;
+        }
+      });
+      
+      // no Category selected
+      if (!any_checked) {
+        $('ul#refine-category input[type="checkbox"].subcategories').attr('checked', false).parent('li').show();
+      } else {
+        // uncheck and hide the control
+        $('ul#refine-category input[type="checkbox"].subcategories').attr('checked', false).parent('li').hide();
+
+        $('ul#refine-master_category input[type="checkbox"]').each( function(item) {
+          // only display if Category is checked
+          if ($(this).is(':checked')) {
+            var tipe = $(this).attr('value');
+            $('ul#refine-category input[type="checkbox"]'+'.'+tipe).parent('li').show();
+          }
+        });
+      }
+    });
+
+    $('ul#refine-master_category input[type="checkbox"]').bind('click', function() {
+      $(document).trigger('loadSubcategories');
+    });
+
+    $(document).trigger('loadSubcategories');
+
+    $('ul#refine-category label[title], ul#refine-master_category label[title], #refine-filters-display label[title]').qtip({
+      position: {
+        corner: {
+          target: 'topRight',
+          tooltip: 'bottomLeft'
+        }
+      },
+      style: {
+        name: 'cream',
+        padding: '7px 13px',
+        width: {
+          max: 210,
+          min: 0
+        },
+        tip: true
+      }
+    });
+
+#maps_search_refine
+  .col_head
+    %h3 
+      = "refine search"
+    .smaller
+      =link_to "(reset and start over)", dashboard_path
+    
+  .block_quote.left
+
+
+    .refine-group.bold.float_left
+      Show Only
+      .clear
+      #refine-filters-display
+        %ul
+          %li= filter_tag(:is_student_friendly, "Student Friendly", :value => true, :title => t("filter_tooltip.student_friendly"))
+          %li= filter_tag(:is_motorcoach_friendly, "Motorcoach Friendly", :value => true, :title => t("filter_tooltip.motorcoach_friendly"))
+    .clear
+    %hr
+
+    .refine-group.bold.float_left
+      Category
+      .clear
+      %ul#refine-category
+        - for category in @categories
+          %li= filter_tag(:category_ids, category.name, :value => category.id, :class => ['subcategories', category.tipe], :title => category.description)
+    .clear
+    %hr
+
+    .refine-group.bold.float_left
+      Country
+      .clear
+      #refine-country-display
+        .search-wrapper
+          = text_field_tag :country_ac, '', :placeholder => 'Enter a Country', :class => 'float_left'
+          = label_tag :country_ac, '', :class => 'ui-icon ui-icon-search float_left'
+          .clear
+        .clear
+
+        %ul#refine-country
+          %li= filter_tag(:country, "United States")
+          %li= filter_tag(:country, "Canada")
+    .clear
+    %hr
+
+    .refine-group.bold.float_left
+      City
+      .clear
+      #refine-city-display
+        .search-wrapper
+          = text_field_tag :city_ac, '', :placeholder => 'Enter a City', :class => 'float_left'
+          = label_tag :city_ac, '', :class => 'ui-icon ui-icon-search float_left'
+          .clear
+        .clear
+        %ul#refine-city
+          %li= filter_tag(:city_region, "New York, NY")
+          %li= filter_tag(:city_region, "Orlando, FL")
+          %li= filter_tag(:city_region, "Washington, DC")
+          %li= filter_tag(:city_region, "Chicago, IL")
+          %li= filter_tag(:city_region, "Los Angeles, CA")
+    .clear

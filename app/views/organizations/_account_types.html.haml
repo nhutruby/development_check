@@ -1,0 +1,27 @@
+- tr_class = []
+- is_current_plan = @organization.account_type == account_type
+- product = nil
+- product = Chargify::Product.find(account_type.product_id) if account_type.product_id
+-# highlight current plan
+- tr_class << "highlight" if is_current_plan
+
+%tr{:class => tr_class.join(" ")}
+  %td.firstcol.left
+    = account_type.name
+  %td
+    = product ? "#{number_to_currency(product.price_in_cents / 100.0)} \/ month" : "free"
+  %td.plans.right
+    //This is for a paid plan only -- not for a tour provider because trial wont be set.
+    - if is_current_plan && @organization.trial_ends_at && @organization.trial_ends_at < Time.now
+      Your Plan
+    - elsif is_current_plan && !@organization.account_type.is_travel_provider && !@organization.account_type.link_to_chargify?
+      Your Plan
+    - elsif is_current_plan and @organization.account_type.is_travel_provider
+      Your Plan
+    - else
+      - if !@organization.account_type.link_to_chargify?
+        = link_to "Change Plan", upgrade_organization_path(@organization, :account_type_id => account_type.id), :class => 'fancybox_inline'
+      - elsif !@organization.account_type.link_to_chargify or (@organization.trial_ends_at && @organization.trial_ends_at > Time.now)
+        = link_to "Sign Up", signup_organization_path(@organization, :account_type_id => account_type.id), :class => 'fancybox_signup'
+      - else
+        = link_to "Change Plan", upgrade_organization_path(@organization, :account_type_id => account_type.id), :class => 'fancybox_inline'

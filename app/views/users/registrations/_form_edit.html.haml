@@ -1,0 +1,18 @@
+- simple_form_for resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put } do |f|
+  = devise_error_messages!
+  = f.input :email, :hint => "this email address will be your new username/login"
+  = f.input :password
+  = f.input :password_confirmation
+  = f.input :current_password, :hint => "required to make ANY changes to your email address or password"
+  .non_input
+    By clicking Submit you agree to the
+    = raw("#{link_to 'Terms of Service', '/terms'}" + ", ")
+    = raw("#{link_to "Privacy Policy", "/privacy"}" + ", and")
+    = raw("#{link_to "Refund Policy", "/refund"}" + ".")
+    .new_line
+  = render "/generic/action", :f => f, :skip_destroy_link => true
+  .new_line.pad_10
+  .non_input
+    Unhappy? #{link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete}
+    
+    

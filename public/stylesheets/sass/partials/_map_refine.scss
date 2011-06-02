@@ -1,0 +1,237 @@
+@import "global.sass";
+
+@mixin float-left {
+  float: left;
+}
+
+@mixin right {
+  text-align: right;
+}
+
+@mixin smaller {
+  font-size: 90%;
+}
+
+@mixin even-smaller {
+  font-size: 80%;
+}
+
+#leftbar, #rightbar, #user_leftbar {
+  color: $text;
+  padding: 0;
+}
+
+#leftbar, #user_leftbar {
+  margin: 0 10px 0 10px;
+  float: left;
+  width: 234px;
+  position: relative;
+}
+
+#user_leftbar {
+  width: 260px;
+
+  #map_canvas {
+    height: 150px;
+  }
+}
+
+#middle, #user_middle {
+  float: none;
+  width: auto;
+  position: relative;
+
+  #main_col {
+    margin: 10px 10px 0px 10px;
+  }
+
+  .search_wrapper {
+    @include float_left;
+    width: 100%;
+    text-align: left;
+  }
+}
+
+#middle {
+  margin-left: 244px;
+  margin-right: 244px;
+
+}
+
+#user_middle {
+  margin-left: 290px;
+  height: 100%;
+  text-align: left;
+
+  input {
+    @include smaller;
+  }
+
+  input#query {
+    width: 50%;
+  }
+}
+
+#maps_wrapper {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#middle #tabs, #user_middle #tabs {
+  width: 95%;
+  display: inline-block;
+  padding-bottom: 15px;
+
+  #tabs-2 {
+
+    #maps_search_result {
+      height: 511px;
+      overflow: auto;
+      background: #F8F8F8;
+
+      //TODO: remove .search_result when css is rewritten as partials
+      //jquery-ui-1.8.6.custom.css is loaded after application.css
+      .search_result {
+        height: 100%;
+        color: $text !important;
+        font: normal normal normal 90%/normal Tahoma, Verdana, Arial, sans-serif !important;
+
+        a:hover {
+          color: #F8F8F8 !important;
+        }
+        a {
+          color: #0094CC !important;
+        }
+      }
+    }
+  }
+}
+
+#maps_search_result {
+  .location {
+    border-bottom:1px solid #C6C6C6;
+    padding:5px 0;
+    margin-top: 5px;
+
+    img.marker {
+      @include float_left;
+      margin-left: 5px;
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+
+    .search_result {
+      padding-left: 40px;
+
+      img {
+        @include float_left;
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+#rightbar {
+  margin: 0 10px 0 10px;
+  float: right;
+  width: 234px;
+  position: relative;
+}
+
+#maps_search_refine {
+  border-color: $border_grey;
+  border-style: solid;
+  border-width: 0px 2px 2px 2px;
+
+  fieldset.search {
+    width: 100%;
+    margin-bottom: 20px;
+
+    input {
+      float: left;
+    }
+  }
+
+  .refine-group {
+    @include even-smaller;
+    //margin: 10px 0;
+    width: 100%;
+
+    // align vertically
+    h4, a.hideable {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    h3, h4 {
+      @include float-left;
+    }
+
+    .right-button {
+      @include right;
+      @include smaller;
+    }
+
+    ul {
+      list-style-type: none;
+      margin-bottom: 10px;
+      li {
+        display: table-row;
+
+        label, input {
+          display: table-cell;
+          vertical-align: middle;
+          font-weight: normal;
+        }
+
+        label {
+          padding-left: 5px;
+        }
+      }
+    }
+  }
+}
+
+#query{
+  width: 200px;
+}
+
+.search-wrapper {
+  margin-left: 25px;
+  margin-top: 10px;
+  border-bottom-style: inset;
+  border-bottom-width: 1px;
+  border-left-style: inset;
+  border-left-width: 1px;
+  border-right-style: inset;
+  border-right-width: 1px;
+  border-top-style: inset;
+  border-top-width: 1px;
+  width: 136px;
+  
+
+  label, input {
+    display: table-cell;
+    vertical-align: middle;
+
+  }
+
+  input[type=text] {
+    width: 110px;
+    border: 0;
+    height: 14px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+}
+
+
+.ui-menu .ui-menu-item a {
+  font-size: 60%;
+  text-align: left;
+}
+
+#refine-master_category {
+  
+}

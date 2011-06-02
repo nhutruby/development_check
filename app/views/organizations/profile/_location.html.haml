@@ -1,0 +1,20 @@
+- if @account_type && @account_type.allow_location_primary_contact? && location.primary_contact
+  .image.pad_5
+    - if location.try(:primary_contact).try(:avatar).try(:exists?)
+      .avatar_mini.float_left.margin_right_10
+        = image_tag(location.primary_contact.avatar.url(:mini), :alt => nil)
+    - else
+      .avatar_mini.float_left.margin_right_10.no_border
+        = image_tag("/images/avatar_mini.gif")
+  .smaller.float_left
+    .pad_left_10
+      = link_to location.primary_contact.name, user_path(location.primary_contact)
+      - location.primary_contact.contact_methods.email.each do |email|
+        .even_smaller
+          = email.lokation + ":" unless email.lokation.blank?
+          = mail_to(email.address)
+      - location.primary_contact.contact_methods.phone.each do |phone|
+        .even_smaller
+          = phone.lokation + ":" unless phone.lokation.blank?
+          = phone.address
+  .clear

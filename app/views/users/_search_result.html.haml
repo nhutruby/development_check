@@ -1,0 +1,30 @@
+- if @locations.present?
+  :javascript
+    jQuery(function($) {
+      show_markers_on_page(#{generate_markers_json(@locations)}, false);
+      //hide streetViewControl, zoomControl, mapTypeControl
+      map.setOptions({disableDefaultUI: true});
+    });
+- else
+  :javascript
+    jQuery(function($) {
+      show_google_maps();
+      map.setOptions({disableDefaultUI: true});
+      map.setOptions({zoom: 2});
+    });
+
+- if @locations.present?
+  - if @locations.total_entries > 100
+    #form_announcement.block_quote.center.bold
+      Your search found #{@locations.total_entries} organizations.
+      Try adding additional information to your search to narrow the number of organizations found.
+    .pad_10
+  = render 'generic/pagination_info', :total => @total
+
+.block_quote.left
+  %div
+    = render 'users/supplier_list'
+.clear
+
+- if @locations.present?
+  = render 'generic/pagination_full', :entries => @locations

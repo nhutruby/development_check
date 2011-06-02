@@ -1,0 +1,12 @@
+.bold
+  = "You have asked the following people to join your team:"
+.pad_10
+%table.left   
+  - for role in @roles_needing_user_approval.ordered
+    %tr
+      %td.note_message.dashed
+        = role.user.full_name
+      %td.note_message.dashed
+      %td.note_message.dashed
+        = link_to "Rescind invitation to join team", org_decline_role_path(role, :return_to => request.env['REQUEST_URI']), :method => :put
+.pad_10

@@ -1,0 +1,74 @@
+#main_col.shadow.dark_text
+  .col_head
+    %h2.float_left
+      Connections
+    .clear
+  .block_quote.left
+    %h4
+      - if @error
+        = @error
+      - else
+        We found #{pluralize(@list_connections.count, 'contact')} from your #{params[:mail_type]} account on iTourSmart.
+      .smaller
+        - if @list_connections.count == 1
+          = "Select the person below to request a connection."
+        - elsif @list_connections.count > 1
+          = "Select one or more people from the list below to request a connection."
+    .clear
+    .pad_10
+    %div#friend_list
+      %div#friend_list_content
+        - unless @list_connections.size < 1
+          = form_tag(update_conection_connections_path) do
+            - if @list_connections.size > 0
+              %div#select_friends
+                = check_box_tag "select_all", nil
+                Select All
+            %div#friend-main-list
+              - @list_connections.each do |friend|
+                %div{:id => "friend_element_#{friend.id}"}
+                  %div#input-chekbox
+                    = check_box_tag "contacts[]", friend.id
+                  %div#friend-pic
+                    - if friend.avatar.exists?
+                      %img{:src => "#{friend.avatar.url(:mini)}", :class =>"domain-image"}
+                    - else
+                      %img{:src => "/images/avatar.png", :class =>"domain-image"}
+                  %div#friend-info
+                    %span
+                      = friend.full_name
+                      
+                    .clear
+                    = friend.email
+                  .clear
+              .clear
+            %br
+              #submit
+                %div#submit-friend
+                  = submit_tag "Request Connection(s)", :id => 'add_friend'
+                  = "or "
+                  = link_to("cancel", request.referrer)
+              #post_back_msg
+                #indicator.inline
+                  = image_tag "indicator.gif"
+                .inline
+                  = "Please wait..."
+          .clear
+        -else
+          No new potential connections were found.
+.clear
+
+  %script{:type => "text/javascript"}
+    $('#select_all').click(function(event) {
+    if(this.checked) {
+    // Iterate each checkbox
+    $(':checkbox').each(function() {
+    this.checked = true;
+    });
+    }
+    else{
+    $(':checkbox').each(function() {
+    this.checked = false;
+    });
+    }
+    });

@@ -1,0 +1,10 @@
+- unless @locationOrg.empty?
+  = google_map
+
+  = content_for :on_ready do
+    == show_markers_on_page(#{raw(@locationOrg.collect{|c| {:id => c.id, :name => escape_javascript(c.organization.name), :location_name => c.name, :address_line1 => escape_javascript(c.address.line_1), :address_line2 => escape_javascript(c.address.line_2), :city => escape_javascript(c.address.city), :region => escape_javascript(c.address.region), :postal_code => escape_javascript(c.address.postal_code), :country => escape_javascript(c.address.country), :logo => c.organization.logo_url(:mini), :accuracy => c.accuracy, :lat => c.lat, :lng => c.lng, :organization_type=>getOrganizationType(c.organization)}}.to_json)});
+
+    init_locale_form();
+
+  #map_canvas
+

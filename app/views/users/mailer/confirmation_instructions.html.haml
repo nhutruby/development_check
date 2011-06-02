@@ -1,0 +1,16 @@
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left Welcome to 
+      = image_tag("http://itoursmart.com/images/its_blue.gif", :alt => "iTourSmart", :height => "38", :width => "213")
+    .block_quote.left
+      %p
+        Hi #{@resource.name_first},
+      %p Welcome to the future of tour and travel!  You can confirm your account by clicking #{link_to 'here', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)} or pasting the following into your browser:
+      %p #{confirmation_url(@resource, :confirmation_token => @resource.confirmation_token)}
+      %p Username: #{@resource.email}
+      %br
+      %p Thank you for choosing iTourSmart!
+      %br
+      %p Enjoy the journey,
+      %p The iTourSmart Crew

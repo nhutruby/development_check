@@ -1,0 +1,16 @@
+- title "#{@page.name}"
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        = @page.name
+      .right
+        - if can? :update, @pages
+          = link_to "Edit this Page", edit_page_path(@page) 
+          |
+          = link_to "View All", pages_path
+      .clear
+    .block_quote.left
+      :textile
+        #{textilize(@page.content)}
+    

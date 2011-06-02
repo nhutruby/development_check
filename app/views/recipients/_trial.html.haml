@@ -1,0 +1,15 @@
+- closing = ['Corey and Patrick', 'Patrick and Corey']
+%p
+  = "#{@recipient.user.name_first},"
+%p.pad_10
+  = "We couldn't think of a better way for you to understand the benefits of iTourSmart than to let you kick the tires for a while.  For that reason, we have set you up with a 30 day trial of our Premium Subscription for free (a $75 USD value).  So feel free to explore everything we have to offer for the next month."
+  
+%p.pad_10
+  = "Once you have had a chance to see which aspects of iTourSmart could be beneficial to you, please adjust your account settings to the appropriate subscription type."
+  
+%p.pad_10
+  = "We will send you a reminder email as the end of your trial nears.  So for now, don't sweat the details, just enjoy the iTourSmart community."
+%p.pad_10
+  = "We are so happy YOU are here,"
+%p
+  = closing[rand(closing.length)]

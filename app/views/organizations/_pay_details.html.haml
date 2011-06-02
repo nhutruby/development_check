@@ -1,0 +1,51 @@
+- content_for :head do
+  = stylesheet_link_tag 'jquery.wysiwyg.css'
+  = stylesheet_link_tag 'jquery.wysiwyg.modal.css'
+  = javascript_include_tag 'wysiwyg'
+  
+%label
+  Logo
+.shadow.float_left.logo_box.image
+  - if !@organization.logo_url.blank?
+    = image_tag @organization.logo.url(:mini), :alt => nil
+  - else
+    = image_tag("/images/logo_mini.gif")
+.logo_tools.indent_10.float_left
+  .float_left
+    = f.file_field :logo
+  .clear
+  .float_left.pad_10
+    - if @organization.logo.exists?
+      = f.check_box(:delete_logo) + " delete current logo"
+  .clear
+  #logo_help.smaller
+    .plain
+      The logo must be in PNG, GIF, or JPG format.  File size is limited to 2 megabytes.  All logos will be cropped to a maximum with and height of 55px.
+  .clear
+.clear
+.pad_10
+= f.input :url, :label => "Website", :hint => "please format as www.yourwebsite.com", :input_html => { :size => 60, :id => "url", :type => "text" }
+= f.input :facebook_url, :label => "Face Book Page URL", :hint => "it should look like ours: www.facebook.com/pages/iTourSmart", :input_html => { :size => 60, :id => "url", :type => "text" }
+= f.input :twitter_name, :label => "Twitter Name"
+%label
+  Description
+.non_input
+  #barbox
+    #bar
+    #barbox_text
+      #count.inline.even_smaller
+        255
+      .inline.even_smaller
+        characters remaining in description
+.clear
+.non_input
+  = f.input :description, :as => :text, :input_html => { :id => "orgtext"}, :label => false, :error => false
+= f.error :description
+= f.hint "Websites and email addresses are not allowed."  
+- if @account_type && @account_type.allow_long_description?
+  .pad_10
+  .label
+    = f.label :long_description, "Additional Information"
+  .non_input
+    = f.input :long_description, :as => :text, :input_html => { :id => "longorgtext"}, :label => false
+  = f.hint "This is where you can add as much promotional information about your company as you desire"

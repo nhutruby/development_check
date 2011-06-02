@@ -1,0 +1,283 @@
+- stylesheet "jquery-ui-1.8.6.custom"
+- stylesheet "tagit-simple-blue"
+- content_for :head do
+  :javascript
+    jQuery(document).ready(function() {
+      $('#organization_keywords').parent().hide();
+      $('#list_keywords').tagit({
+        tagSource: '#{ search_city_region_path(:country_code => :us, :format => :js) }',
+        initialTags: #{ @organization.keywords_list.to_json },
+        triggerKeys: ['enter', 'tab', 'comma']
+      });
+      $('#form_keywords').submit(function() {
+        $('#organization_keywords').val( $('#list_keywords').tagit('tags').join(' , ') );
+        return true;
+      });
+    });
+
+
+- title "#{@organization.name}"
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %table.small
+        %tr
+          - if !@organization.logo_url.blank?
+            %td.avatar_thumbnail
+              = image_tag @organization.logo_url(:thumb), :alt => nil
+          %td
+            %table
+              %tr
+                %td
+                  %h1
+                    = @organization.name.html_safe
+              %tr
+                %td
+                  - role =  current_user.roles.find_by_organization_id(@organization.id)
+                  - if @organization.owner_id.blank?  && current_user.roles.count < 4
+                    = link_to "Work here? Claim and update this #{@organization.entity.downcase}.", claim_organization_path(@organization)
+                  - elsif !role.blank? and role.is_organization_approved
+                  - elsif !role.blank? and role.is_organization_approved.blank?
+                    = "You have requested to join this team."
+                  - elsif current_user.roles.count < 4 && @organization.can_add_team_member?
+                    = link_to "Work here? Join the team.", add_to_organization_unapproved_roles_path(:organization_id => @organization.id), :method => :put
+          %td.right
+            - if can? :update, @organization and !@organization.owner_id.blank?
+              = link_to "Edit this brand", edit_organization_path(@organization) 
+              |
+            = link_to "Dashboard", dashboard_path          
+    .block_quote.left
+      #locations.float_left
+        - if @organization.member_count
+          .smaller
+            = link_to "Our Members in iTourSmart (#{@organization.member_count})", organizations_path(:association_id => @organization.id) if @organization.url
+          %hr
+        - if @account_type && @account_type.allow_website? && @organization.url.present?
+          .smaller
+            = link_to "Our Website", url_with_protocol(@organization.url), :target => '_blank'
+          %hr
+        - if @account_type && @account_type.allow_website? && @organization.facebook_url.present?
+          .smaller
+            = link_to "Our Facebook Page", url_with_protocol(@organization.facebook_url), :target => '_blank'
+          %hr
+        - if @account_type && @account_type.allow_website? && @organization.twitter_name.present?
+          .smaller
+            = link_to "Our Twitter Page", "http://twitter.com/#!/#{@organization.twitter_name}", :target => '_blank'
+          %hr
+        .smaller
+          - if @organization.categories.all.count > 0
+            = @organization.categories.all.count == 1 ? "Category: " : "Categories: "
+            .bold.inline
+              = @organization.categories.all.map { |r| r.name }.to_sentence
+          - else
+            = "No categories have been defined for this #{@organization.entity.downcase}."
+            .pad_5
+        %hr
+        #friendlies
+          .smaller
+            - if @organization.is_student_friendly.nil?
+              = "Student Friendly: "
+              .bold.inline
+                = "Unknown"
+              %hr
+            - else
+              = "Student Friendly: "
+              .bold.inline
+                = @organization.is_student_friendly ? "Yes" : "No"
+              %hr
+          .smaller
+            - if @organization.is_motorcoach_friendly.nil?
+              = "Motorcoach Friendly: "
+              .bold.inline
+                = "Unknown"
+              %hr
+            - else
+              = "Motorcoach Friendly: "
+              .bold.inline
+                = @organization.is_motorcoach_friendly ? "Yes" : "No"
+              %hr
+        #memberships
+          = render :partial => 'membership'
+                
+                
+        - if @account_type && @account_type.allow_short_description? && !@organization.description.blank?
+          = @organization.description
+          %hr
+        - elsif @organization.owner_id.blank?
+          .pad_5
+          = unclaimed_organization_information(@organization)
+          .pad_5
+          %hr
+            
+        -#---------ROLES-----------------------------------------------------------------
+        - unless @organization.roles.approved.empty?
+          - limit = (@account_type and !@account_type.user_limit.nil?) ? @account_type.user_limit : 100000
+          .profile
+            .bold
+              = "Team:"
+            .pad_10
+            %table.collapse
+              - @organization.roles.approved.ordered.limit(limit).collect {|r| r.user}.in_groups_of(2, false) do |user_row| 
+                %tr
+                  - for user in user_row
+                    %td
+                      = render :partial => '/organizations/profile/user', :locals => {:user => user}
+                      .pad_10
+            - if can? :update, @organization and @account_type and @organization.can_add_team_member? and !@organization.owner_id.blank?
+              .smaller.pad_10
+                - travel_planner = current_user.is_travel_planner ? "true" : "false"
+                = link_to "(Invite Team Member to iTourSmart)", new_user_invitation_path(:temp_org_id => @organization.id, :inviter => current_user.full_name, :is_travel_planner => travel_planner)
+            - elsif can? :update, @organization && !@organization.owner_id.blank?
+              .smaller.pad_10
+                = link_to "(Upgrade Your Account To Add Team Members)", subscriptions_organization_path(@organization)
+
+          .pad_5
+      #org_profile_map.float_right
+        - if @organization.locations.exists?
+          = render :partial => 'organizations/maplocation'
+          - unless @account_type and  @account_type.link_to_chargify?
+            - count = (Rating.where(:entity_id => @organization.id, :entity_type => "Organization").count)-1
+            - if count > 1
+              - closed_message = "You and #{count} others have notified iTourSmart that this #{@organization.entity.downcase} is closed."
+            - else
+              - closed_message = auto_link("You have notified iTourSmart that this #{@organization.entity.downcase} is closed.  #{link_to 'Oops, it\'s not closed!', unmark_as_closed_organization_path(@organization), :method => :post, :remote => true}".html_safe)
+            .map_link.smaller
+              - if !current_user.ratings.closed.where(:entity_id => @organization.id, :entity_type => "Organization").empty?
+                .closed
+                  = closed_message
+              - else
+                #open
+                  = link_to "Notify iTourSmart that this #{@organization.entity.downcase} is no longer in business", mark_as_closed_organization_path(@organization), :method => :post, :remote => true
+                #closed.hide
+                  = closed_message
+
+      .clear
+      -#---------LOCATIONS-----------------------------------------------------------------
+      - if !@account_type.blank?
+        - location_limit = !@account_type.location_limit.nil? ? @account_type.location_limit : 100000
+      - else
+        - location_limit = 100000
+      %hr
+      .profile
+        .bold
+          = "Locations:"
+        .pad_10
+        %table.collapse
+          - @organization.locations.order(:name).limit(location_limit).in_groups_of(3, false) do |location_row|
+            %tr
+              - for location in location_row
+                %td(width = "33.33%")
+                  #profile
+                    .bold
+                      = link_to(location.name, organization_location_path(location.organization, location))
+                    .smaller
+                      = render :partial => '/addresses/label', :locals => {:address => location.address}
+                  = render :partial => '/organizations/profile/location', :locals => {:location => location} if @organization.account_type && @organization.account_type.allow_enhance_listing?
+                  .pad_10
+          %tr
+        - if can? :update, @organization and @organization.owner_id and location_limit > @organization.locations.count
+          .pad_10.smaller
+            = link_to "(Add Location)", new_organization_location_url(@organization)
+        .pad_10
+        
+      -#---------KEYWORDS-----------------------------------------------------------------
+        
+      - if can? :update, @organization and @organization.owner_id and @account_type and @account_type.allow_keywords?
+        %hr
+        .profile
+          .bold
+            = "Keywords:"
+          #keywords
+            - if @account_type && !@account_type.allow_keywords?
+              =# render 'generic/enhance', :organization => @organization
+            - else
+              .pad_10
+                = @organization.keywords
+                = link_to "(Manage Keywords...)", "#", :rel => "#form_keywords", :class => "hideable smaller"
+                #form_keywords.hidden.indent_10.block_quote.left
+                  .pad_10
+                  .pad_10
+                  = simple_form_for @organization do |f|
+                    %ul#list_keywords
+                    = f.input :keywords
+                    .input.text.optional
+                      %span.hint
+                        Input keywords for this organization (ex. additional cities or states that this organization serves)
+                        %br
+                        = "(press <Enter> to add another)"
+                    = f.submit "Set Keywords"
+                  .pad_10
+                  .pad_10
+                .clear
+        .clear
+        .pad_10
+      -#---------INVENTORY ITEMS-----------------------------------------------------------------
+      .profile
+        = render "inventory_items"
+        .smaller
+          .pad_5
+      -#---------LONG DESCRIPTION-----------------------------------------------------------------
+      - if !@organization.long_description.blank? && @account_type && @account_type.allow_long_description?
+        %hr
+        .bold
+          = "More Helpful Information:"
+        .pad_5
+        = auto_link(@organization.long_description.html_safe)
+      -#---------ATTACHMENTS-----------------------------------------------------------------
+      - if !@organization.assets.blank? && @account_type && @account_type.allow_long_description? or (can? :update, @organization and @organization.owner_id and @account_type and @account_type.allow_assets?)
+        %hr
+        .bold
+          = "Downloadable Documents:"
+        .pad_5
+        %table#attachments
+          - for asset in @organization.assets.order(:file_updated_at) do
+            %tr
+              %td.image
+                - if ['image/jpeg', 'image/png', 'image/gif'].include?(asset.file_content_type)
+                  = link_to(image_tag(asset.file.url(:medium), :class => "thumb"), asset.file.url, :target => :blank, :class => "logo")
+                - elsif asset.file_content_type == 'application/pdf'
+                  = link_to(image_tag("doc_icon_pdf.png", :class => "thumb"), asset.file.url, :target => :blank, :class => "thumb logo")
+                - elsif asset.file_content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or asset.file_content_type == 'application/msword'
+                  = link_to(image_tag("doc_icon_doc.png", :class => "thumb"), asset.file.url, :target => :blank, :class => "thumb logo")
+                - elsif asset.file_content_type == 'application/vnd.ms-excel' or asset.file_content_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                  = link_to(image_tag("doc_icon_excel.png", :class => "thumb"), asset.file.url, :target => :blank, :class => "thumb logo")
+              %td.text
+                - if asset.name
+                  .asset_name
+                    .bold.inline
+                      = asset.name
+                    .inline.normal
+                      - if can? :update, @organization and @organization.owner_id and @account_type and @account_type.allow_assets?
+                    = link_to "(edit)", edit_asset_path(asset)
+                  .pad_10
+                - if ['image/jpeg', 'image/png', 'image/gif'].include?(asset.file_content_type)
+                  = link_to "view this file (right click to download)", asset.file.url, :target => :blank
+                - else
+                  = link_to "download this file", asset.file.url, :target => :blank
+                .even_smaller
+                  = "Uploaded on #{asset.file_updated_at.strftime('%b %d, %Y')}"
+                .pad_10
+                .asset_description
+                  = asset.description
+            %tr
+              %td.pad
+        - if can? :update, @organization and @organization.owner_id and @account_type and @account_type.allow_assets?
+          .pad_5.smaller
+            = link_to "(Add File)", new_asset_url(:organization_id => @organization.id)
+    .clear
+  .clear  
+          
+#sidebar.justify
+  = render 'generic/banner_1'
+  = render 'generic/banner_2'
+  .pad_10
+  = render 'twitter'
+  .pad_10
+
+  -# NOTES TO BE ADDED LATER
+    = render 'notes'
+  -# restore changes introduced here
+  -# https://github.com/pconnor/iTourSmart/commit/e4aec17cb99eb513764f0c9a1b1055e6770df29d
+  - if @organization.owner_id == current_user.id	 	
+    = render 'account_status'
+.clear

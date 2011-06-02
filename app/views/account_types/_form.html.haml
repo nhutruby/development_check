@@ -1,0 +1,24 @@
+- simple_form_for @account_type do |f|
+  = f.error_notification
+  = f.input :name
+  = f.input :description, :as => :text, :input_html => { :id => "orgtext"}
+  = f.input :credits
+  = f.input :user_limit
+  = f.input :location_limit
+  = f.input :link_to_chargify
+  = f.input :product_id, :collection => Chargify::Product.find(:all)
+  = f.input :allow_website
+  = f.input :allow_email
+  = f.input :allow_logo
+  = f.input :allow_short_description
+  = f.input :allow_long_description
+  = f.input :allow_keywords
+  = f.input :allow_location_primary_contact
+  = f.input :allow_location_phone
+  = f.input :allow_location_website
+  = f.input :allow_tour_operator_search
+  = f.input :allow_association_directories
+  = f.input :allow_round_up
+  = f.input :allow_buyer_blast
+  = f.input :allow_enhance_listing
+  = render "/generic/action", :f => f

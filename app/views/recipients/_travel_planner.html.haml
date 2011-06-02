@@ -1,0 +1,9 @@
+- closing = ['Corey and Patrick', 'Patrick and Corey']
+%p
+  = "#{@recipient.user.name_first},"
+%p.pad_10
+  = "As a Professional Travel Planner, the use of iTourSmart is complimentary.  All we ask is that you update your profile from time to time.  So, feel free to add your team members, upload your logo, and enjoy everything that iTourSmart has to offer!"
+%p.pad_10
+  = "We are thrilled that YOU are here,"
+%p
+  = closing[rand(closing.length)]

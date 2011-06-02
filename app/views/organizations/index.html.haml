@@ -1,0 +1,114 @@
+- unless @association.blank?
+  - title "#{@association.name}"
+- else
+  - title "Brands"
+
+- content_for :on_ready do
+  :plain
+    $('#student').change(function() {
+      $("#q_search input").attr('disabled', true);
+      var url = '#{ url_for_checkbox_state("student", params[:student]) }';
+      window.location.href = url;
+    });
+    $('#motorcoach').change(function() {
+      $("#q_search input").attr('disabled', true);
+      var url = '#{ url_for_checkbox_state("motorcoach", params[:motorcoach]) }';
+      window.location.href = url;
+    });
+
+#content_wrapper
+  #main_col.shadow.dark_text
+    .col_head
+      %h2.float_left
+        - unless @association.blank?
+          - if !@association.logo_url.blank?
+            .logo_pad_right.float_left.logo_box
+              = image_tag(@association.logo.url(:mini), :alt => nil)
+          - else
+            .logo_pad_right.float_left.logo_box
+              = image_tag("/images/logo_mini.gif")
+          = @association.name
+        - else
+          = "Organizations"
+      .right
+        = link_to "Dashboard", dashboard_path
+      .clear
+    .clear
+    .block_quote.left
+      - if !@association.blank?
+        .smaller
+          = "The #{@association.name} has #{pluralize(@association.member_count, 'member')} active in iTourSmart."  
+          = "For more information about this organization, click #{link_to "here", organization_path(@association) }".html_safe
+        .pad_10 
+      #search_title.center
+        - if !@association.blank?
+          = "Search #{@association.name} members here" 
+        - else
+          = "Search organizations here"
+      #search_box.center
+        #q_search{:class => (!params[:organization_name].nil? ? "none" : "")}
+          = form_tag organizations_path, :method => 'get' do
+            .inline.smaller
+              = check_box_tag :student, 1, params[:student].to_i == 1
+              = label_tag :student, "Student Friendly?"
+            .indent_10.inline.smaller
+              = check_box_tag :motorcoach, 1, params[:motorcoach].to_i == 1
+              = label_tag :motorcoach, "Motorcoach Friendly?"
+            .indent_10.inline.smaller
+              = text_field_tag :search, params[:search], :size => "50"
+              = hidden_field_tag(:association_id, params[:association_id]) unless params[:association_id].nil?
+            .indent_10.inline
+              = submit_tag "Search", :name => nil
+      .clear
+      .pad_10
+    
+      .smaller.center
+        = auto_link(alpha_links('list').html_safe)
+      .clear
+
+      -# prof_associations = current_user.organizations.where("master_type = ? OR master_type = ?","association", "dmo")
+
+      - if !@organizations.blank?
+        .pad_10.results_count{:style => "margin-left:12px;"}
+
+          - if @misspelled_query.present?
+            %p Whoops! Your search for <code>#{@misspelled_query}</code> did not return any results.
+
+          Showing
+          - if @organizations.total_entries
+            = pluralize(@organizations.total_entries, 'result')
+          - else
+            = "all results"
+          - if params[:search] || params[:letter]
+            for
+            &ldquo;<code>#{params[:search] || params[:letter]}</code>&rdquo;
+        .clear
+        .pad_10
+
+        = render :partial => "/organizations/index/list", :locals => {:organizations => @organizations}
+      -# else
+      -#  Whoops!  Your search did not return any results.
+      -#  %br
+      -#  %br
+      -#  Suggestions:
+      -#  %ul
+      -#    %li Make sure all words are spelled correctly.
+      -#    %li Try different keywords
+
+      -# elsif !@association.blank?
+        =#.block_quote.left
+          =#= "Are you looking for a particular #{@association.name} member (or type of member)?  If so, click a letter above or search by:"
+          =#%ul
+            =#%li Company name
+            =#%li City, State, Zip
+            =#%li A person associated with the company
+
+      .even_smaller
+        .pad_10
+        = "* Association Directories in iTourSmart represent either user generated content or assumptions made by the iTourSmart team and do not claim to be a completely accurate list of members in good standing for a given association.  If you feel that a company is misrepresenting their membership in an association, contact us immediately and we will confirm and correct as soon as possible."
+
+#sidebar.justify
+  = render "generic/banner_1"
+  = render "generic/banner_2"
+  .pad_10
+  = render 'twitter'

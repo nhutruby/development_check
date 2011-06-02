@@ -1,0 +1,8 @@
+%td
+  #profile
+    .bold
+      = link_to(location.name, organization_location_path(location.organization, location))
+    .smaller
+      = render :partial => '/addresses/label', :locals => {:address => location.address}
+  = render :partial => '/organizations/profile/location_pay', :locals => {:location => location}
+  .pad_10

@@ -1,0 +1,29 @@
+#content_wrapper
+  #full_col.shadow.dark_text
+    .col_head
+      %h2.float_left You are invited to join 
+      = image_tag("http://itoursmart.com/images/its_blue.gif", :alt => "iTourSmart", :height => "38", :width => "213")
+    .block_quote.left
+      %p
+        Hi #{@resource.name_first},
+      - if @resource.temp_org_id.blank?
+        %p I would like to personally invite you to be a part of the future of tour and travel!
+      - else
+        %p
+          = "I would like to personally invite you to be a part of #{@resource.temp_org.name} team in iTourSmart!"
+      
+      %p
+        = "#{@resource.message}"
+      %p= auto_link("You can confirm your account by clicking #{link_to 'here', accept_invitation_url(@resource, :invitation_token => @resource.invitation_token)} or pasting the following into your browser:").html_safe
+      %p #{accept_invitation_url(@resource, :invitation_token => @resource.invitation_token)}
+      %p Username: #{@resource.email}
+      %p I hope to see you soon!
+      %p Enjoy the journey,
+      %p #{@resource.invited_by.full_name}
+      %p= "ABOUT ITOURSMART:"
+      - if !@resource.is_travel_planner?
+        %p
+          = "iTourSmart is an easy and efficient way to connect with your current - and potential - customers.  It is the only online community that goes beyond the traditional 'buyer vs. supplier' relationship by allowing continual communication and interaction.  We hope that you enjoy becoming a part of the community and that you find iTourSmart to be time well spent!"
+      - else
+        %p
+          = "Wouldn't it be great to have a real-time list of suppliers at your fingertips?  Even better if with just a few clicks you could see their detailed contact information, products/services, and pricing?  That's what we thought too when we built iTourSmart.  We hope that you enjoy becoming a part of the community and that you find iTourSmart to be time well spent!"

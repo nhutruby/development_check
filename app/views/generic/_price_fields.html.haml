@@ -1,0 +1,86 @@
+- content_for :on_ready do
+  :plain
+    $('.input.select.optional select').change(function() {
+      var  _this = $(this);
+      $("#fixed").hide();
+      $("#range").hide();
+      if (_this.val() == 'fixed') $("#fixed").show();
+      if (_this.val() == 'range') $("#range").show();
+    }).change();
+    $(".price").keyup(function () {
+      var value1 = $(this).val();
+      $("#price_low").val(value1);
+      $("#price_high").val("");
+    });
+    $(".retail").keyup(function () {
+      var value2 = $(this).val();
+      $("#retail_low").val(value2);
+      $("#retail_high").val("");
+    });
+    $(".currency,").change(function () {
+      var value3 = $(".currency").val();
+      $("#real_currency").val(value3);
+    });
+    $(".currency2,").change(function () {
+      var value3 = $(".currency2").val();
+      $("#real_currency").val(value3);
+    });
+    
+    
+= f.label "Price"
+.non_input
+  .profile.smaller
+    = f.input :pricing_type, :collection => [["This item has a fixed price", "fixed"], ["This item has a price range", "range"],["This item is free", "free"],["Contact us for pricing", "contact"]], :include_blank => false, :label => false
+    
+    -# When pricing_type == "free" no table should be displayed at all
+
+    -# When pricing_type.blank? or pricing_type == "fixed" - this should be used 
+    #fixed
+      %table.collapse.center.border
+        %tr.pad_td.border
+          %th.pad_td.border
+            Price
+          %th.pad_td.border
+            Retail Value
+          %th.pad_td.border
+            Currency
+        %tr
+          %td.border
+            = f.text_field :price_low, :size => 20, :class => "right price"
+          %td.border
+            = f.text_field :retail_low, :size => 20, :class => "right retail"
+          %td.border
+            = f.select :currency_field, major_currencies(Money::Currency::TABLE),{:selected => f.object.currency}, {:class => 'currency'}
+            
+    -# When pricing_type == "range" - this should be used 
+    #range.hidden
+      %table.collapse.center.border
+        %tr.pad_td.border
+          %th.pad_td.border(colspan = 2)
+            Price Range
+          %th.pad_td.border(colspan = 2)
+            Retail Value Range
+          %th.pad_td.border(rowspan = 2)
+            Currency
+        %tr.pad_td.border
+          %th.pad_td.border
+            Low
+          %th.pad_td.border
+            High
+          %th.pad_td.border
+            Low
+          %th.pad_td.border
+            High
+        %tr
+          %td.border
+            = f.text_field :price_low, :size => 20, :class => "right", :id => "price_low"
+          %td.border
+            = f.text_field :price_high, :size => 20, :class => "right", :id => "price_high"
+          %td.border
+            = f.text_field :retail_low, :size => 20, :class => "right", :id => "retail_low"
+          %td.border
+            = f.text_field :retail_high, :size => 20, :class => "right", :id => "retail_high"
+          %td.border
+            = f.select :currency_field, major_currencies(Money::Currency::TABLE),{:selected => f.object.currency}, {:class => 'currency2'}
+= f.input :currency, :as => :hidden, :input_html => {:id => "real_currency"}
+= f.input :user, :as => :hidden, :input_html => {:value => current_user.name}

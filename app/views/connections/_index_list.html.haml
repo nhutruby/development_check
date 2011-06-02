@@ -1,0 +1,39 @@
+= will_paginate @connections
+%table.left.no_border.collapse
+  - for connection in @connections
+    %tr
+      %td.dashed.pad_5{:width => "40px"}
+        - if connection.connectionship.avatar.exists?
+          = link_to image_tag(connection.connectionship.avatar.url(:mini), :alt => nil), user_path(connection.connectionship)
+        - else
+          = link_to image_tag("/images/avatar_mini.gif"), user_path(connection.connectionship)
+      %td.dashed.pad_5
+        .float_left
+          = link_to connection.connectionship.full_name, user_path(connection.connectionship)
+        -#- if connection.is_inner_circle?
+          -#.inner_circle_icon.float_left
+            -#= image_tag("/images/inner_circle_icon.png")
+        .clear
+        .smaller
+          = link_to "Send Message", new_note_path(:sender_id => current_user.id, :recipient_id => connection.connectionship.id, :from => current_user.full_name, :to => connection.connectionship.full_name)
+          .new_line
+          - if connection
+            - if connection.is_approved?
+              = link_to "Remove Connection", connection_path(connection.id), :method => :delete
+            - elsif connection.try(:is_approved).nil?
+              %br
+              = "Connection Request Pending"
+          - else
+            %br
+            = link_to "Make A Connection", connections_path(:connection_id => @user), :method => :post
+      %td.dashed.left.smaller.pad_5
+        = connection.connectionship.organizations.all.map {|o| link_to o.name, o}.to_sentence.html_safe
+      %td.dashed.middle.right.pad_5
+        - for organization in current_user.organizations
+          - if can? :update, organization
+            - if organization.can_add_team_member?
+              .smaller
+                = link_to "Add to the #{organization.name} team", add_to_organization_roles_path(:user_id => user.id, :organization_id => organization.id), :method => :post unless connection.user.organizations.find_by_id(organization.id)
+            - else
+              .smaller
+                = link_to "Upgrade Your Account To Invite #{connection.user.name_first} To Join The #{organization.name} Team", subscriptions_organization_path(organization) unless connection.user.organizations.find_by_id(organization.id)

@@ -1,0 +1,6 @@
+= simple_form_for @announcement do |f|
+  = f.error_notification
+  = f.input :message
+  = f.input :starts_at
+  = f.input :ends_at
+  = render "/generic/action", :f => f

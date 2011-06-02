@@ -1,0 +1,8 @@
+-# used anytime a person or entity needs to enter email info
+.fields
+  = f.hidden_field :name, :value => "email"
+  = f.input :address, :value => f.object.address, :label => "Email Address", :input_html => {:class => "float_left"}
+  = f.input :lokation, :collection => EMAIL_LOCATIONS, :label => false, :input_html => {:class => "float_left pad_right_10"}
+  .remove
+    = remove_child_link "remove", f
+  .clear

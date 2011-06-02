@@ -1,0 +1,24 @@
+-# Top banner div
+.half_banner_wrapper.shadow
+  #banner1
+    %div{:data => {:duration => 20000}}
+      = link_to image_tag("/images/dallas_cvb.gif", :alt => "Dallas"), new_organization_path(Organization.find_by_name("Dallas Convention & Visitors Bureau")), :class => "half_banner_wrapper"
+    - if current_user
+      - pass = ""
+      - for organization in current_user.organizations.where("roles.is_user_approved = ?","true").uniq do
+        = pass = true if organization.categories.any? {|c| c.tipe != "provider"}
+        - if !current_user.organizations.empty? && pass == true
+          .demo_banner_wrapper{:data => {:duration => 20000}}
+            .banner_margin
+              -# organization = current_user.organizations.where("categories.tipe != ? AND roles.is_user_approved = ?","provider", "true").includes(:categories).first
+              - if organization.logo.exists?
+                .banner_avatar_mini.float_left.margin_right_10
+                  = image_tag(organization.logo.url(:thumb))
+              - else
+                .float_left.margin_right_10
+                  = image_tag("/images/logo_mini.gif")
+              .non_img_col_banner.smaller
+                .indent_10.bold
+                  = link_to "#{truncate(organization.name, :length => 39)}", organization
+                  .new_line.normal.even_smaller
+                    Advertise Here!

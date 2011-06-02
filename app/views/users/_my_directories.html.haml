@@ -1,0 +1,50 @@
+- account_types = []
+- for organization in current_user.organizations do
+  - account_types << organization.account_type if organization.account_type
+- categories = []
+- for organization in current_user.organizations do
+  - for category in organization.categories do
+    - categories << category
+
+
+#main_col.shadow
+  .col_head
+    %h2.float_left
+      = "associations"
+    .right.even_smaller
+      = link_to_function "+/-", "$('#my_directories').toggle()"
+    .clear
+  - if account_types.empty? or account_types.any?{|a| a.allow_association_directories?}
+    #my_directories.block_quote.left.even_smaller
+      - associations = Organization.trade_associations.order("organizations.name")
+      .pipe.inline
+        = "|" if !associations.empty?
+      - for association in associations do
+        - if association.member_count && association.member_count > 100
+          - alpha = ('A'..'Z').to_a
+          -# letter = alpha[rand(alpha.length)]
+          = !association.acronym.blank? ? link_to(association.acronym, organizations_path(:association_id => association.id)) : link_to(association.name, organizations_path(:association_id => association.id))
+          .pipe.inline
+            |
+        - elsif association.member_count && association.member_count > 25
+          = association.acronym ? link_to(association.acronym, organizations_path(:association_id => association.id)) : link_to(association.name, organizations_path(:association_id => association.id))
+          .pipe.inline
+            |
+  - elsif categories.any?{|c| c.tipe == "association"}
+    
+    #my_directories.block_quote.left.even_smaller
+      - associations = Organization.find_all_by_id(current_user.organizations(&:id))
+      .pipe.inline
+        = "|" if !associations.empty?
+      - for association in associations do
+        - if association.member_count
+          = association.acronym ? link_to(association.acronym, organizations_path(:association_id => association.id)) : link_to(association.name, organizations_path(:association_id => association.id))
+          .pipe.inline
+            |
+      .pad_10
+      .upgrade
+        = "Upgrade your account to see other association directories"
+  - else
+    = account_types
+    %hr
+    = categories

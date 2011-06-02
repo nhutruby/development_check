@@ -1,0 +1,62 @@
+-# disable HTML5 client-side validations to overcome Chrome "Please check this box to proceed"
+-# https://github.com/plataformatec/simple_form/wiki/HTML5-Attributes
+= simple_form_for @organization, :html => { :multipart => true, :novalidate => true }  do |f|
+  = f.error_notification
+  = f.error_messages
+  .new_line
+  - if @organization.id
+    = f.input :id, :as => :hidden
+    = f.input :claim, :as => :hidden
+  = f.input :name, :input_html => { :size => "65" }
+  = f.input :acronym, :hint => "Any acronym or shortened name by which your company is known", :label => "Acromyn/Nickname"
+  - if @organization.users.count > 1
+    = f.association :primary_contact, :collection => @organization.users(:order => "name_last, name_first"), :value => current_user
+  = render "pay_details", :f => f
+  - if @location
+    = render "primary_location", :f => f
+
+  %hr
+  .bold Please select your business type(s):
+  %p.even_smaller.italic
+    = auto_link("(Need help? Click #{link_to 'here', "/parlance", :target => '_blank'} for a list of Categories.)".html_safe)
+  %hr
+  #categories
+    - if @account_type && @account_type.is_travel_provider?
+      - provider_categories = Category.where(:tipe => "provider")
+      = render "categories", :f => f, :collection => provider_categories, :categories => "Travel Providers"
+      .hint
+        Do you have a product or service that you would like to sell to other travel providers?
+        <br>
+        If so, just #{link_to 'change', subscriptions_organization_path(@organization)} to one of our seller accounts.
+        (you can maintain your travel provider status)
+
+    - else
+      - provider_categories = Category.where(:tipe => "provider")
+      = render "categories", :f => f, :collection => provider_categories, :categories => "Travel Providers"
+
+      - supplier_categories = Category.where(:tipe => "supplier")
+      = render "categories", :f => f, :collection => supplier_categories, :categories => "Suppliers"
+    
+      - other_categories = Category.where("tipe <> 'provider' AND tipe <> 'supplier'")
+      = render "categories", :f => f, :collection => other_categories, :categories => "Others"
+  %hr
+  .bold Does your business:
+  %hr
+  = f.input :is_student_friendly, :label => "Work with student groups?"
+  = f.input :is_motorcoach_friendly, :label => "Work with motorcoach groups?"
+  %hr
+  .bold Please indicate your membership(s) in Travel Trade Associations:
+  %hr
+  = render "membership_details", :f => f
+  .hint
+    = "Are you a member of an organization that is not listed here?  #{link_to 'Invite them to join iTourSmart', new_user_invitation_path, :target => '_blank'}!".html_safe
+  %hr
+  .bold Please indicate your membership(s) in Destination Marketing Associations:
+  %hr
+  
+  = render "dmo_membership_details", :f => f
+  -# unless @organization.is_complete
+    -#= render "primary_location", :f => f
+  = render "admin_details", :f => f
+  - @organization.is_complete ? submit_text = "Update Brand" : "Create Brand"
+  = render "/generic/action", :f => f, :submit_text => submit_text, :skip_destroy_link => true

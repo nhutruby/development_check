@@ -1,0 +1,19 @@
+- content_for :head do
+  = javascript_include_tag 'maps'
+
+- title "#{possessivize(@user.name_first)} Dashboard"
+#content_wrapper
+  = render "/recipients/list"
+  = render "my_directories"
+  = render "maps"
+#sidebar.justify
+  = render "generic/banner_1"
+  = render "generic/banner_2"
+  = render "invite_others"
+  = render "connections"
+  = render "brands"
+  = render "admin"
+  .pad_10
+  = render "generic/twitter"
+.clear
+

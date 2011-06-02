@@ -1,0 +1,23 @@
+%tr
+  %td.smaller.border.pad_td
+    = link_to product.name, organization_inventory_item_path(@organization, product.id)
+  %td.smaller.border.pad_td
+    - if  product.price.pricing_type == "contact"
+      = "Contact us for pricing"
+    - elsif product.price and (product.price.price_low > 0  and product.price.price_high > 0)
+      = product.price.price_low.format + " to " + product.price.price_high.format
+      = product.price.price_low.currency_as_string
+    - elsif product.price and (product.price.price_low > 0)
+      = product.price.price_low.format
+      = product.price.price_low.currency_as_string
+  -#%td.smaller.border.pad_td
+    -#- if  product.price.pricing_type == "contact"
+      -#= "Contact us for pricing"  
+    -#- elsif product.price and (product.price.retail_low > 0 and product.price.retail_high > 0)
+      -#= product.price.retail_low.format + " to " + product.price.retail_high.format
+      -#= product.price.retail_low.currency_as_string
+    -#- elsif product.price and (!product.price.retail_low.blank?)
+      -#= product.price.retail_low.format
+      -#= product.price.retail_low.currency_as_string
+  %td.smaller.left.border.pad_td
+    = truncate(product.description, :length => 80)
